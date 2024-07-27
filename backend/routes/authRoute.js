@@ -1,0 +1,125 @@
+import express from 'express'
+import jwt from 'jsonwebtoken'
+import User from '../models/UserModel.js'
+
+const router = express.Router()
+
+let refreshTokens = [] // Change to mongo or redis later
+router.post('/register', async (req, res) => {
+	const { email, username, password } = req.body
+
+	// Create a user in the db
+	try {
+		const newUser = new User({ email, username, hashedPassword: password })
+		await newUser.save()
+
+    console.log(newUser)
+
+		const { accessToken, refreshToken } = generateTokensAndSetCookie(email, res)
+		refreshTokens.push({ email, refreshToken })
+		res.status(200).json(accessToken)
+	} catch (error) {
+		console.log(`error is ${error}`)
+		if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0]
+      console.log(Object.keys(error.keyValue))
+			return res.status(409).json(`${field} already exists`)
+		}
+
+    res.status(400).json(error)
+	}
+})
+
+router.post('/login', async (req, res) => {
+	const { email, password } = req.body
+
+	const { accessToken, refreshToken } = generateTokensAndSetCookie(email, res)
+	refreshTokens.push({ email, refreshToken })
+	res.json(accessToken)
+})
+
+router.get('/refreshTokens', async (req, res) => {
+	res.json(refreshTokens)
+})
+
+router.post('/logout', async (req, res) => {
+	try {
+		const refreshToken = req.cookies.refreshToken
+		console.log(refreshTokens)
+
+		if (!refreshToken) {
+			return res.status(400).json({ error: 'Refresh token was not found' })
+		}
+
+		// Delete the refresh token from the db
+		refreshTokens = refreshTokens.filter((user) => user.refreshToken !== refreshToken)
+
+		res.clearCookie('refreshToken')
+		res
+			.status(200)
+			.json({ message: 'Logged out successfuly. current refreshtokens are', refreshTokens })
+	} catch (error) {
+		res.status(400).json({ error: `Error logging out: ${error}` })
+	}
+})
+
+router.get('/refresh-access-token', async (req, res) => {
+	const refreshToken = req.cookies.refreshToken
+	// console.log(`token is ${refreshToken}`)
+	if (!refreshToken) {
+		return res.status(400).json({ error: 'Refresh token was not found' })
+	}
+	try {
+		const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+
+		const newAccessToken = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: '15s',
+		})
+
+		res.status(200).json(newAccessToken)
+	} catch (error) {
+		res.status(400).json({ error: 'Refresh token is not valid' })
+	}
+})
+
+router.post('/getUser', authenticateToken, async (req, res) => {
+	try {
+    console.log('user is', req.user)
+		res.status(200).json(req.user)
+	} catch (error) {
+		res.status(401).json(error)
+	}
+})
+
+// Use this middleware on actions that require an account
+function authenticateToken(req, res, next) {
+	const authHeader = req.headers['authorization']
+	console.log(`auth header is ${authHeader}`)
+	const token = authHeader && authHeader.split(' ')[1]
+
+	if (!token) return res.status(401).json({ error: "Access token doesn't exist" })
+
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) return res.status(401).json({ error: 'Unauthorized' })
+		req.user = user
+		next()
+	})
+}
+
+function generateTokensAndSetCookie(email, res) {
+	const accessToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
+	const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
+
+	res.cookie('refreshToken', refreshToken, {
+		httpOnly: true,
+		// secure: true,
+		sameSite: 'strict',
+		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
+	})
+
+	return { accessToken, refreshToken }
+}
+
+export { authenticateToken }
+
+export default router
