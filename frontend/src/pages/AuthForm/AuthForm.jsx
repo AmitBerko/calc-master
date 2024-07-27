@@ -13,36 +13,38 @@ import {
 import api from '../../axios'
 import GoogleIcon from '@mui/icons-material/Google'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../components/AuthProvider'
 
 function AuthForm({ mode = 'login' }) {
 	const [email, setEmail] = useState('')
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', username: '', password: '' })
-	const [isLoading, setIsLoading] = useState(true)
-	const initialized = useRef(false)
+	// const [isLoading, setIsLoading] = useState(true)
+	// const initialized = useRef(false)
+	const { declareUser } = useAuth()
 
 	const navigate = useNavigate()
 
 	// Check if the user should be redirected to the homepage
-	useEffect(() => {
-		const validateToken = async () => {
-			try {
-				const accessToken = localStorage.getItem('accessToken')
-				const response = await api.post('/auth/getUser', { accessToken })
-				console.log(response)
-        navigate('/homepage')
-			} catch (error) {
-				// If there is an error it means the user is not logged in
-        console.log('error:   a', error)
-			}
-		}
+	// useEffect(() => {
+	// 	const validateToken = async () => {
+	// 		try {
+				// const accessToken = localStorage.getItem('accessToken')
+				// const response = await api.post('/auth/getUser', { accessToken })
+	// 			console.log(response)
+	// 			navigate('/homepage')
+	// 		} catch (error) {
+	// 			// If there is an error it means the user is not logged in
+	// 			console.log('error:   a', error)
+	// 		}
+	// 	}
 
-		if (!initialized.current) {
-			initialized.current = true
-			validateToken()
-		}
-	}, [navigate])
+	// 	if (!initialized.current) {
+	// 		initialized.current = true
+	// 		validateToken()
+	// 	}
+	// }, [navigate])
 
 	const validateEmail = (email) => {
 		// Regex for email validation
@@ -79,10 +81,22 @@ function AuthForm({ mode = 'login' }) {
 		}
 
 		// Login
-		const response = await api.post('/auth/login', { email, password })
-		const accessToken = response.data
-		localStorage.setItem('accessToken', accessToken)
-		navigate('/homepage')
+		try {
+			const response = await api.post('/auth/login', { email, password }, { _retry: false })
+			const { user, accessToken } = response.data
+      declareUser(user, accessToken)
+			navigate('/homepage')
+		} catch (error) {
+			console.log(`Error logging in: ${error}`)
+
+			if (error.code === 401) {
+				setErrors((prevErrors) => ({
+					...prevErrors,
+					email: 'Invalid email or password',
+					password: 'Invalid email or password',
+				}))
+			}
+		}
 	}
 
 	async function handleRegister(e) {
@@ -94,10 +108,15 @@ function AuthForm({ mode = 'login' }) {
 		}
 
 		try {
-			const response = await api.post('/auth/register', { email, username, password })
-			const accessToken = response.data
-			localStorage.setItem('accessToken', accessToken)
+			const response = await api.post(
+				'/auth/register',
+				{ email, username, password },
+				{ _retry: false }
+			)
+			const { accessToken, user } = response.data
+			declareUser(user, accessToken)
 			navigate('/homepage')
+			console.log(`logged in as ${JSON.stringify(user)}`)
 		} catch (error) {
 			if (error.response.data.includes('already exists')) {
 				if (error.response.data.includes('email')) {
@@ -211,7 +230,7 @@ function AuthForm({ mode = 'login' }) {
 						</Button>
 					</Grid>
 					<Grid item xs={12}>
-						<Button variant="outlined" color="secondary" fullWidth>
+						<Button variant="outlined" color="secondary" fullWidth onClick={() => navigate('/homepage')}>
 							Play as a guest
 						</Button>
 					</Grid>
