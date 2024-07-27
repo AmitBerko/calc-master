@@ -6,27 +6,30 @@ import theme from './themes/theme.jsx'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomepageTest from './pages/HomepageTest.jsx'
+import AuthProvider from './components/AuthProvider.jsx'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <AuthForm mode="login" />,
 	},
-  {
-    path: '/register',
+	{
+		path: '/register',
 		element: <AuthForm mode="register" />,
-  },
-  {
-    path: '/homepage',
-    element: <HomepageTest />
-  }
+	},
+	{
+		path: '/homepage',
+		element: <HomepageTest />,
+	},
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<RouterProvider router={router} />
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 )
