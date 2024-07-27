@@ -9,6 +9,7 @@ import {
 	Link,
 	TextField,
 	Typography,
+	CircularProgress,
 } from '@mui/material'
 import api from '../../axios'
 import GoogleIcon from '@mui/icons-material/Google'
@@ -20,7 +21,7 @@ function AuthForm({ mode = 'login' }) {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', username: '', password: '' })
-	// const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	// const initialized = useRef(false)
 	const { declareUser } = useAuth()
 
@@ -30,8 +31,8 @@ function AuthForm({ mode = 'login' }) {
 	// useEffect(() => {
 	// 	const validateToken = async () => {
 	// 		try {
-				// const accessToken = localStorage.getItem('accessToken')
-				// const response = await api.post('/auth/getUser', { accessToken })
+	// const accessToken = localStorage.getItem('accessToken')
+	// const response = await api.post('/auth/getUser', { accessToken })
 	// 			console.log(response)
 	// 			navigate('/homepage')
 	// 		} catch (error) {
@@ -82,20 +83,21 @@ function AuthForm({ mode = 'login' }) {
 
 		// Login
 		try {
+			setIsLoading(true)
 			const response = await api.post('/auth/login', { email, password }, { _retry: false })
 			const { user, accessToken } = response.data
-      declareUser(user, accessToken)
+			declareUser(user, accessToken)
 			navigate('/homepage')
 		} catch (error) {
-			console.log(`Error logging in: ${error}`)
-
-			if (error.code === 401) {
+			if (error.response.status === 401) {
 				setErrors((prevErrors) => ({
 					...prevErrors,
 					email: 'Invalid email or password',
 					password: 'Invalid email or password',
 				}))
 			}
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -108,6 +110,7 @@ function AuthForm({ mode = 'login' }) {
 		}
 
 		try {
+			setIsLoading(true)
 			const response = await api.post(
 				'/auth/register',
 				{ email, username, password },
@@ -127,6 +130,8 @@ function AuthForm({ mode = 'login' }) {
 			} else {
 				console.log('unknown error: ', error)
 			}
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -194,8 +199,14 @@ function AuthForm({ mode = 'login' }) {
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<Button variant="contained" type="submit" fullWidth>
-							{mode === 'login' ? 'Login' : 'Register'}
+						<Button variant="contained" type="submit" fullWidth sx={{ height: '36.5px' }}>
+							{isLoading ? (
+								<CircularProgress thickness={6} size={23.5} color="inherit" />
+							) : mode === 'login' ? (
+								'Login'
+							) : (
+								'Register'
+							)}
 						</Button>
 					</Grid>
 					<Grid item xs={12}>
@@ -230,7 +241,12 @@ function AuthForm({ mode = 'login' }) {
 						</Button>
 					</Grid>
 					<Grid item xs={12}>
-						<Button variant="outlined" color="secondary" fullWidth onClick={() => navigate('/homepage')}>
+						<Button
+							variant="outlined"
+							color="secondary"
+							fullWidth
+							onClick={() => navigate('/homepage')}
+						>
 							Play as a guest
 						</Button>
 					</Grid>
