@@ -4,6 +4,7 @@ const api = axios.create({
 	baseURL: 'http://localhost:8080',
 	// timeout: 5000,
 	withCredentials: true,
+  _retry: true, // By default retry the request after getting a new token
 })
 
 api.interceptors.request.use((config) => {
@@ -22,11 +23,10 @@ api.interceptors.response.use(
 		const originalRequest = error.config
 
 		// If unauthorized and a retry didn't happen after a token refresh
-		if (error.response.status === 401 && !originalRequest._retried) {
-			originalRequest._retried = true
-			console.log('asking for a new access token')
+		if (error.response.status === 401 && originalRequest._retry) {
+			originalRequest._retry = false
 			try {
-				console.log('FETCHING A NEW TOKEN')
+				console.log('Getting a new access token')
 				const response = await api.get('/auth/refresh-access-token')
 				const newToken = response.data
 				localStorage.setItem('accessToken', newToken)
