@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomepageTest from './pages/HomepageTest.jsx'
 import AuthProvider from './components/AuthProvider.jsx'
 import GuestsOnlyRoute from './components/GuestsOnlyRoute.jsx'
+import Homepage from './pages/Homepage.jsx'
 
 const router = createBrowserRouter([
 	{
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/homepage',
-		element: <HomepageTest />,
+		element: <Homepage />,
 	},
 ])
 
