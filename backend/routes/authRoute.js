@@ -110,17 +110,17 @@ router.post('/getUser', authenticateToken, async (req, res) => {
 	}
 })
 
-router.post('/updateUser', authenticateToken, async (req, res) => {
-	console.log(req.user)
-	const updatedValues = req.body
-	console.log(updatedValues)
-	try {
-		const newUser = await User.findByIdAndUpdate(req.user._id, updatedValues, { new: true })
-		res.status(200).json(newUser)
-	} catch (error) {
-		res.status(401).json({ error: 'Unauthorized' })
-	}
-})
+// router.post('/updateUser', authenticateToken, async (req, res) => {
+// 	console.log(req.user)
+// 	const updatedValues = req.body
+// 	console.log(updatedValues)
+// 	try {
+// 		const newUser = await User.findByIdAndUpdate(req.user._id, updatedValues, { new: true })
+// 		res.status(200).json(newUser)
+// 	} catch (error) {
+// 		res.status(401).json({ error: 'Unauthorized' })
+// 	}
+// })
 
 // Use this middleware on actions that require an account
 function authenticateToken(req, res, next) {
