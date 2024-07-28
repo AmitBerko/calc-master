@@ -66,19 +66,12 @@ router.get('/refreshTokens', async (req, res) => {
 router.post('/logout', async (req, res) => {
 	try {
 		const refreshToken = req.cookies.refreshToken
-		console.log(refreshTokens)
-
-		if (!refreshToken) {
-			return res.status(400).json({ error: 'Refresh token was not found' })
-		}
 
 		// Delete the refresh token from the db
 		refreshTokens = refreshTokens.filter((user) => user.refreshToken !== refreshToken)
 
 		res.clearCookie('refreshToken')
-		res
-			.status(200)
-			.json({ message: 'Logged out successfuly. current refreshtokens are', refreshTokens })
+		res.status(200).json({ message: 'Logged out successful' })
 	} catch (error) {
 		res.status(400).json({ error: `Error logging out: ${error}` })
 	}
@@ -125,7 +118,6 @@ router.post('/getUser', authenticateToken, async (req, res) => {
 // Use this middleware on actions that require an account
 function authenticateToken(req, res, next) {
 	const authHeader = req.headers['authorization']
-	console.log(`auth header is ${authHeader}`)
 	const token = authHeader && authHeader.split(' ')[1]
 
 	if (!token) return res.status(401).json({ error: "Access token doesn't exist" })
