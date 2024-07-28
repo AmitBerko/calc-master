@@ -13,12 +13,10 @@ import Homepage from './pages/Homepage.jsx'
 const router = createBrowserRouter([
 	{
 		path: '/',
-		// element: <AuthForm mode="login" />,
 		element: <GuestsOnlyRoute component={AuthForm} mode="login" />,
 	},
 	{
 		path: '/register',
-		// element: <AuthForm mode="register" />,
 		element: <GuestsOnlyRoute component={AuthForm} mode="register" />,
 	},
 	{
