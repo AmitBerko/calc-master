@@ -22,30 +22,9 @@ function AuthForm({ mode = 'login' }) {
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', username: '', password: '' })
 	const [isLoading, setIsLoading] = useState(false)
-	// const initialized = useRef(false)
 	const { declareUser } = useAuth()
 
 	const navigate = useNavigate()
-
-	// Check if the user should be redirected to the homepage
-	// useEffect(() => {
-	// 	const validateToken = async () => {
-	// 		try {
-	// const accessToken = localStorage.getItem('accessToken')
-	// const response = await api.post('/auth/getUser', { accessToken })
-	// 			console.log(response)
-	// 			navigate('/homepage')
-	// 		} catch (error) {
-	// 			// If there is an error it means the user is not logged in
-	// 			console.log('error:   a', error)
-	// 		}
-	// 	}
-
-	// 	if (!initialized.current) {
-	// 		initialized.current = true
-	// 		validateToken()
-	// 	}
-	// }, [navigate])
 
 	const validateEmail = (email) => {
 		// Regex for email validation
