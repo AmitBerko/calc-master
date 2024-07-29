@@ -12,6 +12,20 @@ router.post('/register', async (req, res) => {
 
 	// Create a user in the db
 	try {
+		let duplicates = []
+		const doesEmailExist = await User.findOne({ email })
+		if (doesEmailExist) {
+			duplicates.push('email')
+		}
+
+		const doesUsernameExist = await User.findOne({ username })
+		if (doesUsernameExist) {
+			duplicates.push('username')
+		}
+
+    if (duplicates.length > 0) {
+      throw {error: 'Duplication error', duplicates}
+    }
 		const hashedPassword = await bcrypt.hash(password, saltRounds)
 		const newUser = new User({ email, username, hashedPassword })
 		await newUser.save()
@@ -23,13 +37,6 @@ router.post('/register', async (req, res) => {
 		refreshTokens.push({ email, refreshToken })
 		res.status(200).json({ accessToken, user: userObject })
 	} catch (error) {
-		console.log(`error is ${error}`)
-		if (error.code === 11000) {
-			const field = Object.keys(error.keyValue)[0]
-			console.log(Object.keys(error.keyValue))
-			return res.status(409).json(`${field} already exists`)
-		}
-
 		res.status(400).json(error)
 	}
 })

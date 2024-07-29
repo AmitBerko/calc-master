@@ -100,14 +100,18 @@ function AuthForm({ mode = 'login' }) {
 			navigate('/homepage')
 			console.log(`logged in as ${JSON.stringify(user)}`)
 		} catch (error) {
-			if (error.response.data.includes('already exists')) {
-				if (error.response.data.includes('email')) {
-					setErrors((prevErrors) => ({ ...prevErrors, email: 'Email already exists' }))
-				} else if (error.response.data.includes('username')) {
-					setErrors((prevErrors) => ({ ...prevErrors, username: 'Username already exists' }))
-				}
-			} else {
-				console.log('unknown error: ', error)
+			console.log(`the error is`, error)
+			if (error.response.data.duplicates) {
+				if (error.response.data.duplicates.includes('email'))
+					setErrors((prevErrors) => ({
+						...prevErrors,
+						email: 'Email already exists',
+					}))
+				if (error.response.data.duplicates.includes('username'))
+					setErrors((prevErrors) => ({
+						...prevErrors,
+						username: 'Username already exists',
+					}))
 			}
 		} finally {
 			setIsLoading(false)
