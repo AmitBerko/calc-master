@@ -85,37 +85,54 @@ $border: rgb(36, 36, 37);
 	.buttons-container {
 		display: flex;
 		justify-content: center;
-		margin-top: 0rem;
-
-		.calculator-button {
-			width: 90%;
-			aspect-ratio: 1.6;
-			border-radius: 1rem;
-			border-bottom-left-radius: 5rem 2rem;
-			border-bottom-right-radius: 5rem 2rem;
-			border: none;
-			cursor: pointer;
-			transition: 125ms;
-			font-size: 1.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-			&:active {
-				transition-behavior: initial;
-				transform: translateY(0.7rem);
-			}
-		}
-
-		.empty-button {
-			@include color-button(rgb(59, 59, 59), white, rgb(38, 38, 38));
-		}
-
-		.clear-button {
-			@include color-button(rgb(198, 46, 45), white, rgb(148, 36, 34));
-		}
+		margin-top: 0;
 	}
 }
+
+.calculator-button {
+	width: 90%;
+	aspect-ratio: 1.6;
+	border-radius: 1rem;
+	border-bottom-left-radius: 5rem 2rem;
+	border-bottom-right-radius: 5rem 2rem;
+	border: none;
+	cursor: pointer;
+	transition: 100ms;
+	font-size: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&:active {
+		transition-behavior: initial;
+		transform: translateY(0.7rem);
+	}
+}
+
+.empty-button {
+	@include color-button(rgb(59, 59, 59), white, rgb(38, 38, 38));
+}
+
+.operator-button {
+	@include color-button(rgb(216, 213, 213), rgb(35, 35, 35), rgb(130, 152, 169));
+}
+
+.clear-button {
+	@include color-button(rgb(198, 46, 45), white, rgb(148, 36, 34));
+}
+
+.insert-button {
+	@include color-button(rgb(140, 133, 235), white, rgb(75, 68, 152));
+}
+
+.result-changer-button {
+	@include color-button(rgb(254, 129, 9), white, rgb(220, 62, 0));
+}
+
+.order-changer-button {
+	@include color-button(rgb(24, 148, 156), white, rgb(16, 109, 115));
+}
+
 
 @media (min-width: 600px) and (max-width: 675px) {
 	.result {
