@@ -27,16 +27,6 @@ function Homepage() {
 				setIsClosing={setIsClosing}
 			/>
 
-			{/* <Box
-				component="main"
-				sx={{
-					flexGrow: 1,
-					p: 3,
-					width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
-					display: 'flex',
-					justifyContent: 'center',
-				}}
-			> */}
 			<Box
 				component="main"
 				sx={{
