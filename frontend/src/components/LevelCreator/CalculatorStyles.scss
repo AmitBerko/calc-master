@@ -143,3 +143,17 @@ $border: rgb(36, 36, 37);
 		padding-left: 19.75rem !important; // :'(
 	}
 }
+
+@media (max-width: 350px) {
+  .calculator-container {
+    padding: 1rem 0.5rem;
+    padding-bottom: 1.5rem;
+
+    .result-container {
+      padding-right: 1.15rem !important;
+      .result::after {
+        right: 1.15rem !important;
+      }
+    }
+  }
+}
