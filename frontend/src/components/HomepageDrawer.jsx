@@ -1,8 +1,7 @@
 import React from 'react'
 import { Box, Divider, Drawer, IconButton, List, Toolbar } from '@mui/material'
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import DrawerItem from './DrawerItem'
-import { Search, Create, Home, Info, Person } from '@mui/icons-material'
+import { Search, Create, Home, Info, Person, KeyboardArrowLeft } from '@mui/icons-material'
 
 const drawerWidth = 190
 
@@ -23,7 +22,7 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing }) {
 					onClick={() => handleDrawerClose()}
 					sx={{ display: { xs: 'flex', sm: 'none' } }}
 				>
-					<KeyboardArrowLeftIcon sx={{ color: 'white', fontSize: '2rem' }} />
+					<KeyboardArrowLeft sx={{ color: 'white', fontSize: '2rem' }} />
 				</IconButton>
 			</Toolbar>
 			<Divider />
