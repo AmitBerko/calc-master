@@ -56,7 +56,7 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing }) {
 					display: { xs: 'block', sm: 'none' },
 					'& .MuiDrawer-paper': {
 						width: drawerWidth,
-						backgroundColor: 'rgb(40, 40, 40)',
+						backgroundColor: 'rgb(0, 0, 0)',
 					},
 				}}
 			>
