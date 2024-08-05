@@ -3,6 +3,7 @@ import { Box, Toolbar } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
 import LevelCreator from '../components/LevelCreator/LevelCreator'
+import LevelCreatorProvider from '../components/LevelCreator/LevelCreatorProvider'
 
 const drawerWidth = 190
 
@@ -37,7 +38,11 @@ function Homepage() {
 					width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
 				}}
 			>
-				{selectedComponent === 'levelCreator' && <LevelCreator />}
+				{selectedComponent === 'levelCreator' && (
+					<LevelCreatorProvider>
+						<LevelCreator />
+					</LevelCreatorProvider>
+				)}
 			</Box>
 		</Box>
 	)
