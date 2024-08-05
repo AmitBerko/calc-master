@@ -1,8 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useLevelCreator } from './LevelCreatorProvider'
 
-function CalculatorButton({ text, type, index, handleOpen, handleChildOpen, preview = false }) {
+function CalculatorButton({ text, index, type, preview = false }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
+	const {
+		setIsTypesModalOpen,
+		setIsPreviewModalOpen,
+		setPreviewButtonData,
+		setNewButton,
+		previewButtonData,
+	} = useLevelCreator()
 
 	let handleClick = null
 	let buttonClass = null
@@ -10,49 +18,51 @@ function CalculatorButton({ text, type, index, handleOpen, handleChildOpen, prev
 	const setButtonSettings = () => {
 		switch (type) {
 			case 'clear':
-				if (!preview) handleClick = handleClearButton
+				handleClick = handleClearButton
 				buttonClass = 'clear-button'
 				break
 			case 'insert':
-				if (!preview) handleClick = handleInsertButton
+				handleClick = handleInsertButton
 				buttonClass = 'insert-button'
 				break
 			case 'result-changer':
-				if (!preview) handleClick = handleModifierButton
+				handleClick = handleModifierButton
 				buttonClass = 'result-changer-button'
 				break
 			case 'order-changer':
 				buttonClass = 'order-changer-button'
 				break
 			case 'operator':
-				if (!preview) handleClick = handleOperatorButton
+				handleClick = handleOperatorButton
 				buttonClass = 'operator-button'
 				break
 
 			default:
-				if (!preview) handleClick = handleEmptyButton
+				handleClick = handleEmptyButton
 				buttonClass = 'empty-button'
 		}
 	}
 
 	const handleEmptyButton = () => {
-    handleOpen()
+		console.log(previewButtonData)
+		setPreviewButtonData((prevData) => ({ ...prevData, index }))
+		setIsTypesModalOpen(true)
 	}
 
 	const handleClearButton = () => {
-    console.log('clear')
+		console.log('clear')
 	}
 
 	const handleInsertButton = () => {
-    console.log('insert')
+		console.log('insert')
 	}
 
 	const handleModifierButton = () => {
-    console.log('modifier')
+		console.log('modifier')
 	}
 
 	const handleOperatorButton = () => {
-    console.log('operator')
+		console.log('operator')
 	}
 
 	useEffect(() => {
@@ -90,9 +100,14 @@ function CalculatorButton({ text, type, index, handleOpen, handleChildOpen, prev
 
 	setButtonSettings()
 
-  if (preview) {
-    handleClick = () => handleChildOpen(`${text} and ${type}`)
-  }
+	if (preview) {
+		handleClick = () => {
+			console.log(`clicked! the text is ${text} and index is ${index}`)
+			setPreviewButtonData(prevData => ({...prevData, text}))
+			setNewButton({})
+			setIsPreviewModalOpen(true)
+		}
+	}
 
 	return (
 		<>

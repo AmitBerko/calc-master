@@ -1,23 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 import TypesModal from './TypesModal'
+import { useLevelCreator } from './LevelCreatorProvider'
 
 function LevelCreator() {
-	const [isOpen, setIsOpen] = useState(false)
-	const handleOpen = () => setIsOpen(true)
-	const handleClose = () => setIsOpen(false)
+	const { currentButtons } = useLevelCreator()
 
-	const [currentButtons, setCurrentButtons] = useState([
-		{ type: 'insert', text: '12' },
-		{ type: 'operator', text: '+12' },
-		{ type: 'unique', text: 'Unique' },
-		{ type: '', text: '' },
-		{ type: '', text: '' },
-		{ type: '', text: '' },
-		{ type: '', text: '' },
-		{ type: '', text: '' },
-	])
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
@@ -35,22 +24,17 @@ function LevelCreator() {
 				{currentButtons.map((button, index) => {
 					return (
 						<Grid item xs={4} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<CalculatorButton
-								text={button.text}
-								handleOpen={handleOpen}
-								type={button.type}
-								index={index}
-							/>
+							<CalculatorButton text={button.text} type={button.type} index={index} />
 						</Grid>
 					)
 				})}
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton type="clear" text="CLEAR" />
+					<CalculatorButton type="clear" text="CLEAR" index={8} />
 				</Grid>
 			</Grid>
-			<TypesModal isOpen={isOpen} handleClose={handleClose} />
+			<TypesModal />
 		</div>
 	)
 }

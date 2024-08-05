@@ -1,29 +1,12 @@
-import {
-	Button,
-	Modal,
-	Box,
-	Typography,
-	Grid,
-	createTheme,
-	responsiveFontSizes,
-} from '@mui/material'
-import React, { useState } from 'react'
+import { Modal, Box, Typography, Grid, createTheme } from '@mui/material'
+import React from 'react'
 import CalculatorButton from './CalculatorButton'
 import { ThemeProvider } from '@emotion/react'
-import TypesChildModal from './TypesChildModal'
+import ButtonPreviewModal from './ButtonPreviewModal'
+import { useLevelCreator } from './LevelCreatorProvider'
 
-function TypesModal({ isOpen, handleClose }) {
-	const [isChildOpen, setIsChildOpen] = useState(false)
-	const [selectedType, setSelectedType] = useState(null)
-
-	const handleChildOpen = (type) => {
-    console.log('child opened and type is', type)
-		setSelectedType(type)
-		setIsChildOpen(true)
-	}
-	const handleChildClose = () => {
-		setIsChildOpen(false)
-	}
+function TypesModal() {
+	const { isTypesModalOpen, setIsTypesModalOpen } = useLevelCreator()
 
 	let typesModalTheme = createTheme({
 		breakpoints: {
@@ -51,8 +34,8 @@ function TypesModal({ isOpen, handleClose }) {
 	return (
 		<ThemeProvider theme={typesModalTheme}>
 			<Modal
-				open={isOpen}
-				onClose={handleClose}
+				open={isTypesModalOpen}
+				onClose={() => setIsTypesModalOpen(false)}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
@@ -101,10 +84,9 @@ function TypesModal({ isOpen, handleClose }) {
 									sx={{ display: 'flex', justifyContent: 'center' }}
 								>
 									<CalculatorButton
+                    type={buttonPreview.type}
 										text={buttonPreview.text}
-										handleChildOpen={handleChildOpen}
 										preview={true}
-										type={buttonPreview.type}
 									/>
 								</Grid>
 							)
@@ -112,11 +94,7 @@ function TypesModal({ isOpen, handleClose }) {
 					</Grid>
 				</Box>
 			</Modal>
-			<TypesChildModal
-				isChildOpen={isChildOpen}
-				handleChildClose={handleChildClose}
-				selectedType={selectedType}
-			/>
+			<ButtonPreviewModal />
 		</ThemeProvider>
 	)
 }
