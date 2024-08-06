@@ -10,7 +10,11 @@ function OperatorType() {
 
 	useEffect(() => {
 		const text = `${operator}${value}`
-		setNewButton({ type: 'operator', text, buttonData: { operator, value: parseInt(value) } })
+		setNewButton({
+			type: { color: 'operator' },
+			text,
+			buttonData: { operator, value: parseInt(value) },
+		})
 	}, [operator, value])
 
 	const updatedBreakpoints = {
@@ -62,7 +66,7 @@ function OperatorType() {
 					>
 						<MenuItem value={'+'}>+</MenuItem>
 						<MenuItem value={'-'}>-</MenuItem>
-						<MenuItem value={'*'}>x</MenuItem>
+						<MenuItem value={'x'}>x</MenuItem>
 						<MenuItem value={'/'}>/</MenuItem>
 					</TextField>
 				</Grid>
@@ -80,6 +84,7 @@ function OperatorType() {
 						value={value}
 						onChange={(e) => setValue(e.target.value)}
 						fullWidth
+						type="number"
 						variant="standard"
 						label="Value"
 						color="secondary"
