@@ -16,30 +16,34 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 	let buttonClass = null
 
 	const setButtonSettings = () => {
-		switch (type) {
+		switch (type && type.color) {
 			case 'clear':
-				handleClick = handleClearButton
 				buttonClass = 'clear-button'
+				handleClick = handleClearButton
 				break
 			case 'insert':
-				handleClick = handleInsertButton
 				buttonClass = 'insert-button'
+				handleClick = handleInsertButton
 				break
 			case 'result-changer':
-				handleClick = handleModifierButton
 				buttonClass = 'result-changer-button'
+				handleClick = handleModifierButton
 				break
 			case 'order-changer':
 				buttonClass = 'order-changer-button'
+				if (type.purpose === 'sort') {
+					handleClick = () => handleSortButton(buttonData.sortMode)
+				}
+
 				break
 			case 'operator':
-				handleClick = handleOperatorButton
 				buttonClass = 'operator-button'
+				handleClick = handleOperatorButton
 				break
 
 			default:
-				handleClick = handleEmptyButton
 				buttonClass = 'empty-button'
+				handleClick = handleEmptyButton
 		}
 	}
 
@@ -53,7 +57,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 	}
 
 	const handleInsertButton = () => {
-		console.log('insert')
+		setResult((result) => parseInt(result + String(buttonData.value)))
 	}
 
 	const handleModifierButton = () => {
@@ -61,7 +65,6 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 	}
 
 	const handleOperatorButton = () => {
-		console.log('operator')
 		const { operator, value } = buttonData
 		switch (operator) {
 			case '+':
@@ -70,7 +73,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 			case '-':
 				setResult((result) => result - value)
 				break
-			case '*':
+			case 'x':
 				setResult((result) => result * value)
 				break
 			case '/':
@@ -78,6 +81,16 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 				break
 		}
 		console.log(`the button data is`, value)
+	}
+
+	const handleSortButton = (sortMode) => {
+		setResult((result) => {
+			const resultArray = String(result).split('')
+
+			return parseInt(
+				resultArray.sort((a, b) => (sortMode === 'Ascending' ? a - b : b - a)).join('')
+			)
+		})
 	}
 
 	function adjustFontSize() {

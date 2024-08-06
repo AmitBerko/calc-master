@@ -32,7 +32,7 @@ function Calculator({ currentButtons, result }) {
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton type="clear" text="CLEAR" index={8} />
+					<CalculatorButton type={{color: 'clear'}} text="CLEAR" index={8} />
 				</Grid>
 			</Grid>
 		</div>
