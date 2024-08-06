@@ -1,9 +1,6 @@
 @import '../components/LevelCreator/CalculatorStyles.scss';
+@import '../components/LevelCreator/ButtonPreviews/ButtonPreviews.scss';
 
 .MuiInputBase-root.MuiOutlinedInput-root {
   border-radius: 0.75rem;
-}
-
-.MuiListItemIcon-root.css-cveggr-MuiListItemIcon-root {
-  min-width: 40px;
 }

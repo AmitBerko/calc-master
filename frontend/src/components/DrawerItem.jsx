@@ -6,7 +6,9 @@ function DrawerItem({ text, icon: Icon }) {
 		<>
 			<ListItem key={text} disablePadding>
 				<ListItemButton sx={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}>
-					<ListItemIcon><Icon sx={{color: 'rgb(230, 230, 230)'}} /></ListItemIcon>
+					<ListItemIcon sx={{ minWidth: '2.5rem' }}>
+						<Icon sx={{ color: 'rgb(230, 230, 230)' }} />
+					</ListItemIcon>
 					<ListItemText primary={text} />
 				</ListItemButton>
 			</ListItem>
