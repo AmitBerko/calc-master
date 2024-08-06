@@ -9,7 +9,7 @@
 
 @mixin color-button($bg-color, $text-color, $shadow-color) {
 	background-color: $bg-color;
-	box-shadow: 0px 0.7rem 0px 0px $shadow-color;
+	box-shadow: 0px calc(var(--calculator-button-width) * 0.075) 0px 0px $shadow-color;
 	color: $text-color;
 
 	&:active {
@@ -105,7 +105,7 @@ $border: rgb(36, 36, 37);
 
 	&:active {
 		transition-behavior: initial;
-		transform: translateY(0.7rem);
+		transform: translateY(calc(var(--calculator-button-width) * 0.075));
 	}
 }
 
@@ -133,7 +133,6 @@ $border: rgb(36, 36, 37);
 	@include color-button(rgb(24, 148, 156), white, rgb(16, 109, 115));
 }
 
-
 @media (min-width: 600px) and (max-width: 675px) {
 	.result {
 		font-size: calc(13.5vw) !important;
@@ -145,15 +144,15 @@ $border: rgb(36, 36, 37);
 }
 
 @media (max-width: 350px) {
-  .calculator-container {
-    padding: 1rem 0.5rem;
-    padding-bottom: 1.5rem;
+	.calculator-container {
+		padding: 1rem 0.5rem;
+		padding-bottom: 1.5rem;
 
-    .result-container {
-      padding-right: 1.15rem !important;
-      .result::after {
-        right: 1.15rem !important;
-      }
-    }
-  }
+		.result-container {
+			padding-right: 1.15rem !important;
+			.result::after {
+				right: 1.15rem !important;
+			}
+		}
+	}
 }

@@ -73,6 +73,8 @@ function CalculatorButton({ text, index, type, preview = false }) {
 			if (!button || !textElement) return
 
 			const buttonWidth = button.offsetWidth
+			button.style.setProperty('--calculator-button-width', `${buttonWidth}px`)
+			console.log('set the button width variable')
 			const buttonHeight = button.offsetHeight
 
 			let fontSize = 35 // Start with a large font size
@@ -103,7 +105,7 @@ function CalculatorButton({ text, index, type, preview = false }) {
 	if (preview) {
 		handleClick = () => {
 			console.log(`clicked! the text is ${text} and index is ${index}`)
-			setPreviewButtonData(prevData => ({...prevData, text}))
+			setPreviewButtonData((prevData) => ({ ...prevData, text }))
 			setNewButton({})
 			setIsPreviewModalOpen(true)
 		}
