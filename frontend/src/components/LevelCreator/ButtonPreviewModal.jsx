@@ -3,6 +3,8 @@ import { Modal, Box, Typography, ThemeProvider, Grid, Button } from '@mui/materi
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
 import { useLevelCreator } from './LevelCreatorProvider'
+import InsertType from './ButtonPreviews/InsertType'
+import SortType from './ButtonPreviews/SortType'
 
 function ButtonPreviewModal() {
 	const {
@@ -24,6 +26,12 @@ function ButtonPreviewModal() {
 	switch (targetButtonData.text) {
 		case 'Operator':
 			modalContent = <OperatorType />
+			break
+		case 'Insert':
+			modalContent = <InsertType />
+			break
+		case 'Sort':
+			modalContent = <SortType />
 			break
 	}
 
@@ -82,7 +90,7 @@ function ButtonPreviewModal() {
 					sx={{
 						display: 'flex',
 						justifyContent: 'center',
-						marginTop: '1.75rem',
+						marginTop: '2rem',
 					}}
 				>
 					<Button
