@@ -65,38 +65,49 @@ function CalculatorButton({ text, index, type, preview = false }) {
 		console.log('operator')
 	}
 
-	useEffect(() => {
-		const adjustFontSize = () => {
-			const button = buttonRef.current
-			const textElement = textRef.current
+	function adjustFontSize() {
+		const button = buttonRef.current
+		const textElement = textRef.current
 
-			if (!button || !textElement) return
+		if (!button || !textElement) return
 
-			const buttonWidth = button.offsetWidth
-			button.style.setProperty('--calculator-button-width', `${buttonWidth}px`)
-			console.log('set the button width variable')
-			const buttonHeight = button.offsetHeight
+		const buttonWidth = button.offsetWidth
+		document.documentElement.style.setProperty('--calculator-button-width', `${buttonWidth}px`)
+		const buttonHeight = button.offsetHeight
 
-			let fontSize = 35 // Start with a large font size
-			const letters = button.textContent.length
+		let fontSize = 35 // Start with a large font size
+		const letters = button.textContent.length
+		textElement.style.fontSize = `${fontSize}px`
+
+		// Reduce font size until text fits the button's height & width
+		while (
+			textElement.offsetWidth > buttonWidth * (0.5 + Math.min(0.3, letters * 0.1)) ||
+			(textElement.offsetHeight > buttonHeight * (0.5 + Math.min(0.3, letters * 0.1)) &&
+				fontSize > 1)
+		) {
+			fontSize--
 			textElement.style.fontSize = `${fontSize}px`
-
-			// Reduce font size until text fits the button's height & width
-			while (
-				textElement.offsetWidth > buttonWidth * (0.5 + Math.min(0.3, letters * 0.1)) ||
-				(textElement.offsetHeight > buttonHeight * (0.5 + Math.min(0.3, letters * 0.1)) &&
-					fontSize > 1)
-			) {
-				fontSize--
-				textElement.style.fontSize = `${fontSize}px`
-			}
 		}
+	}
 
+	function debounce(cb, delay) {
+		let timeout
+		return (...args) => {
+			if (timeout) clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				cb(...args)
+			}, delay)
+		}
+	}
+
+	const debouncedAdjustFontSize = debounce(adjustFontSize, 125)
+
+	useEffect(() => {
 		adjustFontSize()
-		window.addEventListener('resize', adjustFontSize)
+		window.addEventListener('resize', debouncedAdjustFontSize)
 
 		return () => {
-			window.removeEventListener('resize', adjustFontSize)
+			window.removeEventListener('resize', debouncedAdjustFontSize)
 		}
 	}, [text]) // Re-run effect if text changes
 
