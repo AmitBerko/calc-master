@@ -9,7 +9,6 @@ function LevelCreator() {
 	return (
 		<>
 			<Calculator currentButtons={currentButtons} result={result} />
-			<div style={{ position: 'absolute' }}>{JSON.stringify(currentButtons)}</div>
 			<TypesModal />
 		</>
 	)
