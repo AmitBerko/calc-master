@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
 
-function CalculatorButton({ text, index, type, preview = false }) {
+function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
 	const {
 		setIsTypesModalOpen,
 		setIsPreviewModalOpen,
-		setPreviewButtonData,
+		setTargetButtonData,
 		setNewButton,
-		previewButtonData,
+		setResult,
 	} = useLevelCreator()
 
 	let handleClick = null
@@ -44,8 +44,7 @@ function CalculatorButton({ text, index, type, preview = false }) {
 	}
 
 	const handleEmptyButton = () => {
-		console.log(previewButtonData)
-		setPreviewButtonData((prevData) => ({ ...prevData, index }))
+		setTargetButtonData((prevData) => ({ ...prevData, index }))
 		setIsTypesModalOpen(true)
 	}
 
@@ -63,6 +62,22 @@ function CalculatorButton({ text, index, type, preview = false }) {
 
 	const handleOperatorButton = () => {
 		console.log('operator')
+		const { operator, value } = buttonData
+		switch (operator) {
+			case '+':
+				setResult((result) => result + value)
+				break
+			case '-':
+				setResult((result) => result - value)
+				break
+			case '*':
+				setResult((result) => result * value)
+				break
+			case '/':
+				setResult((result) => result / value)
+				break
+		}
+		console.log(`the button data is`, value)
 	}
 
 	function adjustFontSize() {
@@ -115,8 +130,7 @@ function CalculatorButton({ text, index, type, preview = false }) {
 
 	if (preview) {
 		handleClick = () => {
-			console.log(`clicked! the text is ${text} and index is ${index}`)
-			setPreviewButtonData((prevData) => ({ ...prevData, text }))
+			setTargetButtonData((prevData) => ({ ...prevData, text }))
 			setNewButton({})
 			setIsPreviewModalOpen(true)
 		}

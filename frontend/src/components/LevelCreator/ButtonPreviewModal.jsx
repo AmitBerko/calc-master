@@ -1,27 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Box, Typography, ThemeProvider, Grid, Button } from '@mui/material'
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
 import { useLevelCreator } from './LevelCreatorProvider'
 
 function ButtonPreviewModal() {
-	const { isPreviewModalOpen, setIsPreviewModalOpen, previewButtonData, newButton } = useLevelCreator()
+	const {
+		isPreviewModalOpen,
+		setIsPreviewModalOpen,
+    setIsTypesModalOpen,
+		targetButtonData,
+		newButton,
+    setNewButton,
+    setTargetButtonData,
+		setCurrentButtons,
+	} = useLevelCreator()
+
+  useEffect(() => {
+    setNewButton({})
+  }, [])
 
 	let modalContent = null
-	switch (previewButtonData.text) {
+	switch (targetButtonData.text) {
 		case 'Operator':
 			modalContent = <OperatorType />
 			break
 	}
 
-    function handleCancel() {
-      setIsPreviewModalOpen(false)
+	function handleCancel() {
+		setIsPreviewModalOpen(false)
+	}
+
+	function handleAddButton() {
+    if (!newButton) {
+      console.log('Couldn\'t get the new button\'s data')
+      return
     }
 
-		function handleAddButton() {
-
-      setIsPreviewModalOpen(false)
-    }
+		setCurrentButtons((prevButtons) =>
+			prevButtons.map((button, index) => (index === targetButtonData.index ? newButton : button))
+		)
+    setIsTypesModalOpen(false)
+		setIsPreviewModalOpen(false)
+    setTargetButtonData({})
+	}
 
 	return (
 		<Modal open={isPreviewModalOpen} onClose={() => setIsPreviewModalOpen(false)}>
@@ -51,7 +73,7 @@ function ButtonPreviewModal() {
 						fontSize: 'min(2rem, calc(1.15rem + 2vw))',
 					}}
 				>
-					Create your own {JSON.stringify(previewButtonData)} button:
+					Create your own {targetButtonData.text} button:
 				</Typography>
 				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
 				<Grid
@@ -71,7 +93,7 @@ function ButtonPreviewModal() {
 					>
 						Add Button
 					</Button>
-					<Button onClick={handleCancel} variant="outlined">
+					<Button onClick={handleCancel} sx={{ width: '121.5px' }} variant="outlined">
 						Cancel
 					</Button>
 				</Grid>

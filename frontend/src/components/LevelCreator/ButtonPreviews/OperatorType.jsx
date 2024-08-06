@@ -1,20 +1,18 @@
-import React from 'react'
-import CalculatorButton from '../CalculatorButton'
-import {
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Select,
-	TextField,
-	Typography,
-	useTheme,
-	Grid,
-	createTheme,
-	ThemeProvider,
-	Button,
-} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { MenuItem, TextField, Grid, createTheme, ThemeProvider } from '@mui/material'
+import { useLevelCreator } from '../LevelCreatorProvider'
 
 function OperatorType() {
+	const [operator, setOperator] = useState('')
+	const [value, setValue] = useState('')
+
+	const { setNewButton } = useLevelCreator()
+
+	useEffect(() => {
+		const text = `${operator}${value}`
+		setNewButton({ type: 'operator', text, buttonData: { operator, value: parseInt(value) } })
+	}, [operator, value])
+
 	const updatedBreakpoints = {
 		xs: 0,
 		sm: 375,
@@ -45,7 +43,8 @@ function OperatorType() {
 				>
 					<TextField
 						select
-						defaultValue=""
+						value={operator}
+						onChange={(e) => setOperator(e.target.value)}
 						fullWidth
 						variant="standard"
 						label="Operator"
@@ -63,7 +62,7 @@ function OperatorType() {
 					>
 						<MenuItem value={'+'}>+</MenuItem>
 						<MenuItem value={'-'}>-</MenuItem>
-						<MenuItem value={'x'}>x</MenuItem>
+						<MenuItem value={'*'}>x</MenuItem>
 						<MenuItem value={'/'}>/</MenuItem>
 					</TextField>
 				</Grid>
@@ -78,6 +77,8 @@ function OperatorType() {
 				>
 					{' '}
 					<TextField
+						value={value}
+						onChange={(e) => setValue(e.target.value)}
 						fullWidth
 						variant="standard"
 						label="Value"
