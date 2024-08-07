@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@900&family=Nunito:ital,wght@0,800;1,800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 @font-face {
-	font-family: 'Digital-7';
-	src: url('../../assets/calculator-font.ttf') format('ttf');
-	font-weight: 900;
-	font-size: 8rem;
+	font-family: 'monospace-digit-7';
+	src: url('Digital-7Mono.woff') format('woff');
 }
 
 @mixin color-button($bg-color, $text-color, $shadow-color) {
@@ -65,18 +63,19 @@ $border: rgb(36, 36, 37);
 				display: flex;
 				justify-content: end;
 				position: relative;
-				padding: 0 0.65rem;
+				// padding: 0 0.65rem;
 
 				.result {
-					font-family: 'Digital-7';
+					font-family: 'monospace-digit-7';
 					font-size: clamp(3rem, calc(22.5vw - 1rem), 5.8rem);
 					color: rgb(0, 0, 0);
+          transform: translate(-0.85rem, 6px);
 				}
 				.result::after {
 					content: '88888888';
 					position: absolute;
 					color: rgba(0, 0, 0, 0.1);
-					right: 0.65rem;
+					right: 0;
 				}
 			}
 		}
@@ -146,12 +145,23 @@ $border: rgb(36, 36, 37);
 @media (max-width: 350px) {
 	.calculator-container {
 		padding: 1rem 0.5rem;
-		padding-bottom: 1.5rem;
+		padding-bottom: 2rem;
+
+    .screen-container {
+        height: calc(1.75rem + 35%);
+    }
+
+    .level-info {
+      padding: 0.5rem 0.75rem !important;
+    }
 
 		.result-container {
-			padding-right: 1.15rem !important;
+			// padding-right: 1.15rem !important;
+      .result {
+        transform: translate(-1.25rem, 0.5rem) !important;
+      }
 			.result::after {
-				right: 1.15rem !important;
+				// right: 1.15rem !important;
 			}
 		}
 	}
