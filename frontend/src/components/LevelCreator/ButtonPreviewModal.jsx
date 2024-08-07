@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Box, Typography, ThemeProvider, Grid, Button } from '@mui/material'
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
@@ -6,6 +6,7 @@ import { useLevelCreator } from './LevelCreatorProvider'
 import InsertType from './ButtonPreviews/InsertType'
 import SortType from './ButtonPreviews/SortType'
 import ShiftType from './ButtonPreviews/ShiftType'
+import ReverseType from './ButtonPreviews/ReverseType'
 
 function ButtonPreviewModal() {
 	const {
@@ -23,19 +24,30 @@ function ButtonPreviewModal() {
 		setNewButton({})
 	}, [])
 
+	const [errors, setErrors] = useState([])
+
 	let modalContent = null
+	let description = null
 	switch (targetButtonData.text) {
 		case 'Operator':
-			modalContent = <OperatorType />
+			modalContent = <OperatorType errors={errors} />
+			description = 'operator button description'
 			break
 		case 'Insert':
-			modalContent = <InsertType />
+			modalContent = <InsertType errors={errors} />
+			description = 'insert button description'
 			break
 		case 'Sort':
-			modalContent = <SortType />
+			modalContent = <SortType errors={errors} />
+			description = 'sort button description'
 			break
 		case 'Shift':
-			modalContent = <ShiftType />
+			modalContent = <ShiftType errors={errors} />
+			description = 'shift button description'
+			break
+		case 'Reverse':
+			modalContent = <ReverseType errors={errors} />
+			description = 'reverse button description'
 			break
 	}
 
@@ -44,9 +56,17 @@ function ButtonPreviewModal() {
 	}
 
 	function handleAddButton() {
-		if (!newButton) {
-			console.log("Couldn't get the new button's data")
-			return
+		if (newButton.type.color === 'operator') {
+			let operatorError = ''
+			let valueError = ''
+			if (!newButton.buttonData.operator) {
+				operatorError = 'Operator is a required field'
+			}
+			if (!newButton.buttonData.value) {
+				valueError = 'Value is a required field'
+			}
+			setErrors([operatorError, valueError])
+      if (operatorError || valueError) return
 		}
 
 		setCurrentButtons((prevButtons) =>
@@ -90,6 +110,10 @@ function ButtonPreviewModal() {
 						: `The ${targetButtonData.text} button:`}
 				</Typography>
 				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
+
+				{/* style it later */}
+				<Typography variant="body1">{description}</Typography>
+
 				<Grid
 					item
 					xs={12}

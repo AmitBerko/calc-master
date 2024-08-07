@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { MenuItem, TextField, Grid, createTheme, ThemeProvider } from '@mui/material'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
-function OperatorType() {
+function OperatorType({ errors }) {
 	const [operator, setOperator] = useState('')
 	const [value, setValue] = useState('')
 
@@ -53,6 +53,8 @@ function OperatorType() {
 						variant="standard"
 						label="Operator"
 						color="secondary"
+						error={!!errors[0]}
+						helperText={errors[0]}
 						sx={{
 							maxWidth: '200px',
 							'& .MuiSelect-select': {
@@ -89,6 +91,8 @@ function OperatorType() {
 						label="Value"
 						color="secondary"
 						autoComplete="off"
+						error={!!errors[1]}
+						helperText={errors[1]}
 						sx={{
 							maxWidth: '200px',
 							'& .MuiInputBase-input': { fontSize: '1.4rem', padding: 0, paddingBottom: '4px' },
