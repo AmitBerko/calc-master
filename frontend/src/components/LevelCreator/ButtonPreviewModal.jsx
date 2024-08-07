@@ -5,22 +5,23 @@ import theme from '../../themes/theme'
 import { useLevelCreator } from './LevelCreatorProvider'
 import InsertType from './ButtonPreviews/InsertType'
 import SortType from './ButtonPreviews/SortType'
+import ShiftType from './ButtonPreviews/ShiftType'
 
 function ButtonPreviewModal() {
 	const {
 		isPreviewModalOpen,
 		setIsPreviewModalOpen,
-    setIsTypesModalOpen,
+		setIsTypesModalOpen,
 		targetButtonData,
 		newButton,
-    setNewButton,
-    setTargetButtonData,
+		setNewButton,
+		setTargetButtonData,
 		setCurrentButtons,
 	} = useLevelCreator()
 
-  useEffect(() => {
-    setNewButton({})
-  }, [])
+	useEffect(() => {
+		setNewButton({})
+	}, [])
 
 	let modalContent = null
 	switch (targetButtonData.text) {
@@ -33,6 +34,9 @@ function ButtonPreviewModal() {
 		case 'Sort':
 			modalContent = <SortType />
 			break
+		case 'Shift':
+			modalContent = <ShiftType />
+			break
 	}
 
 	function handleCancel() {
@@ -40,17 +44,17 @@ function ButtonPreviewModal() {
 	}
 
 	function handleAddButton() {
-    if (!newButton) {
-      console.log('Couldn\'t get the new button\'s data')
-      return
-    }
+		if (!newButton) {
+			console.log("Couldn't get the new button's data")
+			return
+		}
 
 		setCurrentButtons((prevButtons) =>
 			prevButtons.map((button, index) => (index === targetButtonData.index ? newButton : button))
 		)
-    setIsTypesModalOpen(false)
+		setIsTypesModalOpen(false)
 		setIsPreviewModalOpen(false)
-    setTargetButtonData({})
+		setTargetButtonData({})
 	}
 
 	return (
@@ -81,7 +85,9 @@ function ButtonPreviewModal() {
 						fontSize: 'min(2rem, calc(1.15rem + 2vw))',
 					}}
 				>
-					Create your own {targetButtonData.text} button:
+					{targetButtonData.editable
+						? `Create your own ${targetButtonData.text} button:`
+						: `The ${targetButtonData.text} button:`}
 				</Typography>
 				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
 				<Grid
