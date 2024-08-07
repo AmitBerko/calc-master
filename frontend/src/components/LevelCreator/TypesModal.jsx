@@ -19,16 +19,16 @@ function TypesModal() {
 	})
 
 	const typesPreview = [
-		{ text: 'Operator', type: { color: 'operator' } },
-		{ text: 'Insert', type: { color: 'insert' } },
-		{ text: 'Sort', type: { color: 'order-changer' } },
-		{ text: 'Shift', type: { color: 'order-changer' } },
-		{ text: 'Reverse', type: { color: 'order-changer' } },
-		{ text: 'Sum', type: { color: 'result-changer' } },
-		{ text: 'Transform', type: { color: 'result-changer' } },
-		{ text: '+/-', type: { color: 'result-changer' } },
-		{ text: 'Inv10', type: { color: 'result-changer' } },
-		{ text: 'Delete', type: { color: ' result-changer' } },
+		{ text: 'Operator', type: { color: 'operator' }, editable: true },
+		{ text: 'Insert', type: { color: 'insert' }, editable: true },
+		{ text: 'Sort', type: { color: 'order-changer' }, editable: true },
+		{ text: 'Shift', type: { color: 'order-changer' }, editable: true },
+		{ text: 'Reverse', type: { color: 'order-changer' }, editable: false },
+		{ text: 'Sum', type: { color: 'result-changer' }, editable: false },
+		{ text: 'Transform', type: { color: 'result-changer' }, editable: true },
+		{ text: '+/-', type: { color: 'result-changer' }, editable: false },
+		{ text: 'Inv10', type: { color: 'result-changer' }, editable: false },
+		{ text: 'Delete', type: { color: 'result-changer' }, editable: false },
 	]
 
 	return (
@@ -87,6 +87,7 @@ function TypesModal() {
 										type={buttonPreview.type}
 										text={buttonPreview.text}
 										preview={true}
+										editable={buttonPreview.editable}
 									/>
 								</Grid>
 							)

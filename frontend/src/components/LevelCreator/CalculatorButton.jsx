@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
 
-function CalculatorButton({ text, index, type, buttonData, preview = false }) {
+function CalculatorButton({ text, index, type, buttonData, preview = false, editable }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
 	const {
@@ -33,6 +33,8 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 				buttonClass = 'order-changer-button'
 				if (type.purpose === 'sort') {
 					handleClick = () => handleSortButton(buttonData.sortMode)
+				} else if (type.purpose === 'shift') {
+					handleClick = () => handleShiftButton(buttonData.shiftDirection)
 				}
 
 				break
@@ -93,6 +95,17 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 		})
 	}
 
+	const handleShiftButton = (shiftDirection) => {
+		setResult((result) => {
+			const stringResult = String(result)
+			if (shiftDirection === 'Left') {
+				return parseInt(stringResult.slice(1) + stringResult[0])
+			} else {
+				return parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
+			}
+		})
+	}
+
 	function adjustFontSize() {
 		const button = buttonRef.current
 		const textElement = textRef.current
@@ -143,7 +156,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false }) {
 
 	if (preview) {
 		handleClick = () => {
-			setTargetButtonData((prevData) => ({ ...prevData, text }))
+			setTargetButtonData((prevData) => ({ ...prevData, text, editable }))
 			setNewButton({})
 			setIsPreviewModalOpen(true)
 		}
