@@ -7,6 +7,8 @@ import InsertType from './ButtonPreviews/InsertType'
 import SortType from './ButtonPreviews/SortType'
 import ShiftType from './ButtonPreviews/ShiftType'
 import ReverseType from './ButtonPreviews/ReverseType'
+import SumType from './ButtonPreviews/SumType'
+import TransformType from './ButtonPreviews/TransformType'
 
 function ButtonPreviewModal() {
 	const {
@@ -24,7 +26,15 @@ function ButtonPreviewModal() {
 		setNewButton({})
 	}, [])
 
-	const [errors, setErrors] = useState([])
+	const [errors, setErrors] = useState({})
+	const fieldRenames = {
+		value: 'Value',
+		operator: 'Operator',
+		sortMode: 'Sort mode',
+		shiftDirection: 'Shift direction',
+		originalValue: 'Original value',
+		newValue: 'New value',
+	}
 
 	let modalContent = null
 	let description = null
@@ -46,39 +56,56 @@ function ButtonPreviewModal() {
 			description = 'shift button description'
 			break
 		case 'Reverse':
-			modalContent = <ReverseType errors={errors} />
+			modalContent = <ReverseType />
 			description = 'reverse button description'
+			break
+		case 'Sum':
+			modalContent = <SumType />
+			description = 'sum button description'
+			break
+		case 'Transform':
+			modalContent = <TransformType errors={errors} />
+			description = 'transform button description'
 			break
 	}
 
 	function handleCancel() {
+		setErrors({})
 		setIsPreviewModalOpen(false)
 	}
 
 	function handleAddButton() {
-		if (newButton.type.color === 'operator') {
-			let operatorError = ''
-			let valueError = ''
-			if (!newButton.buttonData.operator) {
-				operatorError = 'Operator is a required field'
-			}
-			if (!newButton.buttonData.value) {
-				valueError = 'Value is a required field'
-			}
-			setErrors([operatorError, valueError])
-      if (operatorError || valueError) return
+		let hasErrors = false
+
+		// Only check errors to editable buttons
+		if (newButton.buttonData) {
+      setErrors(prevErrors => {
+        let newErrors = {...prevErrors}
+
+        Object.keys(newButton.buttonData).map(field => {
+          if (!newButton.buttonData[field]) {
+            newErrors[field] = `${fieldRenames[field]} is a required field`
+            hasErrors = true
+          } else {
+            delete newErrors[field]
+          }
+        })
+        return newErrors
+      })
 		}
 
+		if (hasErrors) return
 		setCurrentButtons((prevButtons) =>
 			prevButtons.map((button, index) => (index === targetButtonData.index ? newButton : button))
 		)
 		setIsTypesModalOpen(false)
 		setIsPreviewModalOpen(false)
+		setErrors({})
 		setTargetButtonData({})
 	}
 
 	return (
-		<Modal open={isPreviewModalOpen} onClose={() => setIsPreviewModalOpen(false)}>
+		<Modal open={isPreviewModalOpen} onClose={handleCancel}>
 			<Box
 				sx={{
 					position: 'absolute',
@@ -134,6 +161,7 @@ function ButtonPreviewModal() {
 					<Button onClick={handleCancel} sx={{ width: '121.5px' }} variant="outlined">
 						Cancel
 					</Button>
+					{JSON.stringify(errors)}
 				</Grid>
 			</Box>
 		</Modal>
