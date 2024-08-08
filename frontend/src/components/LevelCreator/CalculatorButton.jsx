@@ -27,7 +27,18 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				break
 			case 'result-changer':
 				buttonClass = 'result-changer-button'
-				handleClick = handleModifierButton
+				if (type.purpose === 'sum') {
+					handleClick = handleSumButton
+				} else if (type.purpose === 'transform') {
+					handleClick = () => handleTransformButton(buttonData.originalValue, buttonData.newValue)
+        }
+				// } else if (type.purpose === '+/-') {
+				// 	// handleClick = handleReverseButton
+				// } else if (type.purpose === 'inv10') {
+				// 	// handleClick = () => handleShiftButton(buttonData.shiftDirection)
+				// } else if (type.purpose === 'delete') {
+				// 	// handleClick = handleReverseButton
+				// }
 				break
 			case 'order-changer':
 				buttonClass = 'order-changer-button'
@@ -35,6 +46,8 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 					handleClick = () => handleSortButton(buttonData.sortMode)
 				} else if (type.purpose === 'shift') {
 					handleClick = () => handleShiftButton(buttonData.shiftDirection)
+				} else if (type.purpose === 'reverse') {
+					handleClick = handleReverseButton
 				}
 
 				break
@@ -60,10 +73,6 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 
 	const handleInsertButton = () => {
 		setResult((result) => parseInt(result + String(buttonData.value)))
-	}
-
-	const handleModifierButton = () => {
-		console.log('modifier')
 	}
 
 	const handleOperatorButton = () => {
@@ -104,6 +113,30 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				return parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
 			}
 		})
+	}
+
+	const handleReverseButton = () => {
+		setResult((result) => {
+			return parseInt(String(result).split('').reverse().join(''))
+		})
+	}
+
+	const handleSumButton = () => {
+		setResult((result) => {
+			let newResult = 0
+			while (result > 0) {
+				newResult += result % 10
+				result = parseInt(result / 10)
+			}
+
+			return newResult
+		})
+	}
+
+	const handleTransformButton = (originalValue, newValue) => {
+		setResult((result) => {
+      return parseInt(String(result).replaceAll(originalValue, newValue))
+    })
 	}
 
 	function adjustFontSize() {
@@ -162,14 +195,14 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		}
 	}
 
-    const handlePointerDown = () => {
-			buttonRef.current.classList.add('active')
-		}
+	const handlePointerDown = () => {
+		buttonRef.current.classList.add('active')
+	}
 
-		const handlePointerUp = () => {
-			buttonRef.current.classList.remove('active')
-			handleClick()
-		}
+	const handlePointerUp = () => {
+		buttonRef.current.classList.remove('active')
+		handleClick()
+	}
 
 	return (
 		<>
@@ -177,7 +210,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				ref={buttonRef}
 				onPointerDown={handlePointerDown}
 				onPointerUp={handlePointerUp}
-        onPointerOut={() => buttonRef.current.classList.remove('active')}
+				onPointerOut={() => buttonRef.current.classList.remove('active')}
 				className={`calculator-button ${buttonClass}`}
 			>
 				<span ref={textRef} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
