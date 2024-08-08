@@ -162,9 +162,24 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		}
 	}
 
+    const handlePointerDown = () => {
+			buttonRef.current.classList.add('active')
+		}
+
+		const handlePointerUp = () => {
+			buttonRef.current.classList.remove('active')
+			handleClick()
+		}
+
 	return (
 		<>
-			<button ref={buttonRef} onClick={handleClick} className={`calculator-button ${buttonClass}`}>
+			<button
+				ref={buttonRef}
+				onPointerDown={handlePointerDown}
+				onPointerUp={handlePointerUp}
+        onPointerOut={() => buttonRef.current.classList.remove('active')}
+				className={`calculator-button ${buttonClass}`}
+			>
 				<span ref={textRef} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
 					{text}
 				</span>

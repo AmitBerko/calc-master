@@ -2,15 +2,15 @@
 
 @font-face {
 	font-family: 'monospace-digit-7';
-	src: url('Digital-7Mono.woff') format('woff');
+	src: url('Digital-7Mono.woff') format('woff'), url('Digital-7Mono.woff2') format('woff2');
 }
 
 @mixin color-button($bg-color, $text-color, $shadow-color) {
 	background-color: $bg-color;
-	box-shadow: 0px calc(var(--calculator-button-width) * 0.075) 0px 0px $shadow-color;
+	box-shadow: 0px calc(var(--calculator-button-width) * 0.065 + 0.125rem) 0px 0px $shadow-color;
 	color: $text-color;
 
-	&:active {
+	&.active {
 		box-shadow: 0px 0px 0px 0px $shadow-color;
 	}
 }
@@ -49,6 +49,7 @@ $border: rgb(36, 36, 37);
 			box-shadow: 0px 0.5rem 0.35rem 0px rgb(159, 157, 158) inset;
 			display: flex;
 			flex-direction: column;
+			justify-content: space-between;
 
 			.level-info {
 				font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -56,26 +57,29 @@ $border: rgb(36, 36, 37);
 				justify-content: space-between;
 				padding: 0.5rem 1rem;
 				width: 100%;
+        text-align: center;
 			}
 
 			.result-container {
 				width: 100%;
 				display: flex;
-				justify-content: end;
-				position: relative;
-				// padding: 0 0.65rem;
+				justify-content: center;
+				align-items: end;
+				padding-bottom: 0.2rem;
 
 				.result {
 					font-family: 'monospace-digit-7';
 					font-size: clamp(3rem, calc(22.5vw - 1rem), 5.8rem);
 					color: rgb(0, 0, 0);
-          transform: translate(-0.85rem, 6px);
+					width: 8ch;
+					display: flex;
+					line-height: 100%;
+					justify-content: end;
 				}
 				.result::after {
 					content: '88888888';
 					position: absolute;
-					color: rgba(0, 0, 0, 0.1);
-					right: 0;
+					color: rgba(0, 0, 0, 0.05);
 				}
 			}
 		}
@@ -102,9 +106,13 @@ $border: rgb(36, 36, 37);
 	justify-content: center;
 	align-items: center;
 
-	&:active {
+	user-select: none; /* Standard syntax */
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+
+	&.active {
 		transition-behavior: initial;
-		transform: translateY(calc(var(--calculator-button-width) * 0.075));
+		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.125rem));
 	}
 }
 
@@ -136,33 +144,10 @@ $border: rgb(36, 36, 37);
 	.result {
 		font-size: calc(13.5vw) !important;
 	}
-
-	.result-container {
-		padding-left: 19.75rem !important; // :'(
-	}
 }
 
-@media (max-width: 350px) {
-	.calculator-container {
-		padding: 1rem 0.5rem;
-		padding-bottom: 2rem;
-
-    .screen-container {
-        height: calc(1.75rem + 35%);
-    }
-
-    .level-info {
-      padding: 0.5rem 0.75rem !important;
-    }
-
-		.result-container {
-			// padding-right: 1.15rem !important;
-      .result {
-        transform: translate(-1.25rem, 0.5rem) !important;
-      }
-			.result::after {
-				// right: 1.15rem !important;
-			}
-		}
+@media (max-width: 384px) {
+	.result-container {
+		transform: translateY(-0.25rem) !important;
 	}
 }

@@ -2,19 +2,24 @@
 @import '../components/LevelCreator/ButtonPreviews/ButtonPreviews.scss';
 
 .MuiInputBase-root.MuiOutlinedInput-root {
-  border-radius: 0.75rem;
+	border-radius: 0.75rem;
 }
 
 // Remove arrows from a number-type input
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
-  appearance: textfield;
-  -moz-appearance: textfield;
+input[type='number'] {
+	appearance: textfield;
+	-moz-appearance: textfield;
+}
+
+button {
+	-webkit-tap-highlight-color: transparent;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
