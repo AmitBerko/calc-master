@@ -2,13 +2,17 @@ import { Box, MenuItem, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
-function SortType() {
+function SortType({ errors }) {
 	const [sortMode, setSortMode] = useState('')
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
 		const text = 'Sort' + (sortMode === 'Ascending' ? '>' : '<')
-		setNewButton({ type: { color: 'order-changer', purpose: 'sort' }, text, buttonData: { sortMode } })
+		setNewButton({
+			type: { color: 'order-changer', purpose: 'sort' },
+			text,
+			buttonData: { sortMode },
+		})
 	}, [sortMode])
 
 	return (
@@ -21,6 +25,8 @@ function SortType() {
 				variant="standard"
 				label="Sort Mode"
 				color="secondary"
+				error={!!errors.sortMode}
+				helperText={errors.sortMode}
 				sx={{
 					maxWidth: '200px',
 					'& .MuiSelect-select': {

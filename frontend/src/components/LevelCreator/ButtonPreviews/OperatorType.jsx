@@ -11,7 +11,7 @@ function OperatorType({ errors }) {
 	useEffect(() => {
 		const text = `${operator}${value}`
 		setNewButton({
-			type: { color: 'operator' },
+			type: { color: 'operator', purpose: 'operator' },
 			text,
 			buttonData: { operator, value: parseInt(value) },
 		})
@@ -53,8 +53,8 @@ function OperatorType({ errors }) {
 						variant="standard"
 						label="Operator"
 						color="secondary"
-						error={!!errors[0]}
-						helperText={errors[0]}
+						error={!!errors.operator}
+						helperText={errors.operator}
 						sx={{
 							maxWidth: '200px',
 							'& .MuiSelect-select': {
@@ -91,8 +91,8 @@ function OperatorType({ errors }) {
 						label="Value"
 						color="secondary"
 						autoComplete="off"
-						error={!!errors[1]}
-						helperText={errors[1]}
+						error={!!errors.value}
+						helperText={errors.value}
 						sx={{
 							maxWidth: '200px',
 							'& .MuiInputBase-input': { fontSize: '1.4rem', padding: 0, paddingBottom: '4px' },

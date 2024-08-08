@@ -2,7 +2,7 @@ import { Box, MenuItem, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
-function ShiftType() {
+function ShiftType({ errors }) {
 	const [shiftDirection, setShiftDirection] = useState('')
 	const { setNewButton } = useLevelCreator()
 
@@ -25,6 +25,8 @@ function ShiftType() {
 				variant="standard"
 				label="Direction"
 				color="secondary"
+				error={!!errors.shiftDirection}
+				helperText={errors.shiftDirection}
 				sx={{
 					maxWidth: '200px',
 					'& .MuiSelect-select': {

@@ -2,12 +2,16 @@ import { Box, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
-function InsertType() {
+function InsertType({ errors }) {
 	const [value, setValue] = useState('')
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		setNewButton({ type: {color: 'insert'}, text: value, buttonData: { value: parseInt(value) } })
+		setNewButton({
+			type: { color: 'insert', purpose: 'insert' },
+			text: value,
+			buttonData: { value: parseInt(value) },
+		})
 	}, [value])
 
 	return (
@@ -19,6 +23,9 @@ function InsertType() {
 				type="number"
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
+				error={!!errors.value}
+				helperText={errors.value}
+        autoComplete="off"
 				sx={{
 					maxWidth: '200px',
 					'& .MuiInputBase-input': {
