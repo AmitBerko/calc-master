@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { MenuItem, TextField, Grid, createTheme, ThemeProvider } from '@mui/material'
+import { MenuItem, TextField, Grid, createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
 import { useLevelCreator } from '../LevelCreatorProvider'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import { useTheme } from '@emotion/react'
 
 function TransformType({ errors }) {
 	const [originalValue, setOriginalValue] = useState('')
 	const [newValue, setNewValue] = useState('')
 
 	const { setNewButton } = useLevelCreator()
-
+  const baseTheme = useTheme()
 	useEffect(() => {
 		const text = `${originalValue}=>${newValue}`
 		setNewButton({
@@ -19,26 +21,28 @@ function TransformType({ errors }) {
 
 	const updatedBreakpoints = {
 		xs: 0,
-		sm: 375,
+		sm: 400,
 	}
 
-	const updatedTheme = (theme) =>
-		createTheme({
-			...theme,
-			breakpoints: {
-				values: {
-					...updatedBreakpoints,
-				},
-			},
-		})
+	const updatedTheme = createTheme({
+    ...baseTheme,
+    breakpoints: {
+      values: {
+        ...baseTheme.breakpoints.values,
+        ...updatedBreakpoints
+      },
+    },
+  })
+
+	const isSmUp = useMediaQuery(updatedTheme.breakpoints.up('sm'))
 
 	return (
 		<ThemeProvider theme={updatedTheme}>
-			<Grid container columnSpacing={4} rowSpacing={2} px={2}>
+			<Grid container columnSpacing={4} rowSpacing={0.5} px={2}>
 				<Grid
 					item
 					xs={12}
-					sm={6}
+					sm={5}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
@@ -49,7 +53,7 @@ function TransformType({ errors }) {
 						value={originalValue}
 						onChange={(e) => setOriginalValue(e.target.value)}
 						fullWidth
-            type='number'
+						type="number"
 						variant="standard"
 						label="Original Value"
 						color="secondary"
@@ -65,13 +69,19 @@ function TransformType({ errors }) {
 								paddingBottom: '4px',
 							},
 						}}
-					>
-					</TextField>
+					></TextField>
+				</Grid>
+				<Grid item xs={12} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+					{isSmUp ? (
+						<ArrowRightAltIcon sx={{ fontSize: '3.25rem', transform: 'translateY(0.5rem)' }} />
+					) : (
+						<ArrowRightAltIcon sx={{fontSize: '3.25rem', transform: 'rotate(90deg) translateX(1.25rem)'}} />
+					)}
 				</Grid>
 				<Grid
 					item
 					xs={12}
-					sm={6}
+					sm={5}
 					sx={{
 						display: 'flex',
 						justifyContent: { xs: 'center', sm: 'start' },
