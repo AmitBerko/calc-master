@@ -123,7 +123,7 @@ function AuthForm({ mode = 'login' }) {
 			sx={{
 				width: '100vw',
 				height: {
-					xs: '90vh',
+					xs: '82.5vh',
 					sm: '100vh',
 				},
 				display: 'flex',
