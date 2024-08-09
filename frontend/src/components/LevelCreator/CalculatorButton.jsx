@@ -105,11 +105,15 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 
 	const handleShiftButton = (shiftDirection) => {
 		setResult((result) => {
-			const stringResult = String(result)
+			const isNegative = result < 0
+			const stringResult = String(Math.abs(result))
 			if (shiftDirection === 'Left') {
-				return parseInt(stringResult.slice(1) + stringResult[0])
+				return (isNegative ? -1 : 1) * parseInt(stringResult.slice(1) + stringResult[0])
 			} else {
-				return parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
+				return (
+					(isNegative ? -1 : 1) *
+					parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
+				)
 			}
 		})
 	}
@@ -123,12 +127,12 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 	const handleSumButton = () => {
 		setResult((result) => {
 			let newResult = 0
-			while (result > 0) {
+			while (Math.abs(result) > 0) {
 				newResult += result % 10
 				result = parseInt(result / 10)
 			}
 
-			return newResult
+			return Math.abs(newResult)
 		})
 	}
 
@@ -144,15 +148,18 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 
 	const handleInv10Button = () => {
 		setResult((result) => {
-			return parseInt(
-				String(result)
-					.split('')
-					.map((digit) => {
-						if (parseInt(digit) === 0) return 0
-						return 10 - parseInt(digit)
-					})
-					.join('')
-			)
+			const isNegative = result < 0
+
+			const resultStr = String(Math.abs(result))
+			const invertedResult = resultStr
+				.split('')
+				.map((digit) => {
+					if (digit === '0') return 0
+					return String(10 - parseInt(digit))
+				})
+				.join('')
+
+			return parseInt(invertedResult) * (isNegative ? -1 : 1)
 		})
 	}
 

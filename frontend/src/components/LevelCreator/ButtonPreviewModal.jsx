@@ -94,19 +94,25 @@ function ButtonPreviewModal() {
 
 		// Only check errors to editable buttons
 		if (newButton.buttonData) {
-      setErrors(prevErrors => {
-        let newErrors = {...prevErrors}
+			setErrors((prevErrors) => {
+				let newErrors = { ...prevErrors }
 
-        Object.keys(newButton.buttonData).map(field => {
-          if (!newButton.buttonData[field]) {
-            newErrors[field] = `${fieldRenames[field]} is a required field`
-            hasErrors = true
-          } else {
-            delete newErrors[field]
-          }
-        })
-        return newErrors
-      })
+				Object.keys(newButton.buttonData).map((field) => {
+					if (!newButton.buttonData[field]) {
+						if (!(newButton.type.purpose === 'insert' && newButton.buttonData[field] === 0)) {
+							newErrors[field] = `${fieldRenames[field]} is a required field`
+							hasErrors = true
+						}
+					} else if (newButton.buttonData[field] <= 0) {
+						newErrors[field] = `${fieldRenames[field]} has to be a positive number`
+						hasErrors = true
+					} else {
+						delete newErrors[field] // Ensure the error is removed when the field is valid
+					}
+				})
+
+				return newErrors
+			})
 		}
 
 		if (hasErrors) return
