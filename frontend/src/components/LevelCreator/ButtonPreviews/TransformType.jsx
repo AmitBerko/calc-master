@@ -9,9 +9,16 @@ function TransformType({ errors }) {
 	const [newValue, setNewValue] = useState('')
 
 	const { setNewButton } = useLevelCreator()
-  const baseTheme = useTheme()
+	const baseTheme = useTheme()
 	useEffect(() => {
-		const text = `${originalValue}=>${newValue}`
+		const text = (
+			<>
+				{originalValue}
+				<ArrowRightAltIcon className="transform-arrow" />
+				{newValue}
+				{'  '}
+			</>
+		)
 		setNewButton({
 			type: { color: 'result-changer', purpose: 'transform' },
 			text,
@@ -25,20 +32,20 @@ function TransformType({ errors }) {
 	}
 
 	const updatedTheme = createTheme({
-    ...baseTheme,
-    breakpoints: {
-      values: {
-        ...baseTheme.breakpoints.values,
-        ...updatedBreakpoints
-      },
-    },
-  })
+		...baseTheme,
+		breakpoints: {
+			values: {
+				...baseTheme.breakpoints.values,
+				...updatedBreakpoints,
+			},
+		},
+	})
 
 	const isSmUp = useMediaQuery(updatedTheme.breakpoints.up('sm'))
 
 	return (
 		<ThemeProvider theme={updatedTheme}>
-			<Grid container columnSpacing={4} rowSpacing={0.5} px={2}>
+			<Grid container columnSpacing={4} rowSpacing={0} px={2}>
 				<Grid
 					item
 					xs={12}
@@ -59,6 +66,7 @@ function TransformType({ errors }) {
 						color="secondary"
 						error={!!errors.originalValue}
 						helperText={errors.originalValue}
+						autoComplete="off"
 						sx={{
 							maxWidth: '200px',
 							'& .MuiSelect-select': {
@@ -75,7 +83,9 @@ function TransformType({ errors }) {
 					{isSmUp ? (
 						<ArrowRightAltIcon sx={{ fontSize: '3.25rem', transform: 'translateY(0.5rem)' }} />
 					) : (
-						<ArrowRightAltIcon sx={{fontSize: '3.25rem', transform: 'rotate(90deg) translateX(1.25rem)'}} />
+						<ArrowRightAltIcon
+							sx={{ fontSize: '2.25rem', transform: 'rotate(90deg) translateX(1.25rem)' }}
+						/>
 					)}
 				</Grid>
 				<Grid
