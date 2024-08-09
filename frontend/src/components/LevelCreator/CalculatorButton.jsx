@@ -31,14 +31,13 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 					handleClick = handleSumButton
 				} else if (type.purpose === 'transform') {
 					handleClick = () => handleTransformButton(buttonData.originalValue, buttonData.newValue)
-        }
-				// } else if (type.purpose === '+/-') {
-				// 	// handleClick = handleReverseButton
-				// } else if (type.purpose === 'inv10') {
-				// 	// handleClick = () => handleShiftButton(buttonData.shiftDirection)
-				// } else if (type.purpose === 'delete') {
-				// 	// handleClick = handleReverseButton
-				// }
+				} else if (type.purpose === 'plusMinus') {
+					handleClick = handlePlusMinusButton
+				} else if (type.purpose === 'inv10') {
+					handleClick = handleInv10Button
+				} else if (type.purpose === 'delete') {
+					handleClick = handleDeleteButton
+				}
 				break
 			case 'order-changer':
 				buttonClass = 'order-changer-button'
@@ -135,33 +134,73 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 
 	const handleTransformButton = (originalValue, newValue) => {
 		setResult((result) => {
-      return parseInt(String(result).replaceAll(originalValue, newValue))
-    })
+			return parseInt(String(result).replaceAll(originalValue, newValue))
+		})
+	}
+
+	const handlePlusMinusButton = () => {
+		setResult((result) => result * -1)
+	}
+
+	const handleInv10Button = () => {
+		setResult((result) => {
+			return parseInt(
+				String(result)
+					.split('')
+					.map((digit) => {
+						if (parseInt(digit) === 0) return 0
+						return 10 - parseInt(digit)
+					})
+					.join('')
+			)
+		})
+	}
+
+	const handleDeleteButton = () => {
+		setResult((result) => {
+			return (result - (result % 10)) / 10
+		})
 	}
 
 	function adjustFontSize() {
 		const button = buttonRef.current
 		const textElement = textRef.current
+		const transformIcon = textRef.current.querySelector('.transform-arrow')
 
 		if (!button || !textElement) return
 
-		const buttonWidth = button.offsetWidth
-		document.documentElement.style.setProperty('--calculator-button-width', `${buttonWidth}px`)
-		const buttonHeight = button.offsetHeight
-
-		let fontSize = 35 // Start with a large font size
 		const letters = button.textContent.length
-		textElement.style.fontSize = `${fontSize}px`
+		const buttonWidth = button.offsetWidth
+		const buttonHeight = button.offsetHeight
+		document.documentElement.style.setProperty('--calculator-button-width', `${buttonWidth}px`)
 
-		// Reduce font size until text fits the button's height & width
-		while (
-			textElement.offsetWidth > buttonWidth * (0.5 + Math.min(0.3, letters * 0.1)) ||
-			(textElement.offsetHeight > buttonHeight * (0.5 + Math.min(0.3, letters * 0.1)) &&
-				fontSize > 1)
-		) {
-			fontSize--
-			textElement.style.fontSize = `${fontSize}px`
+		let minFontSize = 1
+		let maxFontSize = 30 // Start with a large font size
+		let midFontSize
+		let fitsWidth
+		let fitsHeight
+
+		while (minFontSize <= maxFontSize) {
+			midFontSize = Math.floor((minFontSize + maxFontSize) / 2)
+			textElement.style.fontSize = `${midFontSize}px`
+			if (transformIcon) {
+				transformIcon.style.fontSize = `${midFontSize}px`
+			}
+			// Check how good the mid font size is
+			fitsWidth = textElement.offsetWidth <= buttonWidth * (0.375 + Math.min(0.5, letters * 0.065))
+			fitsHeight =
+				textElement.offsetHeight <= buttonHeight * (0.375 + Math.min(0.5, letters * 0.065))
+
+			if (fitsHeight && fitsWidth) {
+				// If it fits, try a bigger fontsize for the case it's too small
+				minFontSize = midFontSize + 1
+			} else {
+				// If it doesn't fit, try a smaller font size
+				maxFontSize = midFontSize - 1
+			}
 		}
+
+		textElement.style.fontSize = `${midFontSize}px`
 	}
 
 	function debounce(cb, delay) {
@@ -213,7 +252,10 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				onPointerOut={() => buttonRef.current.classList.remove('active')}
 				className={`calculator-button ${buttonClass}`}
 			>
-				<span ref={textRef} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+				<span
+					ref={textRef}
+					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+				>
 					{text}
 				</span>
 			</button>

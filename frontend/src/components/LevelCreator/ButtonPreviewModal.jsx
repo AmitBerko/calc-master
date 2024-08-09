@@ -9,6 +9,9 @@ import ShiftType from './ButtonPreviews/ShiftType'
 import ReverseType from './ButtonPreviews/ReverseType'
 import SumType from './ButtonPreviews/SumType'
 import TransformType from './ButtonPreviews/TransformType'
+import PlusMinusType from './ButtonPreviews/PlusMinusType'
+import Inv10Type from './ButtonPreviews/Inv10Type'
+import DeleteType from './ButtonPreviews/DeleteType'
 
 function ButtonPreviewModal() {
 	const {
@@ -66,6 +69,18 @@ function ButtonPreviewModal() {
 		case 'Transform':
 			modalContent = <TransformType errors={errors} />
 			description = 'transform button description'
+			break
+		case '+/-':
+			modalContent = <PlusMinusType />
+			description = '+/- button description'
+			break
+		case 'Inv10':
+			modalContent = <Inv10Type />
+			description = 'inv10 button description'
+			break
+		case 'Delete':
+			modalContent = <DeleteType />
+			description = 'delete button description'
 			break
 	}
 
