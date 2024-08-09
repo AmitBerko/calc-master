@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Box, Typography, ThemeProvider, Grid, Button } from '@mui/material'
+import {
+	Modal,
+	Box,
+	Typography,
+	ThemeProvider,
+	Grid,
+	Button,
+	Divider,
+	Paper,
+	autocompleteClasses,
+} from '@mui/material'
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
 import { useLevelCreator } from './LevelCreatorProvider'
@@ -12,6 +22,7 @@ import TransformType from './ButtonPreviews/TransformType'
 import PlusMinusType from './ButtonPreviews/PlusMinusType'
 import Inv10Type from './ButtonPreviews/Inv10Type'
 import DeleteType from './ButtonPreviews/DeleteType'
+import ButtonDescription from './ButtonDescription'
 
 function ButtonPreviewModal() {
 	const {
@@ -41,10 +52,12 @@ function ButtonPreviewModal() {
 
 	let modalContent = null
 	let description = null
+	let example = null
 	switch (targetButtonData.text) {
 		case 'Operator':
 			modalContent = <OperatorType errors={errors} />
-			description = 'operator button description'
+			description = `Performs basic math operations on the current result. It takes an operator (+, -, *, /) and a value, and applies the operation to the result.`
+			example = 'If the current result is 3 and you press on a +4, the result will be updated to 7.'
 			break
 		case 'Insert':
 			modalContent = <InsertType errors={errors} />
@@ -158,17 +171,14 @@ function ButtonPreviewModal() {
 						: `The ${targetButtonData.text} button:`}
 				</Typography>
 				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
-
-				{/* style it later */}
-				<Typography variant="body1">{description}</Typography>
-
+				<ButtonDescription description={description} example={example} />
 				<Grid
 					item
 					xs={12}
 					sx={{
 						display: 'flex',
 						justifyContent: 'center',
-						marginTop: '2rem',
+						marginTop: '1.5rem',
 					}}
 				>
 					<Button
@@ -182,7 +192,6 @@ function ButtonPreviewModal() {
 					<Button onClick={handleCancel} sx={{ width: '121.5px' }} variant="outlined">
 						Cancel
 					</Button>
-					{JSON.stringify(errors)}
 				</Grid>
 			</Box>
 		</Modal>
