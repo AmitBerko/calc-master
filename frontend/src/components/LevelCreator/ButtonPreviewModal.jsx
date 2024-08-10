@@ -126,8 +126,15 @@ function ButtonPreviewModal() {
 							hasErrors = true
 						}
 					} else if (newButton.buttonData[field] <= 0) {
-						newErrors[field] = `${fieldRenames[field]} has to be a positive number`
-						hasErrors = true
+						if (
+							!(
+								newButton.type.purpose === 'operator' &&
+								['/', 'x'].includes(newButton.buttonData.operator)
+							)
+						) {
+							newErrors[field] = `${fieldRenames[field]} has to be a positive number`
+							hasErrors = true
+						}
 					} else {
 						delete newErrors[field] // Ensure the error is removed when the field is valid
 					}
