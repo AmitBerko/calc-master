@@ -56,44 +56,53 @@ function ButtonPreviewModal() {
 	switch (targetButtonData.text) {
 		case 'Operator':
 			modalContent = <OperatorType errors={errors} />
-			description = `Performs basic math operations on the current result. It takes an operator (+, -, *, /) and a value, and applies the operation to the result.`
-			example = 'If the current result is 3 and you press on a +4, the result will be updated to 7.'
+			description = 'Performs basic math operations on the current result.'
+			example = 'If the result is 3 and you press +4, the new result will be 7.'
 			break
 		case 'Insert':
 			modalContent = <InsertType errors={errors} />
-			description = 'insert button description'
+			description = 'Adds a number to the end of the current result.'
+			example = 'If the result is 123 and you insert 5, the new result will be 1235.'
 			break
 		case 'Sort':
 			modalContent = <SortType errors={errors} />
-			description = 'sort button description'
+			description = 'Orders the digits in ascending or descending order.'
+			example = 'If the result is 4213 and you sort ascending, it becomes 1234.'
 			break
 		case 'Shift':
 			modalContent = <ShiftType errors={errors} />
-			description = 'shift button description'
+			description = 'Moves all digits left or right by one position.'
+			example = 'If the result is 1234 and you shift left, it becomes 2341.'
 			break
 		case 'Reverse':
 			modalContent = <ReverseType />
-			description = 'reverse button description'
+			description = 'Reverses the order of all digits.'
+			example = 'If the result is 1234, it becomes 4321.'
 			break
 		case 'Sum':
 			modalContent = <SumType />
-			description = 'sum button description'
+			description = 'Adds up all the digits in the current result.'
+			example = 'If the result is 1234, the sum will be 10 (1+2+3+4).'
 			break
 		case 'Transform':
 			modalContent = <TransformType errors={errors} />
-			description = 'transform button description'
+			description = 'Replaces all instances of a specific value with a different value.'
+			example = 'If the result is 1232 and you transform 2 to 5, it becomes 1535.'
 			break
 		case '+/-':
 			modalContent = <PlusMinusType />
-			description = '+/- button description'
+			description = 'Changes the sign of the current result.'
+			example = 'If the result is 5, it becomes -5, and vice versa.'
 			break
 		case 'Inv10':
 			modalContent = <Inv10Type />
-			description = 'inv10 button description'
+			description = 'Inverts each digit (subtracts it from 10).'
+			example = 'If the result is 1234, it becomes 9876.'
 			break
 		case 'Delete':
 			modalContent = <DeleteType />
-			description = 'delete button description'
+			description = 'Removes the last digit from the current result.'
+			example = 'If the result is 1234, it becomes 123.'
 			break
 	}
 

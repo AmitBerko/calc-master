@@ -11,7 +11,8 @@ function ButtonDescription({ description, example }) {
 				alignItems: 'center',
 				justifyContent: 'center',
 				marginTop: '1.5rem',
-				padding: '0.8rem',
+				padding: '0.5rem',
+        paddingTop: '0.8rem',
 				borderRadius: '12px',
 				maxWidth: '400px',
 				border: '1px solid #ddd',
@@ -28,7 +29,6 @@ function ButtonDescription({ description, example }) {
 				variant="body1"
 				sx={{
 					marginBottom: '0.5rem',
-					textAlign: 'center',
 					backgroundColor: 'rgb(46, 46, 48)',
 					padding: '1rem',
 					borderRadius: '8px',
@@ -50,7 +50,7 @@ function ButtonDescription({ description, example }) {
 					borderRadius: '8px',
 				}}
 			>
-				<Typography variant="body1" sx={{ textAlign: 'center' }}>
+				<Typography variant="body1">
 					{example}
 				</Typography>
 			</Box>
