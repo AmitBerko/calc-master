@@ -2,7 +2,7 @@ import { createTheme, outlinedInputClasses } from '@mui/material'
 
 const theme = createTheme({
 	palette: {
-		type: 'dark',
+		mode: 'dark',
 		primary: {
 			main: '#0280c7',
 		},
