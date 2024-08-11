@@ -2,7 +2,7 @@
 
 @font-face {
 	font-family: 'monospace-digit-7';
-	src: url('Digital-7Mono.woff') format('woff'), url('Digital-7Mono.woff2') format('woff2');
+	src: url('Digital-7Mono.woff') format('woff');
 }
 
 @mixin color-button($bg-color, $text-color, $shadow-color) {
