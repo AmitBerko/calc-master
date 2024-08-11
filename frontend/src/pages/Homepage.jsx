@@ -32,9 +32,6 @@ function Homepage() {
 				component="main"
 				sx={{
 					marginTop: { xs: '4.75rem', sm: '5.25rem' },
-					marginLeft: { lg: '1.25rem' },
-					display: 'flex',
-					justifyContent: { xs: 'center', lg: 'start' },
 					width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
 				}}
 			>
