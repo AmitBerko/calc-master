@@ -1,5 +1,9 @@
 @import '../components/LevelCreator/CalculatorStyles.scss';
 
+:focus {
+	outline: none;
+}
+
 .MuiInputBase-root.MuiOutlinedInput-root {
 	border-radius: 0.75rem;
 }
