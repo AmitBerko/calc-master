@@ -97,7 +97,7 @@ function ButtonPreviewModal() {
 		case 'Inv10':
 			modalContent = <Inv10Type />
 			description = 'Inverts each digit (subtracts it from 10).'
-			example = 'If the result is 1234, it becomes 9876.'
+			example = 'If the result is 7890, it becomes 3210.'
 			break
 		case 'Delete':
 			modalContent = <DeleteType />
