@@ -9,7 +9,7 @@ function InsertType({ errors }) {
 	useEffect(() => {
 		setNewButton({
 			type: { color: 'insert', purpose: 'insert' },
-			text: value,
+			text: parseInt(value),
 			buttonData: { value: parseInt(value) },
 		})
 	}, [value])

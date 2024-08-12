@@ -145,10 +145,6 @@ function ButtonPreviewModal() {
 		}
 
 		if (hasErrors) return
-		// Remove any 0's appearing in the front (for example, if someone entered 01 instead of just 1)
-		if (newButton.type.purpose !== 'operator') {
-			newButton.text = String(parseInt(newButton.text))
-		}
 		setCurrentButtons((prevButtons) =>
 			prevButtons.map((button, index) => (index === targetButtonData.index ? newButton : button))
 		)
