@@ -16,7 +16,6 @@ function LevelCreator() {
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: { xs: 'center', lg: 'center' }, // Maybe change lg to "start"
-					pt: { lg: '0.75rem' },
 				}}
 			>
 				<Calculator currentButtons={currentButtons} result={result} goal={goal} moves={moves} />

@@ -31,7 +31,7 @@ function Homepage() {
 			<Box
 				component="main"
 				sx={{
-					marginTop: { xs: '4.75rem', sm: '5.25rem' },
+					marginTop: { xs: '4.75rem', sm: '5.25rem', md: '6rem' },
 					width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
 				}}
 			>
