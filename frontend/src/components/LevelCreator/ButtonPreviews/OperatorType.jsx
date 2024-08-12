@@ -9,7 +9,7 @@ function OperatorType({ errors }) {
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		const text = value > 0 ? `${operator}${value}` : `${operator}(${value})`
+		const text = value > 0 ? `${operator}${parseInt(value)}` : `${operator}(${parseInt(value)})`
 		setNewButton({
 			type: { color: 'operator', purpose: 'operator' },
 			text,
