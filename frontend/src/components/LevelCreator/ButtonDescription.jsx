@@ -12,7 +12,7 @@ function ButtonDescription({ description, example }) {
 				justifyContent: 'center',
 				marginTop: '1.5rem',
 				padding: '0.5rem',
-        paddingTop: '0.8rem',
+        py: '0.8rem',
 				borderRadius: '12px',
 				maxWidth: '400px',
 				border: '1px solid #ddd',
