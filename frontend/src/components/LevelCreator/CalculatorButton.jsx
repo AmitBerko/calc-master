@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
 
 function CalculatorButton({ text, index, type, buttonData, preview = false, editable }) {
@@ -9,11 +9,27 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		setIsPreviewModalOpen,
 		setTargetButtonData,
 		setNewButton,
+		result,
 		setResult,
+    moves,
+		setMoves,
 	} = useLevelCreator()
 
 	let handleClick = null
 	let buttonClass = null
+
+	const handleButtonsClickAndMove = (buttonFunction) => {
+		return () => {
+      if (moves === 0) {
+        return 
+      }
+			const newResult = buttonFunction()
+
+			if (newResult !== result) {
+				setMoves((prevMoves) => prevMoves - 1)
+			}
+		}
+	}
 
 	const setButtonSettings = () => {
 		switch (type && type.color) {
@@ -59,6 +75,10 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				buttonClass = 'empty-button'
 				handleClick = handleEmptyButton
 		}
+
+		if (handleClick !== handleEmptyButton && handleClick !== handleClearButton) {
+			handleClick = handleButtonsClickAndMove(handleClick)
+		}
 	}
 
 	const handleEmptyButton = () => {
@@ -71,102 +91,110 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 	}
 
 	const handleInsertButton = () => {
-		setResult((result) => parseInt(result + String(buttonData.value)))
+		const newResult = parseInt(result + String(buttonData.value))
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleOperatorButton = () => {
 		const { operator, value } = buttonData
+		let newResult
 		switch (operator) {
 			case '+':
-				setResult((result) => result + value)
+				newResult = result + value
 				break
 			case '-':
-				setResult((result) => result - value)
+				newResult = result - value
 				break
 			case 'x':
-				setResult((result) => result * value)
+				newResult = result * value
 				break
 			case '/':
-				setResult((result) => result / value)
+				newResult = result / value
 				break
 		}
-		console.log(`the button data is`, value)
+
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleSortButton = (sortMode) => {
-		setResult((result) => {
-			const resultArray = String(result).split('')
+		const resultArray = String(result).split('')
+		const newResult = parseInt(
+			resultArray.sort((a, b) => (sortMode === 'Ascending' ? a - b : b - a)).join('')
+		)
 
-			return parseInt(
-				resultArray.sort((a, b) => (sortMode === 'Ascending' ? a - b : b - a)).join('')
-			)
-		})
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleShiftButton = (shiftDirection) => {
-		setResult((result) => {
-			const isNegative = result < 0
-			const stringResult = String(Math.abs(result))
-			if (shiftDirection === 'Left') {
-				return (isNegative ? -1 : 1) * parseInt(stringResult.slice(1) + stringResult[0])
-			} else {
-				return (
-					(isNegative ? -1 : 1) *
-					parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
-				)
-			}
-		})
+		let newResult
+		const isNegative = result < 0
+		const stringResult = String(Math.abs(result))
+		if (shiftDirection === 'Left') {
+			newResult = (isNegative ? -1 : 1) * parseInt(stringResult.slice(1) + stringResult[0])
+		} else {
+			newResult =
+				(isNegative ? -1 : 1) *
+				parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
+		}
+
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleReverseButton = () => {
-		setResult((result) => {
-			return parseInt(String(result).split('').reverse().join(''))
-		})
+		const newResult = parseInt(String(result).split('').reverse().join(''))
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleSumButton = () => {
-		setResult((result) => {
-			let newResult = 0
-			while (Math.abs(result) > 0) {
-				newResult += result % 10
-				result = parseInt(result / 10)
-			}
-
-			return Math.abs(newResult)
-		})
+		let newResult = 0
+		let tempResult = result
+		while (Math.abs(tempResult) > 0) {
+			newResult += tempResult % 10
+			tempResult = parseInt(tempResult / 10)
+		}
+		newResult = Math.abs(newResult)
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleTransformButton = (originalValue, newValue) => {
-		setResult((result) => {
-			return parseInt(String(result).replaceAll(originalValue, newValue))
-		})
+		const newResult = parseInt(String(result).replaceAll(originalValue, newValue))
+		setResult(newResult)
+		return newResult
 	}
 
 	const handlePlusMinusButton = () => {
-		setResult((result) => result * -1)
+		const newResult = result * -1
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleInv10Button = () => {
-		setResult((result) => {
-			const isNegative = result < 0
+		const isNegative = result < 0
 
-			const resultStr = String(Math.abs(result))
-			const invertedResult = resultStr
-				.split('')
-				.map((digit) => {
-					if (digit === '0') return 0
-					return String(10 - parseInt(digit))
-				})
-				.join('')
+		const resultStr = String(Math.abs(result))
+		const invertedResult = resultStr
+			.split('')
+			.map((digit) => {
+				if (digit === '0') return 0
+				return String(10 - parseInt(digit))
+			})
+			.join('')
 
-			return parseInt(invertedResult) * (isNegative ? -1 : 1)
-		})
+		const newResult = parseInt(invertedResult) * (isNegative ? -1 : 1)
+		setResult(newResult)
+		return newResult
 	}
 
 	const handleDeleteButton = () => {
-		setResult((result) => {
-			return (result - (result % 10)) / 10
-		})
+		const newResult = (result - (result % 10)) / 10
+		setResult(newResult)
+		return newResult
 	}
 
 	function adjustFontSize() {
