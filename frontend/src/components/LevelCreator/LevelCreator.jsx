@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import TypesModal from './TypesModal'
-import { useLevelCreator } from './LevelCreatorProvider'
 import Calculator from './Calculator'
 import { Box, Button, Grid } from '@mui/material'
 import LevelSettingsModal from './LevelSettingsModal'
 
 function LevelCreator() {
-	const { currentButtons, result, goal, moves } = useLevelCreator()
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
 
 	return (
@@ -18,7 +16,7 @@ function LevelCreator() {
 					alignItems: { xs: 'center', lg: 'center' }, // Maybe change lg to "start"
 				}}
 			>
-				<Calculator currentButtons={currentButtons} result={result} goal={goal} moves={moves} />
+				<Calculator />
 				<Box
 					sx={{
 						width: '100%',
