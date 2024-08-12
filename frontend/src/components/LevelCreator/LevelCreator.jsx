@@ -6,7 +6,7 @@ import { Box, Button, Grid } from '@mui/material'
 import LevelSettingsModal from './LevelSettingsModal'
 
 function LevelCreator() {
-	const { currentButtons, result } = useLevelCreator()
+	const { currentButtons, result, goal, moves } = useLevelCreator()
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
 
 	return (
@@ -19,7 +19,7 @@ function LevelCreator() {
 					pt: { lg: '0.75rem' },
 				}}
 			>
-				<Calculator currentButtons={currentButtons} result={result} />
+				<Calculator currentButtons={currentButtons} result={result} goal={goal} moves={moves} />
 				<Box
 					sx={{
 						width: '100%',

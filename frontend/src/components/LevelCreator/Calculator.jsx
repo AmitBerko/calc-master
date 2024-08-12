@@ -2,14 +2,14 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 
-function Calculator({ currentButtons, result }) {
+function Calculator({ currentButtons, result, goal, moves }) {
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
 				<div className="screen-content">
 					<div className="level-info">
-						<div className="moves">MOVES: 4</div>
-						<div className="goal">GOAL: 1234</div>
+						<div className="moves">MOVES: {moves}</div>
+						<div className="goal">GOAL: {goal}</div>
 					</div>
 					<div className="result-container">
 						<div className="result">{result}</div>

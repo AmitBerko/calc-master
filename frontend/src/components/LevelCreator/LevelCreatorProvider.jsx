@@ -9,7 +9,9 @@ function LevelCreatorProvider({ children }) {
 	const [targetButtonData, setTargetButtonData] = useState({ text: null, index: null })
 	const [currentButtons, setCurrentButtons] = useState([{}, {}, {}, {}, {}, {}, {}, {}])
 	const [newButton, setNewButton] = useState({})
-  const [result, setResult] = useState(0)
+	const [result, setResult] = useState(0)
+	const [moves, setMoves] = useState(0)
+	const [goal, setGoal] = useState(0)
 
 	return (
 		<LevelCreatorContext.Provider
@@ -24,8 +26,12 @@ function LevelCreatorProvider({ children }) {
 				setCurrentButtons,
 				newButton,
 				setNewButton,
-        result,
-        setResult
+				result,
+				setResult,
+				moves,
+				setMoves,
+				goal,
+				setGoal,
 			}}
 		>
 			{children}
