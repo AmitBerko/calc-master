@@ -98,7 +98,7 @@ $border: rgb(36, 36, 37);
 	border-bottom-right-radius: 5rem 2rem;
 	border: none;
 	cursor: pointer;
-	transition: 100ms all;
+	transition: transform 100ms, box-shadow 100ms;
 	display: flex;
 	justify-content: center;
 	align-items: center;

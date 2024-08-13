@@ -34,6 +34,7 @@ function TypesModal() {
 	return (
 		<ThemeProvider theme={typesModalTheme}>
 			<Modal
+        keepMounted
 				open={isTypesModalOpen}
 				onClose={() => setIsTypesModalOpen(false)}
 				aria-labelledby="modal-modal-title"
