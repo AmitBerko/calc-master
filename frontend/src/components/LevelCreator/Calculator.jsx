@@ -19,7 +19,7 @@ function Calculator() {
 					</div>
 				</div>
 			</div>
-			<Grid container columnSpacing={2} rowSpacing={4.5} className="buttons-container">
+			<Grid container columnSpacing={2} rowSpacing={{xs: 3.5, sm: 4.5}} className="buttons-container">
 				{currentButtons.map((button, index) => {
 					return (
 						<Grid item xs={4} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>

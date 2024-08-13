@@ -31,8 +31,12 @@ function Homepage() {
 			<Box
 				component="main"
 				sx={{
-					marginTop: { xs: '4.75rem', sm: '5.25rem', md: '6rem' },
+					marginTop: { xs: '3.5rem', sm: '4rem'},
 					width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
+					height: {
+						xs: 'calc(100vh - 3.5rem)',
+						sm: 'calc(100vh - 4rem)',
+					},
 				}}
 			>
 				{selectedComponent === 'levelCreator' && (
