@@ -1,5 +1,9 @@
 @import '../components/LevelCreator/CalculatorStyles.scss';
 
+* {
+  font-family: 'Roboto';
+}
+
 :focus {
 	outline: none;
 }
