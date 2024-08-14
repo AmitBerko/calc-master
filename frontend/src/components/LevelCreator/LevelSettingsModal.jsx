@@ -16,7 +16,11 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 	}, [])
 
 	function saveSettings() {
-		const newSettings = { result: newResult, goal: newGoal, moves: newMoves }
+		const newSettings = {
+			result: parseInt(newResult),
+			goal: parseInt(newGoal),
+			moves: parseInt(newMoves),
+		}
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,
