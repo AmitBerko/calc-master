@@ -3,9 +3,11 @@ import TypesModal from './TypesModal'
 import Calculator from './Calculator'
 import { Box, Button, Grid } from '@mui/material'
 import LevelSettingsModal from './LevelSettingsModal'
+import { useLevelCreator } from './LevelCreatorProvider'
 
 function LevelCreator() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
+	const { levelData } = useLevelCreator()
 
 	return (
 		<>
@@ -14,20 +16,20 @@ function LevelCreator() {
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-          width: '100%',
-          height: {xs: 'calc(100% - 1.5)', sm: '100%'},
-          marginTop: {xs: 1.5, sm: 0},
-          justifyContent: {xs: 'start', sm: 'center'}
+					width: '100%',
+					height: { xs: 'calc(100% - 1.5)', sm: '100%' },
+					marginTop: { xs: 1.5, sm: 0 },
+					justifyContent: { xs: 'start', sm: 'center' },
 				}}
 			>
-				<Calculator />
+				<Calculator levelData={levelData} />
 				<Box
 					sx={{
 						width: '100%',
 						maxWidth: '450px',
 						display: 'flex',
 						justifyContent: 'center',
-						mt: { xs: 1.5, sm: 2.5, md: 3},
+						mt: { xs: 1.5, sm: 2.5, md: 3 },
 					}}
 				>
 					<Grid

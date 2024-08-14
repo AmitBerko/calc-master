@@ -1,11 +1,8 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
-import { useLevelCreator } from './LevelCreatorProvider'
 
-function Calculator() {
-	const { levelData } = useLevelCreator()
-
+function Calculator({ levelData }) {
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
