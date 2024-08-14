@@ -6,9 +6,6 @@ import {
 	ThemeProvider,
 	Grid,
 	Button,
-	Divider,
-	Paper,
-	autocompleteClasses,
 } from '@mui/material'
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
@@ -155,7 +152,7 @@ function ButtonPreviewModal() {
 	}
 
 	return (
-		<Modal open={isPreviewModalOpen} onClose={handleCancel}>
+		<Modal open={isPreviewModalOpen} onClose={handleCancel} keepMounted>
 			<Box
 				sx={{
 					position: 'absolute',
