@@ -152,6 +152,7 @@ function AuthForm({ mode = 'login' }) {
 							color="secondary"
 							label="Email"
 							fullWidth
+							autoComplete="email"
 							error={errors.email ? true : false}
 							helperText={errors.email}
 						/>
@@ -165,6 +166,7 @@ function AuthForm({ mode = 'login' }) {
 								helperText={errors.username}
 								color="secondary"
 								label="Username"
+								autoComplete="off"
 								fullWidth
 							/>
 						</Grid>
@@ -176,6 +178,7 @@ function AuthForm({ mode = 'login' }) {
 							color="secondary"
 							type="password"
 							label="Password"
+							autoComplete="current-password"
 							error={errors.password ? true : false}
 							helperText={errors.password}
 							fullWidth
