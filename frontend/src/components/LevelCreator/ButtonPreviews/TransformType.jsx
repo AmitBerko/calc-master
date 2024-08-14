@@ -69,13 +69,7 @@ function TransformType({ errors }) {
 						autoComplete="off"
 						sx={{
 							maxWidth: '200px',
-							'& .MuiSelect-select': {
-								fontSize: '1.4rem',
-								display: 'flex',
-								alignItems: 'center',
-								paddingTop: 0,
-								paddingBottom: '4px',
-							},
+							'& .MuiInputBase-input': { fontSize: '1.4rem', padding: 0, paddingBottom: '4px' },
 						}}
 					></TextField>
 				</Grid>
