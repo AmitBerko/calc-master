@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-	Modal,
-	Box,
-	Typography,
-	ThemeProvider,
-	Grid,
-	Button,
-} from '@mui/material'
+import { Modal, Box, Typography, ThemeProvider, Grid, Button } from '@mui/material'
 import OperatorType from './ButtonPreviews/OperatorType'
 import theme from '../../themes/theme'
 import { useLevelCreator } from './LevelCreatorProvider'
@@ -152,7 +145,7 @@ function ButtonPreviewModal() {
 	}
 
 	return (
-		<Modal open={isPreviewModalOpen} onClose={handleCancel} keepMounted>
+		<Modal open={isPreviewModalOpen} onClose={handleCancel}>
 			<Box
 				sx={{
 					position: 'absolute',
