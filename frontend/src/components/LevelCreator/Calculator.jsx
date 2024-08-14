@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 
-function Calculator({ levelData }) {
+function Calculator({ levelData, isLevelCreator = false }) {
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
@@ -30,6 +30,7 @@ function Calculator({ levelData }) {
 								text={button.text}
 								type={button.type}
 								buttonData={button.buttonData}
+                isLevelCreator={isLevelCreator}
 							/>
 						</Grid>
 					)

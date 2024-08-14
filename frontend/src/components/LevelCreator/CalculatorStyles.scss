@@ -50,7 +50,7 @@ $border: rgb(36, 36, 37);
 			justify-content: space-between;
 
 			.level-info {
-        font-weight: 1000;
+				font-weight: 1000;
 				display: flex;
 				justify-content: space-between;
 				padding: 0.5rem 1rem;
@@ -106,9 +106,20 @@ $border: rgb(36, 36, 37);
 	user-select: none; /* Standard syntax */
 	-webkit-user-select: none; /* Safari */
 	-ms-user-select: none; /* IE 10 and IE 11 */
+	position: relative;
 
 	&.active {
 		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.125rem));
+	}
+
+	.button-remover {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0;
+		width: clamp(1.35rem, 6.5vw, 2rem);
+		aspect-ratio: 1;
+    transform: translate(50%, -50%);
 	}
 }
 

@@ -1,7 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
+import { IconButton } from '@mui/material'
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
 
-function CalculatorButton({ text, index, type, buttonData, preview = false, editable }) {
+function CalculatorButton({
+	text,
+	index,
+	type,
+	buttonData,
+	preview = false,
+	editable,
+	isLevelCreator,
+}) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
 	const {
@@ -11,6 +21,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		setNewButton,
 		levelData,
 		setLevelData,
+    setDeleteButtonModal,
 	} = useLevelCreator()
 
 	let handleClick = null
@@ -290,13 +301,28 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		handleClick()
 	}
 
+	const handleButtonRemove = () => {
+		console.log('the index is', index)
+    setDeleteButtonModal({isOpen: true, index, text})
+	}
+
 	return (
 		<>
 			<button
 				ref={buttonRef}
-				onPointerDown={handlePointerDown}
-				onPointerUp={handlePointerUp}
-				onPointerOut={() => buttonRef.current.classList.remove('active')}
+				onPointerDown={(e) => {
+					if (!e.target.closest('.button-remover')) {
+						handlePointerDown()
+					}
+				}}
+				onPointerUp={(e) => {
+					if (!e.target.closest('.button-remover')) {
+						handlePointerUp()
+					}
+				}}
+				onPointerOut={() => {
+					buttonRef.current.classList.remove('active')
+				}}
 				className={`calculator-button ${buttonClass}`}
 			>
 				<span
@@ -305,6 +331,13 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				>
 					{text}
 				</span>
+
+				{/* Show it if it's levelcreator and a non-empty button */}
+				{isLevelCreator && type && (
+					<IconButton className="button-remover" onClick={handleButtonRemove}>
+						<CancelRoundedIcon />
+					</IconButton>
+				)}
 			</button>
 		</>
 	)

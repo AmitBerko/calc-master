@@ -7,6 +7,7 @@ function LevelCreatorProvider({ children }) {
 	const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
 	const [targetButtonData, setTargetButtonData] = useState({ text: null, index: null })
 	const [newButton, setNewButton] = useState({})
+  const [deleteButtonModal, setDeleteButtonModal] = useState({isOpen: false, buttonText: '', index: undefined})
 
 	const [levelData, setLevelData] = useState({
 		buttons: [{}, {}, {}, {}, {}, {}, {}, {}],
@@ -25,8 +26,10 @@ function LevelCreatorProvider({ children }) {
 				setTargetButtonData,
 				newButton,
 				setNewButton,
-        levelData,
-        setLevelData
+				levelData,
+				setLevelData,
+				deleteButtonModal,
+				setDeleteButtonModal,
 			}}
 		>
 			{children}

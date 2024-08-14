@@ -4,6 +4,7 @@ import Calculator from './Calculator'
 import { Box, Button, Grid } from '@mui/material'
 import LevelSettingsModal from './LevelSettingsModal'
 import { useLevelCreator } from './LevelCreatorProvider'
+import DeleteButtonModal from './DeleteButtonModal'
 
 function LevelCreator() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
@@ -22,7 +23,7 @@ function LevelCreator() {
 					justifyContent: { xs: 'start', sm: 'center' },
 				}}
 			>
-				<Calculator levelData={levelData} />
+				<Calculator levelData={levelData} isLevelCreator={true} />
 				<Box
 					sx={{
 						width: '100%',
@@ -62,6 +63,7 @@ function LevelCreator() {
 				isLevelSettingsOpen={isLevelSettingsOpen}
 				setIsLevelSettingsOpen={setIsLevelSettingsOpen}
 			/>
+      <DeleteButtonModal />
 		</>
 	)
 }
