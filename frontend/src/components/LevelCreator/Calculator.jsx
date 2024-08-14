@@ -4,23 +4,28 @@ import CalculatorButton from './CalculatorButton'
 import { useLevelCreator } from './LevelCreatorProvider'
 
 function Calculator() {
-	const { currentButtons, result, goal, moves } = useLevelCreator()
+	const { levelData } = useLevelCreator()
 
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
 				<div className="screen-content">
 					<div className="level-info">
-						<div className="moves">MOVES: {moves}</div>
-						<div className="goal">GOAL: {goal}</div>
+						<div className="moves">MOVES: {levelData.currentSettings.moves}</div>
+						<div className="goal">GOAL: {levelData.currentSettings.goal}</div>
 					</div>
 					<div className="result-container">
-						<div className="result">{result}</div>
+						<div className="result">{levelData.currentSettings.result}</div>
 					</div>
 				</div>
 			</div>
-			<Grid container columnSpacing={2} rowSpacing={{xs: 3.5, sm: 4.5}} className="buttons-container">
-				{currentButtons.map((button, index) => {
+			<Grid
+				container
+				columnSpacing={2}
+				rowSpacing={{ xs: 3.5, sm: 4.5 }}
+				className="buttons-container"
+			>
+				{levelData.buttons.map((button, index) => {
 					return (
 						<Grid item xs={4} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
 							<CalculatorButton
@@ -35,7 +40,7 @@ function Calculator() {
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton type={{color: 'clear'}} text="CLEAR" index={8} />
+					<CalculatorButton type={{ color: 'clear' }} text="CLEAR" index={8} />
 				</Grid>
 			</Grid>
 		</div>

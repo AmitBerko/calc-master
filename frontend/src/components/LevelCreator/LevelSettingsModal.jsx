@@ -3,24 +3,27 @@ import React, { useEffect, useState } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
 
 function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
-	const [updatedResult, setUpdatedResult] = useState(null)
-	const [updatedMoves, setUpdatedMoves] = useState(null)
-	const [updatedGoal, setUpdatedGoal] = useState(null)
-  const {result, setResult, moves, setMoves, goal, setGoal} = useLevelCreator()
+	const [newResult, setNewResult] = useState(null)
+	const [newMoves, setNewMoves] = useState(null)
+	const [newGoal, setNewGoal] = useState(null)
+	const { levelData, setLevelData } = useLevelCreator()
 
-  useEffect(() => {
-    // Made it so when the modal mounts it will be easier to edit the current values
-    setUpdatedResult(result)
-    setUpdatedMoves(moves)
-    setUpdatedGoal(goal)
-  }, [])
+	useEffect(() => {
+		// Made it so when the modal mounts it will be easier to edit the current values
+		setNewResult(levelData.originalSettings.result)
+		setNewMoves(levelData.originalSettings.moves)
+		setNewGoal(levelData.originalSettings.goal)
+	}, [])
 
-  function saveSettings() {
-    setResult(parseInt(updatedResult))
-    setMoves(parseInt(updatedMoves))
-    setGoal(parseInt(updatedGoal))
-    setIsLevelSettingsOpen(false)
-  }
+	function saveSettings() {
+		const newSettings = { result: newResult, goal: newGoal, moves: newMoves }
+		setLevelData((prevLevelData) => ({
+			...prevLevelData,
+			currentSettings: newSettings,
+			originalSettings: newSettings,
+		}))
+		setIsLevelSettingsOpen(false)
+	}
 
 	return (
 		<Modal open={isLevelSettingsOpen} onClose={() => setIsLevelSettingsOpen(false)}>
@@ -64,8 +67,8 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 					<Grid item xs={12}>
 						<TextField
 							type="number"
-							value={updatedResult}
-							onChange={(e) => setUpdatedResult(e.target.value)}
+							value={newResult}
+							onChange={(e) => setNewResult(e.target.value)}
 							color="secondary"
 							label="Initial Result"
 							fullWidth
@@ -74,8 +77,8 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 					<Grid item xs={12}>
 						<TextField
 							type="number"
-							value={updatedMoves}
-							onChange={(e) => setUpdatedMoves(e.target.value)}
+							value={newMoves}
+							onChange={(e) => setNewMoves(e.target.value)}
 							color="secondary"
 							label="Moves"
 							fullWidth
@@ -84,8 +87,8 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 					<Grid item xs={12} sx={{ mb: '0.45rem' }}>
 						<TextField
 							type="number"
-							value={updatedGoal}
-							onChange={(e) => setUpdatedGoal(e.target.value)}
+							value={newGoal}
+							onChange={(e) => setNewGoal(e.target.value)}
 							color="secondary"
 							label="Goal"
 							fullWidth

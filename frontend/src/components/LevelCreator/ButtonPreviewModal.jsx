@@ -23,7 +23,8 @@ function ButtonPreviewModal() {
 		newButton,
 		setNewButton,
 		setTargetButtonData,
-		setCurrentButtons,
+		// setCurrentButtons,
+		setLevelData,
 	} = useLevelCreator()
 
 	useEffect(() => {
@@ -135,9 +136,12 @@ function ButtonPreviewModal() {
 		}
 
 		if (hasErrors) return
-		setCurrentButtons((prevButtons) =>
-			prevButtons.map((button, index) => (index === targetButtonData.index ? newButton : button))
-		)
+		setLevelData((prevLevelData) => ({
+			...prevLevelData,
+			buttons: prevLevelData.buttons.map((button, index) =>
+				index === targetButtonData.index ? newButton : button
+			),
+		}))
 		setIsTypesModalOpen(false)
 		setIsPreviewModalOpen(false)
 		setErrors({})

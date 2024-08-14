@@ -7,11 +7,13 @@ function LevelCreatorProvider({ children }) {
 	const [isTypesModalOpen, setIsTypesModalOpen] = useState(false)
 	const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
 	const [targetButtonData, setTargetButtonData] = useState({ text: null, index: null })
-	const [currentButtons, setCurrentButtons] = useState([{}, {}, {}, {}, {}, {}, {}, {}])
 	const [newButton, setNewButton] = useState({})
-	const [result, setResult] = useState(0)
-	const [moves, setMoves] = useState(0)
-	const [goal, setGoal] = useState(0)
+
+	const [levelData, setLevelData] = useState({
+		buttons: [{}, {}, {}, {}, {}, {}, {}, {}],
+		originalSettings: { result: 0, moves: 0, goal: 0 },
+		currentSettings: { result: 0, moves: 0, goal: 0 },
+	})
 
 	return (
 		<LevelCreatorContext.Provider
@@ -22,16 +24,10 @@ function LevelCreatorProvider({ children }) {
 				setIsPreviewModalOpen,
 				targetButtonData,
 				setTargetButtonData,
-				currentButtons,
-				setCurrentButtons,
 				newButton,
 				setNewButton,
-				result,
-				setResult,
-				moves,
-				setMoves,
-				goal,
-				setGoal,
+        levelData,
+        setLevelData
 			}}
 		>
 			{children}

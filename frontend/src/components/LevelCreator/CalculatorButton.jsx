@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useLevelCreator } from './LevelCreatorProvider'
 
 function CalculatorButton({ text, index, type, buttonData, preview = false, editable }) {
@@ -9,24 +9,34 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 		setIsPreviewModalOpen,
 		setTargetButtonData,
 		setNewButton,
-		result,
-		setResult,
-    moves,
-		setMoves,
+		levelData,
+		setLevelData,
 	} = useLevelCreator()
 
 	let handleClick = null
 	let buttonClass = null
 
 	const handleButtonsClickAndMove = (buttonFunction) => {
+		const result = levelData.currentSettings.result
 		return () => {
-      if (moves === 0) {
-        return 
-      }
+			if (levelData.currentSettings.moves === 0) {
+				return
+			}
+
 			const newResult = buttonFunction()
+			setLevelData((prevLevelData) => ({
+				...prevLevelData,
+				currentSettings: { ...prevLevelData.currentSettings, result: newResult },
+			}))
 
 			if (newResult !== result) {
-				setMoves((prevMoves) => prevMoves - 1)
+				setLevelData((prevLevelData) => ({
+					...prevLevelData,
+					currentSettings: {
+						...prevLevelData.currentSettings,
+						moves: prevLevelData.currentSettings.moves - 1,
+					},
+				}))
 			}
 		}
 	}
@@ -87,17 +97,21 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 	}
 
 	const handleClearButton = () => {
-		console.log('clear')
+		setLevelData((prevLevelData) => ({
+			...prevLevelData,
+			currentSettings: levelData.originalSettings,
+		}))
 	}
 
 	const handleInsertButton = () => {
+		const result = levelData.currentSettings.result
 		const newResult = parseInt(result + String(buttonData.value))
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleOperatorButton = () => {
 		const { operator, value } = buttonData
+		const result = levelData.currentSettings.result
 		let newResult
 		switch (operator) {
 			case '+':
@@ -114,21 +128,21 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				break
 		}
 
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleSortButton = (sortMode) => {
+		const result = levelData.currentSettings.result
 		const resultArray = String(result).split('')
 		const newResult = parseInt(
 			resultArray.sort((a, b) => (sortMode === 'Ascending' ? a - b : b - a)).join('')
 		)
 
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleShiftButton = (shiftDirection) => {
+		const result = levelData.currentSettings.result
 		let newResult
 		const isNegative = result < 0
 		const stringResult = String(Math.abs(result))
@@ -140,17 +154,17 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				parseInt(stringResult[stringResult.length - 1] + stringResult.slice(0, -1))
 		}
 
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleReverseButton = () => {
+		const result = levelData.currentSettings.result
 		const newResult = parseInt(String(result).split('').reverse().join(''))
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleSumButton = () => {
+		const result = levelData.currentSettings.result
 		let newResult = 0
 		let tempResult = result
 		while (Math.abs(tempResult) > 0) {
@@ -158,23 +172,23 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 			tempResult = parseInt(tempResult / 10)
 		}
 		newResult = Math.abs(newResult)
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleTransformButton = (originalValue, newValue) => {
+		const result = levelData.currentSettings.result
 		const newResult = parseInt(String(result).replaceAll(originalValue, newValue))
-		setResult(newResult)
 		return newResult
 	}
 
 	const handlePlusMinusButton = () => {
+		const result = levelData.currentSettings.result
 		const newResult = result * -1
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleInv10Button = () => {
+		const result = levelData.currentSettings.result
 		const isNegative = result < 0
 
 		const resultStr = String(Math.abs(result))
@@ -187,13 +201,12 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 			.join('')
 
 		const newResult = parseInt(invertedResult) * (isNegative ? -1 : 1)
-		setResult(newResult)
 		return newResult
 	}
 
 	const handleDeleteButton = () => {
+		const result = levelData.currentSettings.result
 		const newResult = (result - (result % 10)) / 10
-		setResult(newResult)
 		return newResult
 	}
 
@@ -223,8 +236,7 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 			}
 			// Check how good the mid font size is
 			fitsWidth = textElement.offsetWidth <= buttonWidth * (0.45 + Math.min(0.5, letters * 0.05))
-			fitsHeight =
-				textElement.offsetHeight <= buttonHeight * (0.45 + Math.min(0.5, letters * 0.05))
+			fitsHeight = textElement.offsetHeight <= buttonHeight * (0.45 + Math.min(0.5, letters * 0.05))
 
 			if (fitsHeight && fitsWidth) {
 				// If it fits, try a bigger fontsize for the case it's too small
