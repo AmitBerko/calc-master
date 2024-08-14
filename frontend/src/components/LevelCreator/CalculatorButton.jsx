@@ -222,9 +222,9 @@ function CalculatorButton({ text, index, type, buttonData, preview = false, edit
 				transformIcon.style.fontSize = `${midFontSize}px`
 			}
 			// Check how good the mid font size is
-			fitsWidth = textElement.offsetWidth <= buttonWidth * (0.375 + Math.min(0.5, letters * 0.065))
+			fitsWidth = textElement.offsetWidth <= buttonWidth * (0.45 + Math.min(0.5, letters * 0.05))
 			fitsHeight =
-				textElement.offsetHeight <= buttonHeight * (0.375 + Math.min(0.5, letters * 0.065))
+				textElement.offsetHeight <= buttonHeight * (0.45 + Math.min(0.5, letters * 0.05))
 
 			if (fitsHeight && fitsWidth) {
 				// If it fits, try a bigger fontsize for the case it's too small
