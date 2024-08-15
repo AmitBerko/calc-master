@@ -7,6 +7,7 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 	const [newMoves, setNewMoves] = useState(null)
 	const [newGoal, setNewGoal] = useState(null)
 	const { levelData, setLevelData } = useLevelCreator()
+  const [error, setError] = useState('')
 
 	useEffect(() => {
 		// Made it so when the modal mounts it will be easier to edit the current values
@@ -21,6 +22,12 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 			goal: parseInt(newGoal),
 			moves: parseInt(newMoves),
 		}
+
+    if (newSettings.result === newSettings.goal) {
+      setError('Initial result and goal can\'t be equal')
+      return
+    }
+
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,
@@ -96,6 +103,8 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 							color="secondary"
 							label="Goal"
 							fullWidth
+              error={!!error}
+              helperText={error}
 						/>
 					</Grid>
 					{/* Buttons */}
