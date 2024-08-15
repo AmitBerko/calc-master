@@ -6,7 +6,6 @@ function DeleteButtonModal() {
 	const { deleteButtonModal, setDeleteButtonModal, setLevelData } = useLevelCreator()
 
 	function deleteButton() {
-		console.log('delete')
 		const indexToDelete = deleteButtonModal.index
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,

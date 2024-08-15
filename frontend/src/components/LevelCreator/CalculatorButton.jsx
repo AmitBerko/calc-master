@@ -302,7 +302,6 @@ function CalculatorButton({
 	}
 
 	const handleButtonRemove = () => {
-		console.log('the index is', index)
     setDeleteButtonModal({isOpen: true, index, text})
 	}
 
@@ -334,7 +333,7 @@ function CalculatorButton({
 
 				{/* Show it if it's levelcreator and a non-empty button */}
 				{isLevelCreator && type && (
-					<IconButton className="button-remover" onClick={handleButtonRemove}>
+					<IconButton component="div" className="button-remover" onClick={handleButtonRemove}>
 						<CancelRoundedIcon />
 					</IconButton>
 				)}
