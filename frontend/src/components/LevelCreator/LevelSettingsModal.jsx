@@ -27,7 +27,8 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
       setError('Initial result and goal can\'t be equal')
       return
     }
-
+    
+    setError('')
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,
