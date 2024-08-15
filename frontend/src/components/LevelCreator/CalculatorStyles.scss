@@ -8,7 +8,7 @@
 	box-shadow: 0px calc(var(--calculator-button-width) * 0.065 + 0.085rem) 0px 0px $shadow-color;
 	color: $text-color;
 
-	&.active {
+	&.active:not(.ignore-empty-button) {
 		box-shadow: none;
 	}
 }
@@ -111,6 +111,14 @@ $border: rgb(36, 36, 37);
 	&.active {
 		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.085rem));
 	}
+
+  &.ignore-empty-button {
+    cursor: default;
+
+    &.active {
+      transform: none;
+    }
+  }
 
 	.button-remover {
 		position: absolute;

@@ -21,7 +21,7 @@ function CalculatorButton({
 		setNewButton,
 		levelData,
 		setLevelData,
-    setDeleteButtonModal,
+		setDeleteButtonModal,
 	} = useLevelCreator()
 
 	let handleClick = null
@@ -93,8 +93,8 @@ function CalculatorButton({
 				break
 
 			default:
-				buttonClass = 'empty-button'
-				handleClick = handleEmptyButton
+				buttonClass = `empty-button ${isLevelCreator ? '' : 'ignore-empty-button'}`
+				handleClick = isLevelCreator && handleEmptyButton
 		}
 
 		if (handleClick !== handleEmptyButton && handleClick !== handleClearButton) {
@@ -302,7 +302,7 @@ function CalculatorButton({
 	}
 
 	const handleButtonRemove = () => {
-    setDeleteButtonModal({isOpen: true, index, text})
+		setDeleteButtonModal({ isOpen: true, index, text })
 	}
 
 	return (

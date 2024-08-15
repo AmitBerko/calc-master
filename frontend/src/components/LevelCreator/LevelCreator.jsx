@@ -5,10 +5,13 @@ import { Box, Button, Grid } from '@mui/material'
 import LevelSettingsModal from './LevelSettingsModal'
 import { useLevelCreator } from './LevelCreatorProvider'
 import DeleteButtonModal from './DeleteButtonModal'
+import UploadLevelModal from './UploadLevelModal'
 
 function LevelCreator() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
 	const { levelData } = useLevelCreator()
+	const [isLevelBeingChecked, setIsLevelBeingChecked] = useState(false)
+	const [isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen] = useState(false)
 
 	return (
 		<>
@@ -18,12 +21,12 @@ function LevelCreator() {
 					flexDirection: 'column',
 					alignItems: 'center',
 					width: '100%',
-					height: {xs: 'calc(100% - 12px)'},
+					height: { xs: 'calc(100% - 12px)' },
 					marginTop: { xs: 1.5, sm: 0 },
 					justifyContent: { xs: 'center', sm: 'center' },
 				}}
 			>
-				<Calculator levelData={levelData} isLevelCreator={true} />
+				<Calculator levelData={levelData} isLevelCreator={!isLevelBeingChecked} />
 				<Box
 					sx={{
 						width: '100%',
@@ -39,22 +42,44 @@ function LevelCreator() {
 						rowSpacing={1.5}
 						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', px: '1rem' }}
 					>
-						<Grid item xs={12} sm={6}>
-							<Button
-								variant="contained"
-								color="success"
-								fullWidth
-								sx={{ minWidth: '182px' }}
-								onClick={() => setIsLevelSettingsOpen(true)}
-							>
-								Edit Level Settings
-							</Button>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<Button variant="outlined" color="success" fullWidth sx={{ minWidth: '182px' }}>
-								Upload Level
-							</Button>
-						</Grid>
+						{isLevelBeingChecked ? (
+							<Grid item xs={12}>
+								<Button
+									variant="contained"
+									color="error"
+									fullWidth
+									sx={{ minWidth: '182px' }}
+									onClick={() => setIsLevelBeingChecked(false)}
+								>
+									Return To Level Creator
+								</Button>
+							</Grid>
+						) : (
+							<>
+								<Grid item xs={12} sm={6}>
+									<Button
+										variant="contained"
+										color="success"
+										fullWidth
+										sx={{ minWidth: '182px' }}
+										onClick={() => setIsLevelSettingsOpen(true)}
+									>
+										Edit Level Settings
+									</Button>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<Button
+										variant="outlined"
+										onClick={() => setIsUploadLevelConfirmOpen(true)}
+										color="success"
+										fullWidth
+										sx={{ minWidth: '182px' }}
+									>
+										Upload Level
+									</Button>
+								</Grid>
+							</>
+						)}
 					</Grid>
 				</Box>
 			</Box>
@@ -63,7 +88,12 @@ function LevelCreator() {
 				isLevelSettingsOpen={isLevelSettingsOpen}
 				setIsLevelSettingsOpen={setIsLevelSettingsOpen}
 			/>
-      <DeleteButtonModal />
+			<DeleteButtonModal />
+			<UploadLevelModal
+				isUploadLevelConfirmOpen={isUploadLevelConfirmOpen}
+				setIsUploadLevelConfirmOpen={setIsUploadLevelConfirmOpen}
+				setIsLevelBeingChecked={setIsLevelBeingChecked}
+			/>
 		</>
 	)
 }
