@@ -6,7 +6,7 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 	const [newResult, setNewResult] = useState(null)
 	const [newMoves, setNewMoves] = useState(null)
 	const [newGoal, setNewGoal] = useState(null)
-	const { levelData, setLevelData } = useLevelCreator()
+	const { levelData, setLevelData, setDidPassLevel } = useLevelCreator()
   const [error, setError] = useState('')
 
 	useEffect(() => {
@@ -29,6 +29,7 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
     }
     
     setError('')
+    setDidPassLevel(false)
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,

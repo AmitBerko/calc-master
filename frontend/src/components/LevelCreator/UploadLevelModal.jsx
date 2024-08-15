@@ -5,11 +5,11 @@ import { useLevelCreator } from './LevelCreatorProvider'
 function UploadLevelModal({
 	isUploadLevelConfirmOpen,
 	setIsUploadLevelConfirmOpen,
-	setIsLevelBeingChecked,
 }) {
-	const { setLevelData } = useLevelCreator()
+	const { setLevelData, setIsLevelBeingChecked, setDidPassLevel } = useLevelCreator()
 
 	function handleTryLevel() {
+    setDidPassLevel(false)
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: prevLevelData.originalSettings,

@@ -1,8 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
+import { useLevelCreator } from './LevelCreatorProvider'
 
 function Calculator({ levelData, isLevelCreator = false }) {
+	const { setLevelData, isLevelBeingChecked, didPassLevel, setDidPassLevel } = useLevelCreator()
+
+	useEffect(() => {
+		const { currentSettings, originalSettings } = levelData
+		if (
+			currentSettings.result === currentSettings.goal &&
+			originalSettings.result !== currentSettings.result
+		) {
+			setDidPassLevel(true)
+		}
+	}, [levelData])
+
+	useEffect(() => {
+		if (!didPassLevel) return
+
+		setTimeout(() => {
+			setLevelData((prevLevelData) => ({
+				...prevLevelData,
+				currentSettings: { ...prevLevelData.currentSettings, result: 'SUCCESS' },
+			}))
+		}, 500)
+
+		if (isLevelBeingChecked) {
+      // Save the level in the database and maybe open a modal or something
+		}
+	}, [didPassLevel])
+
 	return (
 		<div className="calculator-container">
 			<div className="screen-container">
@@ -30,7 +58,8 @@ function Calculator({ levelData, isLevelCreator = false }) {
 								text={button.text}
 								type={button.type}
 								buttonData={button.buttonData}
-                isLevelCreator={isLevelCreator}
+								isLevelCreator={isLevelCreator}
+								didPassLevel={didPassLevel} // Disable the button if its true
 							/>
 						</Grid>
 					)
@@ -38,7 +67,12 @@ function Calculator({ levelData, isLevelCreator = false }) {
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton type={{ color: 'clear' }} text="CLEAR" index={8} />
+					<CalculatorButton
+						type={{ color: 'clear' }}
+						text="CLEAR"
+						index={8}
+						setDidPassLevel={setDidPassLevel}
+					/>
 				</Grid>
 			</Grid>
 		</div>

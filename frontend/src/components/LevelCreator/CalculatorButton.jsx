@@ -11,6 +11,8 @@ function CalculatorButton({
 	preview = false,
 	editable,
 	isLevelCreator,
+	didPassLevel,
+  setDidPassLevel,
 }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
@@ -112,6 +114,7 @@ function CalculatorButton({
 			...prevLevelData,
 			currentSettings: levelData.originalSettings,
 		}))
+    setDidPassLevel(false)
 	}
 
 	const handleInsertButton = () => {
@@ -291,6 +294,10 @@ function CalculatorButton({
 			setIsPreviewModalOpen(true)
 		}
 	}
+
+  if (didPassLevel) {
+    handleClick = () => {}
+  }
 
 	const handlePointerDown = () => {
 		buttonRef.current.classList.add('active')

@@ -9,8 +9,7 @@ import UploadLevelModal from './UploadLevelModal'
 
 function LevelCreator() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
-	const { levelData } = useLevelCreator()
-	const [isLevelBeingChecked, setIsLevelBeingChecked] = useState(false)
+	const { levelData, isLevelBeingChecked, setIsLevelBeingChecked } = useLevelCreator()
 	const [isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen] = useState(false)
 
 	return (
