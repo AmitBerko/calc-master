@@ -18,9 +18,9 @@ function LevelCreator() {
 					flexDirection: 'column',
 					alignItems: 'center',
 					width: '100%',
-					height: { xs: 'calc(100% - 1.5)', sm: '100%' },
+					height: {xs: 'calc(100% - 12px)'},
 					marginTop: { xs: 1.5, sm: 0 },
-					justifyContent: { xs: 'start', sm: 'center' },
+					justifyContent: { xs: 'center', sm: 'center' },
 				}}
 			>
 				<Calculator levelData={levelData} isLevelCreator={true} />
