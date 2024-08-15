@@ -50,7 +50,7 @@ function DeleteButtonModal() {
 						fontSize: 'min(2rem, calc(1rem + 2vw))',
 					}}
 				>
-					Delete the {deleteButtonModal.text} button?
+					Remove the "{deleteButtonModal.text}" button?
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>
