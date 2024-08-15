@@ -4,6 +4,7 @@ import authRoute from './routes/authRoute.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { authenticateToken } from './routes/authRoute.js'
+import levelsRoute from './routes/levels.js'
 import mongoose from 'mongoose'
 
 const app = express()
@@ -18,6 +19,7 @@ app.use(
 app.use(express.json())
 app.use(cookieParser())
 app.use('/auth', authRoute)
+app.use('/levels', levelsRoute)
 
 app.get('/guestRequest', async (req, res) => {
 	console.log('in the guest request')
