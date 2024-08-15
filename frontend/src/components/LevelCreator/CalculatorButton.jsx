@@ -12,7 +12,6 @@ function CalculatorButton({
 	editable,
 	isLevelCreator,
 	didPassLevel,
-  setDidPassLevel,
 }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
@@ -24,6 +23,7 @@ function CalculatorButton({
 		levelData,
 		setLevelData,
 		setDeleteButtonModal,
+    handleClearButton,
 	} = useLevelCreator()
 
 	let handleClick = null
@@ -107,14 +107,6 @@ function CalculatorButton({
 	const handleEmptyButton = () => {
 		setTargetButtonData((prevData) => ({ ...prevData, index }))
 		setIsTypesModalOpen(true)
-	}
-
-	const handleClearButton = () => {
-		setLevelData((prevLevelData) => ({
-			...prevLevelData,
-			currentSettings: levelData.originalSettings,
-		}))
-    setDidPassLevel(false)
 	}
 
 	const handleInsertButton = () => {

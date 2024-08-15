@@ -20,6 +20,15 @@ function LevelCreatorProvider({ children }) {
 	const [isLevelBeingChecked, setIsLevelBeingChecked] = useState(false)
 	const [didPassLevel, setDidPassLevel] = useState(false)
 
+	function handleClearButton() {
+    setDidPassLevel(false)
+
+		setLevelData((prevLevelData) => ({
+			...prevLevelData,
+			currentSettings: prevLevelData.originalSettings,
+		}))
+	}
+
 	return (
 		<LevelCreatorContext.Provider
 			value={{
@@ -39,6 +48,7 @@ function LevelCreatorProvider({ children }) {
 				setIsLevelBeingChecked,
 				didPassLevel,
 				setDidPassLevel,
+        handleClearButton,
 			}}
 		>
 			{children}

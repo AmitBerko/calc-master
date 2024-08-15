@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 import { useLevelCreator } from './LevelCreatorProvider'
+import api from '../../axios'
 
 function Calculator({ levelData, isLevelCreator = false }) {
 	const { setLevelData, isLevelBeingChecked, didPassLevel, setDidPassLevel } = useLevelCreator()
@@ -17,18 +18,23 @@ function Calculator({ levelData, isLevelCreator = false }) {
 	}, [levelData])
 
 	useEffect(() => {
-		if (!didPassLevel) return
+		const handlePass = async () => {
+			if (!didPassLevel) return
 
-		setTimeout(() => {
-			setLevelData((prevLevelData) => ({
-				...prevLevelData,
-				currentSettings: { ...prevLevelData.currentSettings, result: 'SUCCESS' },
-			}))
-		}, 500)
+			setTimeout(() => {
+				setLevelData((prevLevelData) => ({
+					...prevLevelData,
+					currentSettings: { ...prevLevelData.currentSettings, result: 'SUCCESS' },
+				}))
+			}, 500)
 
-		if (isLevelBeingChecked) {
-      // Save the level in the database and maybe open a modal or something
+			if (isLevelBeingChecked) {
+				// Save the level in the database and maybe open a modal or something
+				api.post('/levels', { levelData })
+			}
 		}
+
+		handlePass()
 	}, [didPassLevel])
 
 	return (
@@ -67,12 +73,7 @@ function Calculator({ levelData, isLevelCreator = false }) {
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton
-						type={{ color: 'clear' }}
-						text="CLEAR"
-						index={8}
-						setDidPassLevel={setDidPassLevel}
-					/>
+					<CalculatorButton type={{ color: 'clear' }} text="CLEAR" index={8} />
 				</Grid>
 			</Grid>
 		</div>

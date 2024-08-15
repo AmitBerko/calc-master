@@ -6,14 +6,10 @@ function UploadLevelModal({
 	isUploadLevelConfirmOpen,
 	setIsUploadLevelConfirmOpen,
 }) {
-	const { setLevelData, setIsLevelBeingChecked, setDidPassLevel } = useLevelCreator()
+	const { setLevelData, setIsLevelBeingChecked, setDidPassLevel, handleClearButton } = useLevelCreator()
 
 	function handleTryLevel() {
-    setDidPassLevel(false)
-		setLevelData((prevLevelData) => ({
-			...prevLevelData,
-			currentSettings: prevLevelData.originalSettings,
-		}))
+    handleClearButton()
 		setIsLevelBeingChecked(true)
 		setIsUploadLevelConfirmOpen(false)
 	}
