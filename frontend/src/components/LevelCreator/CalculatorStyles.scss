@@ -5,7 +5,7 @@
 
 @mixin color-button($bg-color, $text-color, $shadow-color) {
 	background-color: $bg-color;
-	box-shadow: 0px calc(var(--calculator-button-width) * 0.065 + 0.125rem) 0px 0px $shadow-color;
+	box-shadow: 0px calc(var(--calculator-button-width) * 0.065 + 0.085rem) 0px 0px $shadow-color;
 	color: $text-color;
 
 	&.active {
@@ -13,7 +13,7 @@
 	}
 }
 
-$calculator-bg: rgb(64, 66, 70);
+$calculator-bg: rgb(68, 71, 74);
 $screen-container-bg: rgb(179, 181, 168);
 $screen-bg: rgb(214, 214, 214);
 $border: rgb(36, 36, 37);
@@ -109,7 +109,7 @@ $border: rgb(36, 36, 37);
 	position: relative;
 
 	&.active {
-		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.125rem));
+		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.085rem));
 	}
 
 	.button-remover {
@@ -128,7 +128,7 @@ $border: rgb(36, 36, 37);
 }
 
 .operator-button {
-	@include color-button(rgb(216, 213, 213), rgb(35, 35, 35), rgb(130, 152, 169));
+	@include color-button(rgb(216, 213, 213), rgb(35, 35, 35), rgb(155, 167, 175));
 }
 
 .clear-button {
