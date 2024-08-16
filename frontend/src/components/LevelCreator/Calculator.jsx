@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 import { useLevelCreator } from './LevelCreatorProvider'
 import api from '../../axios'
+import LevelUploadLoadingModal from './modals/LevelUploadLoadingModal'
 
 function Calculator({ levelData, isLevelCreator = false }) {
 	const { setLevelData, isLevelBeingChecked, didPassLevel, setDidPassLevel } = useLevelCreator()
+	const [isLevelUploadLoadingOpen, setIsLevelUploadLoadingOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+	const [levelUploadResponse, setLevelUploadResponse] = useState('')
 
 	useEffect(() => {
 		const { currentSettings, originalSettings } = levelData
@@ -28,10 +32,35 @@ function Calculator({ levelData, isLevelCreator = false }) {
 				}))
 			}, 500)
 
-			if (isLevelBeingChecked) {
-				// Save the level in the database and maybe open a modal or something
-				api.post('/levels', { levelData })
-			}
+			setTimeout(async () => {
+				if (isLevelBeingChecked) {
+					try {
+						const minimumLoadTime = 750
+						setIsLoading(true)
+						setIsLevelUploadLoadingOpen(true)
+
+						const startTime = Date.now()
+						const response = await api.post('/levels', levelData)
+						const elapsedTime = Date.now() - startTime
+						const waitTime = Math.max(minimumLoadTime - elapsedTime, 0)
+
+						// Wait a minimum time of 750 so it won't look weird
+						await new Promise((resolve) => setTimeout(resolve, waitTime))
+						setLevelUploadResponse(response.data.message)
+					} catch (error) {
+						await new Promise((resolve) => setTimeout(resolve, 250))
+						let responseMessage = ''
+						if (error.response.data.error === 'Refresh token was not found') {
+							responseMessage = 'Sorry, in order to save your level you must be logged in'
+						} else {
+							responseMessage = error.response.data.error
+						}
+						setLevelUploadResponse(responseMessage)
+					} finally {
+						setIsLoading(false)
+					}
+				}
+			}, 1000)
 		}
 
 		handlePass()
@@ -76,6 +105,12 @@ function Calculator({ levelData, isLevelCreator = false }) {
 					<CalculatorButton type={{ color: 'clear' }} text="CLEAR" index={8} />
 				</Grid>
 			</Grid>
+			<LevelUploadLoadingModal
+				isOpen={isLevelUploadLoadingOpen}
+				setIsOpen={setIsLevelUploadLoadingOpen}
+				isLoading={isLoading}
+				levelUploadResponse={levelUploadResponse}
+			/>
 		</div>
 	)
 }

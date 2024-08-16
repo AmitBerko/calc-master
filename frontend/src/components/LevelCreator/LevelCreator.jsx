@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import TypesModal from './TypesModal'
+import TypesModal from './modals/TypesModal'
 import Calculator from './Calculator'
 import { Box, Button, Grid } from '@mui/material'
-import LevelSettingsModal from './LevelSettingsModal'
+import LevelSettingsModal from './modals/LevelSettingsModal'
 import { useLevelCreator } from './LevelCreatorProvider'
-import DeleteButtonModal from './DeleteButtonModal'
-import UploadLevelModal from './UploadLevelModal'
+import DeleteButtonModal from './modals/DeleteButtonModal'
+import UploadLevelConfirmModal from './modals/UploadLevelConfirmModal'
 
 function LevelCreator() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
@@ -88,7 +88,7 @@ function LevelCreator() {
 				setIsLevelSettingsOpen={setIsLevelSettingsOpen}
 			/>
 			<DeleteButtonModal />
-			<UploadLevelModal
+			<UploadLevelConfirmModal
 				isUploadLevelConfirmOpen={isUploadLevelConfirmOpen}
 				setIsUploadLevelConfirmOpen={setIsUploadLevelConfirmOpen}
 				setIsLevelBeingChecked={setIsLevelBeingChecked}
