@@ -4,7 +4,7 @@ import authRoute from './routes/authRoute.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { authenticateToken } from './routes/authRoute.js'
-import levelsRoute from './routes/levels.js'
+import levelsRoute from './routes/levelsRoute.js'
 import mongoose from 'mongoose'
 
 const app = express()
