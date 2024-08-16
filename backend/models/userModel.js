@@ -15,8 +15,11 @@ const UserSchema = new mongoose.Schema({
 		maxlength: 10,
 	},
 	hashedPassword: { type: String, required: true },
+  levels: {
+    type: [String], // Array of strings representing the ids of each level
+  }
 })
 
-const User = mongoose.model('User', UserSchema)
+const User = mongoose.models.User || mongoose.model('User', UserSchema)
 
 export default User
