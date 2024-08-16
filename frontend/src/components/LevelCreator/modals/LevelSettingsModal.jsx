@@ -1,6 +1,6 @@
 import { Modal, Box, Typography, Grid, TextField, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useLevelCreator } from './LevelCreatorProvider'
+import { useLevelCreator } from '../LevelCreatorProvider'
 
 function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 	const [newResult, setNewResult] = useState(null)

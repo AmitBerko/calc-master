@@ -1,9 +1,9 @@
 import { Modal, Box, Typography, Grid, createTheme } from '@mui/material'
 import React from 'react'
-import CalculatorButton from './CalculatorButton'
+import CalculatorButton from '../CalculatorButton'
 import { ThemeProvider } from '@emotion/react'
 import ButtonPreviewModal from './ButtonPreviewModal'
-import { useLevelCreator } from './LevelCreatorProvider'
+import { useLevelCreator } from '../LevelCreatorProvider'
 
 function TypesModal() {
 	const { isTypesModalOpen, setIsTypesModalOpen } = useLevelCreator()

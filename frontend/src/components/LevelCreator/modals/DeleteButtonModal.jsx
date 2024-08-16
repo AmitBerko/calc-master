@@ -1,6 +1,6 @@
 import { Modal, Box, Typography, Grid, Button } from '@mui/material'
 import React from 'react'
-import { useLevelCreator } from './LevelCreatorProvider'
+import { useLevelCreator } from '../LevelCreatorProvider'
 
 function DeleteButtonModal() {
 	const { deleteButtonModal, setDeleteButtonModal, setLevelData } = useLevelCreator()

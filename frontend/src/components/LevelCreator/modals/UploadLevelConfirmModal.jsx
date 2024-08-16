@@ -1,15 +1,12 @@
 import { Modal, Box, Typography, Grid, Button } from '@mui/material'
 import React from 'react'
-import { useLevelCreator } from './LevelCreatorProvider'
+import { useLevelCreator } from '../LevelCreatorProvider'
 
-function UploadLevelModal({
-	isUploadLevelConfirmOpen,
-	setIsUploadLevelConfirmOpen,
-}) {
-	const { setLevelData, setIsLevelBeingChecked, setDidPassLevel, handleClearButton } = useLevelCreator()
+function UploadLevelConfirmModal({ isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen }) {
+	const { setIsLevelBeingChecked, handleClearButton } = useLevelCreator()
 
 	function handleTryLevel() {
-    handleClearButton()
+		handleClearButton()
 		setIsLevelBeingChecked(true)
 		setIsUploadLevelConfirmOpen(false)
 	}
@@ -46,7 +43,7 @@ function UploadLevelModal({
 				</Typography>
 				<Typography sx={{ mb: '1.25rem' }} variant="subtitle1">
 					To ensure your level is beatable, you need to complete it before uploading. Your level
-					will be saved once you succeed it.
+					will be saved automatically once you succeed it.
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>
@@ -76,4 +73,4 @@ function UploadLevelModal({
 	)
 }
 
-export default UploadLevelModal
+export default UploadLevelConfirmModal
