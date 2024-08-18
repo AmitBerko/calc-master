@@ -29,11 +29,11 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
     }
     
     setError('')
-    setDidPassLevel(false)
 		setLevelData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,
 			originalSettings: newSettings,
+      didPass: false,
 		}))
 		setIsLevelSettingsOpen(false)
 	}

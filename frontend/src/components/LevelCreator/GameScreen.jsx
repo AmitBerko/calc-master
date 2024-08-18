@@ -7,9 +7,9 @@ import { useLevelCreator } from './LevelCreatorProvider'
 import DeleteButtonModal from './modals/DeleteButtonModal'
 import UploadLevelConfirmModal from './modals/UploadLevelConfirmModal'
 
-function LevelCreator() {
+function GameScreen() {
 	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
-	const { levelData, isLevelBeingChecked, setIsLevelBeingChecked } = useLevelCreator()
+	const { levelData, setLevelData, isLevelBeingChecked, setIsLevelBeingChecked } = useLevelCreator()
 	const [isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen] = useState(false)
 
 	return (
@@ -25,7 +25,11 @@ function LevelCreator() {
 					justifyContent: { xs: 'center', sm: 'center' },
 				}}
 			>
-				<Calculator levelData={levelData} isLevelCreator={!isLevelBeingChecked} />
+				<Calculator
+					levelData={levelData}
+					isLevelCreator={!isLevelBeingChecked}
+					setLevelData={setLevelData}
+				/>
 				<Box
 					sx={{
 						width: '100%',
@@ -92,9 +96,10 @@ function LevelCreator() {
 				isUploadLevelConfirmOpen={isUploadLevelConfirmOpen}
 				setIsUploadLevelConfirmOpen={setIsUploadLevelConfirmOpen}
 				setIsLevelBeingChecked={setIsLevelBeingChecked}
+				setLevelData={setLevelData}
 			/>
 		</>
 	)
 }
 
-export default LevelCreator
+export default GameScreen

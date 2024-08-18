@@ -14,9 +14,13 @@ function HomepageTest() {
 	}
 
 	async function handleAccount() {
-		const accessToken = localStorage.getItem('accessToken')
-		const response = await api.post('/auth/getUser', { accessToken })
-		console.log(response.data)
+		try {
+			const accessToken = localStorage.getItem('accessToken')
+			const response = await api.post('/auth/getUser', { accessToken })
+			console.log(response.data)
+		} catch (error) {
+      console.log(error)
+    }
 	}
 
 	async function handleLogout() {
@@ -25,7 +29,7 @@ function HomepageTest() {
 			console.log(response.data)
 			logout()
 		} catch (error) {
-      console.log(`error is`, error)
+			console.log(`error is`, error)
 		} finally {
 			navigate('/')
 		}

@@ -1,11 +1,19 @@
 import React from 'react'
 import { Box, Divider, Drawer, IconButton, List, Toolbar } from '@mui/material'
 import DrawerItem from './DrawerItem'
-import { Search, Create, Home, Info, Person, KeyboardArrowLeft } from '@mui/icons-material'
+import {
+	Search,
+	Create,
+	Home,
+	Info,
+	Person,
+	KeyboardArrowLeft,
+	LibraryBooks,
+} from '@mui/icons-material'
 
 const drawerWidth = 190
 
-function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing }) {
+function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedComponent }) {
 	const handleDrawerClose = () => {
 		setIsClosing(true)
 		setMobileOpen(false)
@@ -28,8 +36,17 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing }) {
 			<Divider />
 			<List disablePadding>
 				<DrawerItem text="Menu" icon={Home} />
-				<DrawerItem text="Tutorial" icon={Info} />
-				<DrawerItem text="Level Creator" icon={Create} />
+				<DrawerItem text="Tutorial" icon={Info} onClick={() => setSelectedComponent('tutorial')} />
+				<DrawerItem
+					text="Level Creator"
+					icon={Create}
+					onClick={() => setSelectedComponent('levelCreator')}
+				/>
+				<DrawerItem
+					text="My Levels"
+					icon={LibraryBooks}
+					onClick={() => setSelectedComponent('myLevels')}
+				/>
 				<DrawerItem text="Search Levels" icon={Search} />
 				<DrawerItem text="About Me" icon={Person} />
 			</List>

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from 'react'
 
-const LevelCreatorContext = createContext()
+const GameContext = createContext()
 
-function LevelCreatorProvider({ children }) {
+function GameProvider({ children }) {
 	const [isTypesModalOpen, setIsTypesModalOpen] = useState(false)
 	const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
 	const [targetButtonData, setTargetButtonData] = useState({ text: null, index: null })
@@ -16,21 +16,12 @@ function LevelCreatorProvider({ children }) {
 		buttons: [{}, {}, {}, {}, {}, {}, {}, {}],
 		originalSettings: { result: 0, moves: 0, goal: 0 },
 		currentSettings: { result: 0, moves: 0, goal: 0 },
+    didPass: false,
 	})
 	const [isLevelBeingChecked, setIsLevelBeingChecked] = useState(false)
-	const [didPassLevel, setDidPassLevel] = useState(false)
-
-	function handleClearButton() {
-    setDidPassLevel(false)
-
-		setLevelData((prevLevelData) => ({
-			...prevLevelData,
-			currentSettings: prevLevelData.originalSettings,
-		}))
-	}
 
 	return (
-		<LevelCreatorContext.Provider
+		<GameContext.Provider
 			value={{
 				isTypesModalOpen,
 				setIsTypesModalOpen,
@@ -46,16 +37,13 @@ function LevelCreatorProvider({ children }) {
 				setDeleteButtonModal,
 				isLevelBeingChecked,
 				setIsLevelBeingChecked,
-				didPassLevel,
-				setDidPassLevel,
-        handleClearButton,
 			}}
 		>
 			{children}
-		</LevelCreatorContext.Provider>
+		</GameContext.Provider>
 	)
 }
 
-export const useLevelCreator = () => useContext(LevelCreatorContext)
+export const useGame = () => useContext(GameContext)
 
-export default LevelCreatorProvider
+export default GameProvider

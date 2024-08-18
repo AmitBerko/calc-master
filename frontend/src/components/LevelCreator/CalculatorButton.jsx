@@ -11,7 +11,8 @@ function CalculatorButton({
 	preview = false,
 	editable,
 	isLevelCreator,
-	didPassLevel,
+	levelData,
+	setLevelData,
 }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
@@ -20,16 +21,14 @@ function CalculatorButton({
 		setIsPreviewModalOpen,
 		setTargetButtonData,
 		setNewButton,
-		levelData,
-		setLevelData,
 		setDeleteButtonModal,
-    handleClearButton,
 	} = useLevelCreator()
 
 	let handleClick = null
 	let buttonClass = null
 
 	const handleButtonsClickAndMove = (buttonFunction) => {
+		if (preview || !buttonFunction) return
 		const result = levelData.currentSettings.result
 		return () => {
 			if (levelData.currentSettings.moves === 0) {
@@ -109,6 +108,14 @@ function CalculatorButton({
 		setIsTypesModalOpen(true)
 	}
 
+	const handleClearButton = () => {
+		setLevelData((prevLevelData) => ({
+			...prevLevelData,
+			currentSettings: prevLevelData.originalSettings,
+			didPass: false,
+		}))
+	}
+
 	const handleInsertButton = () => {
 		const result = levelData.currentSettings.result
 		const newResult = parseInt(result + String(buttonData.value))
@@ -116,6 +123,7 @@ function CalculatorButton({
 	}
 
 	const handleOperatorButton = () => {
+		console.log(levelData)
 		const { operator, value } = buttonData
 		const result = levelData.currentSettings.result
 		let newResult
@@ -287,9 +295,9 @@ function CalculatorButton({
 		}
 	}
 
-  if (didPassLevel) {
-    handleClick = () => {}
-  }
+	if (!preview && levelData.didPass && type?.purpose !== 'clear') {
+		handleClick = () => {}
+	}
 
 	const handlePointerDown = () => {
 		buttonRef.current.classList.add('active')
@@ -297,7 +305,7 @@ function CalculatorButton({
 
 	const handlePointerUp = () => {
 		buttonRef.current.classList.remove('active')
-		handleClick()
+		handleClick && handleClick()
 	}
 
 	const handleButtonRemove = () => {

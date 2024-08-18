@@ -5,26 +5,30 @@ import { useLevelCreator } from './LevelCreatorProvider'
 import api from '../../axios'
 import LevelUploadLoadingModal from './modals/LevelUploadLoadingModal'
 
-function Calculator({ levelData, isLevelCreator = false }) {
-	const { setLevelData, isLevelBeingChecked, didPassLevel, setDidPassLevel } = useLevelCreator()
+function Calculator({ levelData, setLevelData, isLevelCreator = false }) {
+	const { isLevelBeingChecked, setIsLevelBeingChecked } = useLevelCreator()
 	const [isLevelUploadLoadingOpen, setIsLevelUploadLoadingOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [levelUploadResponse, setLevelUploadResponse] = useState('')
 
+  // Check if passed the level
 	useEffect(() => {
 		const { currentSettings, originalSettings } = levelData
 		if (
 			currentSettings.result === currentSettings.goal &&
-			originalSettings.result !== currentSettings.result
+			originalSettings.result !== currentSettings.result &&
+			!levelData.didPass
 		) {
-			setDidPassLevel(true)
+			setLevelData((prevLevelData) => ({ ...prevLevelData, didPass: true }))
 		}
-	}, [levelData])
+	}, [levelData.currentSettings.result])
 
+  // Handle level pass
 	useEffect(() => {
 		const handlePass = async () => {
-			if (!didPassLevel) return
+			if (!levelData.didPass || levelData.length === 0) return
 
+			// Sets the result to "SUCCESS"
 			setTimeout(() => {
 				setLevelData((prevLevelData) => ({
 					...prevLevelData,
@@ -32,6 +36,7 @@ function Calculator({ levelData, isLevelCreator = false }) {
 				}))
 			}, 500)
 
+			// Relevant only if the level is being checked before saving it
 			setTimeout(async () => {
 				if (isLevelBeingChecked) {
 					try {
@@ -58,13 +63,14 @@ function Calculator({ levelData, isLevelCreator = false }) {
 						setLevelUploadResponse(responseMessage)
 					} finally {
 						setIsLoading(false)
+            setIsLevelBeingChecked(false)
 					}
 				}
 			}, 1000)
 		}
 
 		handlePass()
-	}, [didPassLevel])
+	}, [levelData.didPass])
 
 	return (
 		<div className="calculator-container">
@@ -94,7 +100,8 @@ function Calculator({ levelData, isLevelCreator = false }) {
 								type={button.type}
 								buttonData={button.buttonData}
 								isLevelCreator={isLevelCreator}
-								didPassLevel={didPassLevel} // Disable the button if its true
+								levelData={levelData}
+								setLevelData={setLevelData}
 							/>
 						</Grid>
 					)
@@ -102,7 +109,13 @@ function Calculator({ levelData, isLevelCreator = false }) {
 
 				{/* Static button */}
 				<Grid item xs={4}>
-					<CalculatorButton type={{ color: 'clear' }} text="CLEAR" index={8} />
+					<CalculatorButton
+						type={{ color: 'clear', purpose: 'clear' }}
+						text="CLEAR"
+						index={8}
+						levelData={levelData}
+						setLevelData={setLevelData}
+					/>
 				</Grid>
 			</Grid>
 			<LevelUploadLoadingModal

@@ -55,7 +55,7 @@ function LevelUploadLoadingModal({ isOpen, setIsOpen, isLoading, levelUploadResp
 					{isLoading ? (
 						<CircularProgress thickness={5} size={50} color="secondary" />
 					) : levelUploadResponse === 'Level saved successfuly' ? (
-						'You can now play and share your level by clicking on the "My Levels" tab!'
+						'You can now play and share your level by navigating to "My Levels" tab!'
 					) : (
 						levelUploadResponse
 					)}

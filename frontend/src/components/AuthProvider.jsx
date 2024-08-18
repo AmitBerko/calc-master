@@ -43,8 +43,8 @@ function AuthProvider({ children }) {
 	}
 
 	async function updateUser(updatedValues) {
-		setUser((prevUser) => ({ ...prevUser, ...updatedValues }))
-		await api.post('/auth/updateUser', updatedValues)
+		// setUser((prevUser) => ({ ...prevUser, ...updatedValues }))
+		// await api.post('/auth/updateUser', updatedValues)
 	}
 
 	return (

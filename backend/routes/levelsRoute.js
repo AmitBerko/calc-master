@@ -25,7 +25,7 @@ router.post('/', authenticateToken, async (req, res) => {
 	}
 })
 
-router.get('/:username', async (req, res) => {
+router.get('/username/:username', async (req, res) => {
 	const { username } = req.params
 	console.log('username is', username)
 	try {
@@ -41,6 +41,16 @@ router.get('/:username', async (req, res) => {
 	} catch (error) {
 		//
 	}
+})
+
+router.get('/id/:levelId', async (req, res) => {
+	const { levelId } = req.params
+	try {
+		const level = await Level.findById(levelId)
+		res.status(200).json(level)
+	} catch (error) {
+    res.status(400).json(error)
+  }
 })
 
 export default router

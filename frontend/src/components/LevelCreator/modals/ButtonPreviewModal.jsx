@@ -23,7 +23,6 @@ function ButtonPreviewModal() {
 		newButton,
 		setNewButton,
 		setTargetButtonData,
-		// setCurrentButtons,
 		setLevelData,
 	} = useLevelCreator()
 

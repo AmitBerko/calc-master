@@ -23,6 +23,10 @@ const router = createBrowserRouter([
 		path: '/homepage',
 		element: <Homepage />,
 	},
+  // {
+  //   path: '/homepage/:levelId',
+  //   element: <Homepage />
+  // },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

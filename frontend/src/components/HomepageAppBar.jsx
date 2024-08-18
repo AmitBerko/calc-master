@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppBar, Box, Toolbar, Typography, IconButton, MenuItem, Menu } from '@mui/material'
+import { AppBar, Box, Toolbar, Typography, IconButton, MenuItem, Menu, TextField } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useNavigate } from 'react-router-dom'
@@ -56,7 +56,7 @@ function HomepageAppBar({ handleDrawerToggle }) {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Hello "{user.username}"
+						Hello "{user && user.username}"
 					</Typography>
 					<div>
 						<IconButton

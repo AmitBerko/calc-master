@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Box, Toolbar } from '@mui/material'
+import { Box } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
-import LevelCreator from '../components/LevelCreator/LevelCreator'
+import GameScreen from '../components/LevelCreator/GameScreen'
 import LevelCreatorProvider from '../components/LevelCreator/LevelCreatorProvider'
+import MyLevels from '../components/MyLevels'
 
 const drawerWidth = 190
 
@@ -26,6 +27,7 @@ function Homepage() {
 				mobileOpen={mobileOpen}
 				setMobileOpen={setMobileOpen}
 				setIsClosing={setIsClosing}
+				setSelectedComponent={setSelectedComponent}
 			/>
 
 			<Box
@@ -38,17 +40,18 @@ function Homepage() {
 						sm: 'calc(100vh - 4rem)',
 					},
 
-          // Use dvh units only if it is supported
+					// Use dvh units only if it is supported
 					'@supports (height: 100dvh)': {
 						height: { xs: 'calc(100dvh - 3.5rem)', sm: 'calc(100dvh - 4rem)' },
 					},
 				}}
 			>
-				{selectedComponent === 'levelCreator' && (
-					<LevelCreatorProvider>
-						<LevelCreator />
-					</LevelCreatorProvider>
-				)}
+				<LevelCreatorProvider>
+					{selectedComponent === 'levelCreator' && <GameScreen />}
+					{selectedComponent === 'myLevels' && <MyLevels />}
+				</LevelCreatorProvider>
+
+				{selectedComponent === 'tutorial' && <div>tutorial</div>}
 			</Box>
 		</Box>
 	)
