@@ -8,11 +8,13 @@ function SortType({ errors }) {
 
 	useEffect(() => {
 		const text = 'Sort' + (sortMode === 'Ascending' ? '>' : '<')
-		setNewButton({
-			type: { color: 'order-changer', purpose: 'sort' },
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'order-changer',
+			type: 'sort',
 			text,
 			buttonData: { sortMode },
-		})
+		}))
 	}, [sortMode])
 
 	return (

@@ -2,7 +2,7 @@ import { Modal, Box, Typography, Grid, createTheme } from '@mui/material'
 import React from 'react'
 import CalculatorButton from '../CalculatorButton'
 import { ThemeProvider } from '@emotion/react'
-import ButtonPreviewModal from './ButtonPreviewModal'
+import ButtonEditorModal from './ButtonEditorModal'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
 function TypesModal() {
@@ -19,22 +19,22 @@ function TypesModal() {
 	})
 
 	const typesPreview = [
-		{ text: 'Operator', type: { color: 'operator' }, editable: true },
-		{ text: 'Insert', type: { color: 'insert' }, editable: true },
-		{ text: 'Sort', type: { color: 'order-changer' }, editable: true },
-		{ text: 'Shift', type: { color: 'order-changer' }, editable: true },
-		{ text: 'Reverse', type: { color: 'order-changer' }, editable: false },
-		{ text: 'Sum', type: { color: 'result-changer' }, editable: false },
-		{ text: 'Transform', type: { color: 'result-changer' }, editable: true },
-		{ text: '+/-', type: { color: 'result-changer' }, editable: false },
-		{ text: 'Inv10', type: { color: 'result-changer' }, editable: false },
-		{ text: 'Delete', type: { color: 'result-changer' }, editable: false },
+		{ text: 'Operator', color: 'operator', editable: true },
+		{ text: 'Insert', color: 'insert', editable: true },
+		{ text: 'Sort', color: 'order-changer', editable: true },
+		{ text: 'Shift', color: 'order-changer', editable: true },
+		{ text: 'Reverse', color: 'order-changer', editable: false },
+		{ text: 'Sum', color: 'result-changer', editable: false },
+		{ text: 'Transform', color: 'result-changer', editable: true },
+		{ text: '+/-', color: 'result-changer', editable: false },
+		{ text: 'Inv10', color: 'result-changer', editable: false },
+		{ text: 'Delete', color: 'result-changer', editable: false },
 	]
 
 	return (
 		<ThemeProvider theme={typesModalTheme}>
 			<Modal
-        keepMounted
+				keepMounted
 				open={isTypesModalOpen}
 				onClose={() => setIsTypesModalOpen(false)}
 				aria-labelledby="modal-modal-title"
@@ -85,8 +85,8 @@ function TypesModal() {
 									sx={{ display: 'flex', justifyContent: 'center' }}
 								>
 									<CalculatorButton
-										type={buttonPreview.type}
 										text={buttonPreview.text}
+                    color={buttonPreview.color}
 										preview={true}
 										editable={buttonPreview.editable}
 									/>
@@ -96,7 +96,7 @@ function TypesModal() {
 					</Grid>
 				</Box>
 			</Modal>
-			<ButtonPreviewModal />
+			<ButtonEditorModal />
 		</ThemeProvider>
 	)
 }

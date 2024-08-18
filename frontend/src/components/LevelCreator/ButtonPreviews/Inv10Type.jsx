@@ -4,7 +4,7 @@ function Inv10Type() {
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		setNewButton({ type: { color: 'result-changer', purpose: 'inv10' }, text: 'Inv10' })
+		setNewButton(prevButton => ({ ...prevButton, color: 'result-changer', type: 'inv10', text: 'Inv10' }))
 	}, [])
 
 	return <></>

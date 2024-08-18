@@ -6,15 +6,17 @@ function OperatorType({ errors }) {
 	const [operator, setOperator] = useState('')
 	const [value, setValue] = useState('')
 
-	const { setNewButton } = useLevelCreator()
+	const { newButton, setNewButton } = useLevelCreator()
 
 	useEffect(() => {
 		const text = value > 0 ? `${operator}${parseInt(value)}` : `${operator}(${parseInt(value)})`
-		setNewButton({
-			type: { color: 'operator', purpose: 'operator' },
+		setNewButton((prevButton) => ({
+      ...prevButton,
+			color: 'operator',
+			type: 'operator',
 			text,
 			buttonData: { operator, value: parseInt(value) },
-		})
+		}))
 	}, [operator, value])
 
 	const updatedBreakpoints = {

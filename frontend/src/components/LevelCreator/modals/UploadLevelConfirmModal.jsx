@@ -3,10 +3,10 @@ import React from 'react'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
 function UploadLevelConfirmModal({ isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen }) {
-	const { setIsLevelBeingChecked, setLevelData } = useLevelCreator()
+	const { setIsLevelBeingChecked, setLevelCreatorData } = useLevelCreator()
 
 	function handleTryLevel() {
-		setLevelData((prevLevelData) => ({
+		setLevelCreatorData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: prevLevelData.originalSettings,
 			didPass: false,

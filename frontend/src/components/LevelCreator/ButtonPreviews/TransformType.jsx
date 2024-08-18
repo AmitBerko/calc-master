@@ -19,11 +19,13 @@ function TransformType({ errors }) {
 				{'  '}
 			</>
 		)
-		setNewButton({
-			type: { color: 'result-changer', purpose: 'transform' },
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'result-changer',
+			type: 'transform',
 			text,
 			buttonData: { originalValue, newValue: parseInt(newValue) },
-		})
+		}))
 	}, [originalValue, newValue])
 
 	const updatedBreakpoints = {

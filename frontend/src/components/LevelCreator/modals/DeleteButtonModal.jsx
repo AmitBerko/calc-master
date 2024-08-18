@@ -3,11 +3,11 @@ import React from 'react'
 import { useLevelCreator } from '../LevelCreatorProvider'
 
 function DeleteButtonModal() {
-	const { deleteButtonModal, setDeleteButtonModal, setLevelData } = useLevelCreator()
+	const { deleteButtonModal, setDeleteButtonModal, setLevelCreatorData } = useLevelCreator()
 
 	function deleteButton() {
 		const indexToDelete = deleteButtonModal.index
-		setLevelData((prevLevelData) => ({
+		setLevelCreatorData((prevLevelData) => ({
 			...prevLevelData,
 			buttons: prevLevelData.buttons.map((button, index) => {
 				return index === indexToDelete ? {} : button

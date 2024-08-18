@@ -6,14 +6,14 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 	const [newResult, setNewResult] = useState(null)
 	const [newMoves, setNewMoves] = useState(null)
 	const [newGoal, setNewGoal] = useState(null)
-	const { levelData, setLevelData, setDidPassLevel } = useLevelCreator()
+	const { levelCreatorData, setLevelCreatorData } = useLevelCreator()
   const [error, setError] = useState('')
 
 	useEffect(() => {
 		// Made it so when the modal mounts it will be easier to edit the current values
-		setNewResult(levelData.originalSettings.result)
-		setNewMoves(levelData.originalSettings.moves)
-		setNewGoal(levelData.originalSettings.goal)
+		setNewResult(levelCreatorData.originalSettings.result)
+		setNewMoves(levelCreatorData.originalSettings.moves)
+		setNewGoal(levelCreatorData.originalSettings.goal)
 	}, [])
 
 	function saveSettings() {
@@ -29,7 +29,7 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
     }
     
     setError('')
-		setLevelData((prevLevelData) => ({
+		setLevelCreatorData((prevLevelData) => ({
 			...prevLevelData,
 			currentSettings: newSettings,
 			originalSettings: newSettings,

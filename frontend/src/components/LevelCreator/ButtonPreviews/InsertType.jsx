@@ -7,11 +7,13 @@ function InsertType({ errors }) {
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		setNewButton({
-			type: { color: 'insert', purpose: 'insert' },
+		setNewButton(prevButton => ({
+      ...prevButton,
+			color: 'insert',
+      type: 'insert',
 			text: parseInt(value),
 			buttonData: { value: parseInt(value) },
-		})
+		}))
 	}, [value])
 
 	return (

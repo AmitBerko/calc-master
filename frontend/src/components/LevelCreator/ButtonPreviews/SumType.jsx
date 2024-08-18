@@ -5,7 +5,12 @@ function SumType() {
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		setNewButton({ type: { color: 'result-changer', purpose: 'sum' }, text: 'Sum' })
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'result-changer',
+			type: 'sum',
+			text: 'Sum',
+		}))
 	}, [])
 
 	return <></>

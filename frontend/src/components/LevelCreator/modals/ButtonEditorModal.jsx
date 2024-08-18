@@ -14,21 +14,19 @@ import Inv10Type from '../ButtonPreviews/Inv10Type'
 import DeleteType from '../ButtonPreviews/DeleteType'
 import ButtonDescription from '../ButtonDescription'
 
-function ButtonPreviewModal() {
+function ButtonEditorModal() {
 	const {
-		isPreviewModalOpen,
-		setIsPreviewModalOpen,
+		isEditorModalOpen,
+		setIsEditorModalOpen,
 		setIsTypesModalOpen,
-		targetButtonData,
 		newButton,
 		setNewButton,
-		setTargetButtonData,
-		setLevelData,
+		setLevelCreatorData,
 	} = useLevelCreator()
 
-	useEffect(() => {
-		setNewButton({})
-	}, [])
+	// useEffect(() => {
+	// 	setNewButton({})
+	// }, [])
 
 	const [errors, setErrors] = useState({})
 	const fieldRenames = {
@@ -43,7 +41,7 @@ function ButtonPreviewModal() {
 	let modalContent = null
 	let description = null
 	let example = null
-	switch (targetButtonData.text) {
+	switch (newButton.typeText) {
 		case 'Operator':
 			modalContent = <OperatorType errors={errors} />
 			description = 'Performs basic math operations on the current result.'
@@ -98,7 +96,7 @@ function ButtonPreviewModal() {
 
 	function handleCancel() {
 		setErrors({})
-		setIsPreviewModalOpen(false)
+		setIsEditorModalOpen(false)
 	}
 
 	function handleAddButton() {
@@ -111,14 +109,14 @@ function ButtonPreviewModal() {
 
 				Object.keys(newButton.buttonData).map((field) => {
 					if (!newButton.buttonData[field]) {
-						if (!(newButton.type.purpose === 'insert' && newButton.buttonData[field] === 0)) {
+						if (!(newButton.type === 'insert' && newButton.buttonData[field] === 0)) {
 							newErrors[field] = `${fieldRenames[field]} is a required field`
 							hasErrors = true
 						}
 					} else if (newButton.buttonData[field] <= 0) {
 						if (
 							!(
-								newButton.type.purpose === 'operator' &&
+								newButton.type === 'operator' &&
 								['/', 'x'].includes(newButton.buttonData.operator)
 							)
 						) {
@@ -135,20 +133,19 @@ function ButtonPreviewModal() {
 		}
 
 		if (hasErrors) return
-		setLevelData((prevLevelData) => ({
+		setLevelCreatorData((prevLevelData) => ({
 			...prevLevelData,
 			buttons: prevLevelData.buttons.map((button, index) =>
-				index === targetButtonData.index ? newButton : button
+				index === newButton.index ? newButton : button
 			),
 		}))
 		setIsTypesModalOpen(false)
-		setIsPreviewModalOpen(false)
+		setIsEditorModalOpen(false)
 		setErrors({})
-		setTargetButtonData({})
 	}
 
 	return (
-		<Modal open={isPreviewModalOpen} onClose={handleCancel}>
+		<Modal open={isEditorModalOpen} onClose={handleCancel}>
 			<Box
 				sx={{
 					position: 'absolute',
@@ -175,9 +172,9 @@ function ButtonPreviewModal() {
 						fontSize: 'min(2rem, calc(1.15rem + 2vw))',
 					}}
 				>
-					{targetButtonData.editable
-						? `Create your own ${targetButtonData.text} button:`
-						: `The ${targetButtonData.text} button:`}
+					{newButton.editable
+						? `Create your own ${newButton.typeText} button:`
+						: `The ${newButton.typeText} button:`}
 				</Typography>
 				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
 				<ButtonDescription description={description} example={example} />
@@ -207,4 +204,4 @@ function ButtonPreviewModal() {
 	)
 }
 
-export default ButtonPreviewModal
+export default ButtonEditorModal

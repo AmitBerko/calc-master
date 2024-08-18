@@ -4,13 +4,16 @@ import { useLevelCreator } from '../LevelCreatorProvider'
 function ReverseType() {
 	const { setNewButton } = useLevelCreator()
 
-  useEffect(() => {
-    setNewButton({ type: { color: 'order-changer', purpose: 'reverse' }, text: 'Reverse' })
-  }, [])
+	useEffect(() => {
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'order-changer',
+			type: 'reverse',
+			text: 'Reverse',
+		}))
+	}, [])
 
-  return (
-    <></>
-  )
+	return <></>
 }
 
 export default ReverseType

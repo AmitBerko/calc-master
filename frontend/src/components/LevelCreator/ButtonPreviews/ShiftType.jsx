@@ -8,11 +8,13 @@ function ShiftType({ errors }) {
 
 	useEffect(() => {
 		const text = 'Shift' + (shiftDirection === 'Left' ? '<' : '>')
-		setNewButton({
-			type: { color: 'order-changer', purpose: 'shift' },
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'order-changer',
+			type: 'shift',
 			text,
 			buttonData: { shiftDirection },
-		})
+		}))
 	}, [shiftDirection])
 
 	return (

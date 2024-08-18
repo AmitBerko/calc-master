@@ -7,6 +7,7 @@ function CalculatorButton({
 	text,
 	index,
 	type,
+  color,
 	buttonData,
 	preview = false,
 	editable,
@@ -18,8 +19,7 @@ function CalculatorButton({
 	const textRef = useRef(null)
 	const {
 		setIsTypesModalOpen,
-		setIsPreviewModalOpen,
-		setTargetButtonData,
+		setIsEditorModalOpen,
 		setNewButton,
 		setDeleteButtonModal,
 	} = useLevelCreator()
@@ -54,7 +54,7 @@ function CalculatorButton({
 	}
 
 	const setButtonSettings = () => {
-		switch (type && type.color) {
+		switch (color) {
 			case 'clear':
 				buttonClass = 'clear-button'
 				handleClick = handleClearButton
@@ -65,25 +65,25 @@ function CalculatorButton({
 				break
 			case 'result-changer':
 				buttonClass = 'result-changer-button'
-				if (type.purpose === 'sum') {
+				if (type === 'sum') {
 					handleClick = handleSumButton
-				} else if (type.purpose === 'transform') {
+				} else if (type === 'transform') {
 					handleClick = () => handleTransformButton(buttonData.originalValue, buttonData.newValue)
-				} else if (type.purpose === 'plusMinus') {
+				} else if (type === 'plusMinus') {
 					handleClick = handlePlusMinusButton
-				} else if (type.purpose === 'inv10') {
+				} else if (type === 'inv10') {
 					handleClick = handleInv10Button
-				} else if (type.purpose === 'delete') {
+				} else if (type === 'delete') {
 					handleClick = handleDeleteButton
 				}
 				break
 			case 'order-changer':
 				buttonClass = 'order-changer-button'
-				if (type.purpose === 'sort') {
+				if (type === 'sort') {
 					handleClick = () => handleSortButton(buttonData.sortMode)
-				} else if (type.purpose === 'shift') {
+				} else if (type === 'shift') {
 					handleClick = () => handleShiftButton(buttonData.shiftDirection)
-				} else if (type.purpose === 'reverse') {
+				} else if (type === 'reverse') {
 					handleClick = handleReverseButton
 				}
 
@@ -104,7 +104,7 @@ function CalculatorButton({
 	}
 
 	const handleEmptyButton = () => {
-		setTargetButtonData((prevData) => ({ ...prevData, index }))
+		setNewButton((prevData) => ({ ...prevData, index }))
 		setIsTypesModalOpen(true)
 	}
 
@@ -123,7 +123,6 @@ function CalculatorButton({
 	}
 
 	const handleOperatorButton = () => {
-		console.log(levelData)
 		const { operator, value } = buttonData
 		const result = levelData.currentSettings.result
 		let newResult
@@ -289,13 +288,12 @@ function CalculatorButton({
 
 	if (preview) {
 		handleClick = () => {
-			setTargetButtonData((prevData) => ({ ...prevData, text, editable }))
-			setNewButton({})
-			setIsPreviewModalOpen(true)
+			setNewButton((prev) => ({...prev, typeText: text, type, editable }))
+			setIsEditorModalOpen(true)
 		}
 	}
 
-	if (!preview && levelData.didPass && type?.purpose !== 'clear') {
+	if (!preview && levelData.didPass && type !== 'clear') {
 		handleClick = () => {}
 	}
 

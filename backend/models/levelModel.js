@@ -2,10 +2,8 @@ import mongoose from 'mongoose'
 
 const ButtonSchema = new mongoose.Schema({
 	text: { type: String },
-	type: {
-		color: { type: String },
-		purpose: { type: String },
-	},
+  color: { type: String },
+  type: { type: String },
 	buttonData: { type: mongoose.Schema.Types.Mixed },
 })
 

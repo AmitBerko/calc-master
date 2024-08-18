@@ -5,7 +5,12 @@ function DeleteType() {
 	const { setNewButton } = useLevelCreator()
 
 	useEffect(() => {
-		setNewButton({ type: { color: 'result-changer', purpose: 'delete' }, text: 'Delete' })
+		setNewButton((prevButton) => ({
+			...prevButton,
+			color: 'result-changer',
+			type: 'delete',
+			text: 'Delete',
+		}))
 	}, [])
 
 	return <></>

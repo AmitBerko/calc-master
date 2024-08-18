@@ -5,6 +5,7 @@ import HomepageAppBar from '../components/HomepageAppBar'
 import GameScreen from '../components/LevelCreator/GameScreen'
 import LevelCreatorProvider from '../components/LevelCreator/LevelCreatorProvider'
 import MyLevels from '../components/MyLevels'
+import LevelCreator from '../components/LevelCreator/LevelCreator'
 
 const drawerWidth = 190
 

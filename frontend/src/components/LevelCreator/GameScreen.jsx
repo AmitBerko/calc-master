@@ -6,11 +6,47 @@ import LevelSettingsModal from './modals/LevelSettingsModal'
 import { useLevelCreator } from './LevelCreatorProvider'
 import DeleteButtonModal from './modals/DeleteButtonModal'
 import UploadLevelConfirmModal from './modals/UploadLevelConfirmModal'
+import LevelCreator from './LevelCreator'
 
-function GameScreen() {
-	const [isLevelSettingsOpen, setIsLevelSettingsOpen] = useState(false)
-	const { levelData, setLevelData, isLevelBeingChecked, setIsLevelBeingChecked } = useLevelCreator()
-	const [isUploadLevelConfirmOpen, setIsUploadLevelConfirmOpen] = useState(false)
+function GameScreen({ levelId }) {
+	// const [levelData, setLevelData] = useState({
+	// 	_id: '66c2509112c64758ae736c8b',
+	// 	buttons: [
+	// 		{
+	// 			text: '3',
+	// 			color: 'insert',
+	// 			type: 'insert',
+	// 			buttonData: { value: 3 },
+	// 			_id: '66c2509112c64758ae736c8c',
+	// 		},
+	// 		{
+	// 			text: 'Inv10',
+	// 			color: 'result-changer',
+	// 			type: 'inv10',
+	// 			buttonData: { operator: '+', value: 5 },
+	// 			_id: '66c2509112c64758ae736c8d',
+	// 		},
+	// 		{ _id: '66c2509112c64758ae736c8e' },
+	// 		{ _id: '66c2509112c64758ae736c8f' },
+	// 		{ _id: '66c2509112c64758ae736c90' },
+	// 		{ _id: '66c2509112c64758ae736c91' },
+	// 		{ _id: '66c2509112c64758ae736c92' },
+	// 		{ _id: '66c2509112c64758ae736c93' },
+	// 	],
+	// 	originalSettings: {
+	// 		result: 4,
+	// 		goal: 63,
+	// 		moves: 3,
+	// 		_id: '66c2509112c64758ae736c94',
+	// 	},
+	// 	currentSettings: {
+	// 		result: 4,
+	// 		goal: 63,
+	// 		moves: 3,
+	// 		_id: '66c2509112c64758ae736c95',
+	// 	},
+	// 	__v: 0,
+	// })
 
 	return (
 		<>
@@ -25,79 +61,9 @@ function GameScreen() {
 					justifyContent: { xs: 'center', sm: 'center' },
 				}}
 			>
-				<Calculator
-					levelData={levelData}
-					isLevelCreator={!isLevelBeingChecked}
-					setLevelData={setLevelData}
-				/>
-				<Box
-					sx={{
-						width: '100%',
-						maxWidth: '450px',
-						display: 'flex',
-						justifyContent: 'center',
-						mt: { xs: 1.5, sm: 2.5, md: 3 },
-					}}
-				>
-					<Grid
-						container
-						columnSpacing={3}
-						rowSpacing={1.5}
-						sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', px: '1rem' }}
-					>
-						{isLevelBeingChecked ? (
-							<Grid item xs={12}>
-								<Button
-									variant="contained"
-									color="error"
-									fullWidth
-									sx={{ minWidth: '182px' }}
-									onClick={() => setIsLevelBeingChecked(false)}
-								>
-									Return To Level Creator
-								</Button>
-							</Grid>
-						) : (
-							<>
-								<Grid item xs={12} sm={6}>
-									<Button
-										variant="contained"
-										color="success"
-										fullWidth
-										sx={{ minWidth: '182px' }}
-										onClick={() => setIsLevelSettingsOpen(true)}
-									>
-										Edit Level Settings
-									</Button>
-								</Grid>
-								<Grid item xs={12} sm={6}>
-									<Button
-										variant="outlined"
-										onClick={() => setIsUploadLevelConfirmOpen(true)}
-										color="success"
-										fullWidth
-										sx={{ minWidth: '182px' }}
-									>
-										Upload Level
-									</Button>
-								</Grid>
-							</>
-						)}
-					</Grid>
-				</Box>
+				<LevelCreator />
+				{/* <Calculator levelData={levelData} setLevelData={setLevelData} /> */}
 			</Box>
-			<TypesModal />
-			<LevelSettingsModal
-				isLevelSettingsOpen={isLevelSettingsOpen}
-				setIsLevelSettingsOpen={setIsLevelSettingsOpen}
-			/>
-			<DeleteButtonModal />
-			<UploadLevelConfirmModal
-				isUploadLevelConfirmOpen={isUploadLevelConfirmOpen}
-				setIsUploadLevelConfirmOpen={setIsUploadLevelConfirmOpen}
-				setIsLevelBeingChecked={setIsLevelBeingChecked}
-				setLevelData={setLevelData}
-			/>
 		</>
 	)
 }
