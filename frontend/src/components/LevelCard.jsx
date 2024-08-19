@@ -7,7 +7,6 @@ function LevelCard({ onPlay, index, id, levelData }) {
 	function handlePlayLevel() {
 		console.log(levelData)
 		onPlay()
-		// navigate(`/homepage/${id}`, { state: { levelData } })
 	}
 
 	return (

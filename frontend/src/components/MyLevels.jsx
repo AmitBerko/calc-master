@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import api from '../axios'
 import { useAuth } from './AuthProvider'
 import LevelCard from './LevelCard'
-import Calculator from './LevelCreator/Calculator'
+import PlayLevel from './LevelCreator/PlayLevel'
+import { useNavigate } from 'react-router-dom'
 
 function MyLevels() {
 	const [levels, setLevels] = useState(null)
 	const [selectedLevel, setSelectedLevel] = useState(null)
 	const { user } = useAuth()
+
+  const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchLevels = async () => {
@@ -22,23 +25,36 @@ function MyLevels() {
 		fetchLevels()
 	}, [])
 
+  function handleLevelSelect(levelId) {
+    navigate(`/play/${levelId}`)
+  }
+
 	if (!levels) {
-		return <div>Loading...</div> // Or some other loading indicator
+		return <div>Loading...</div>
 	}
 
 	return (
-		<div>
-			{!selectedLevel && levels.map((level, index) => (
-				<LevelCard
-					levelData={level}
-					index={index}
-					id={level._id}
-					key={level._id}
-					onPlay={() => setSelectedLevel(level)} // Set the selected level
-				/>
-			))}
-			{selectedLevel && <Calculator levelData={selectedLevel} setLevelData={setSelectedLevel} />}
-		</div>
+		<>
+			{selectedLevel && (
+				<button
+					style={{ position: 'absolute', marginTop: '2rem', marginLeft: '2rem' }}
+					onClick={() => setSelectedLevel(null)}
+				>
+					back to levels
+				</button>
+			)}
+			{!selectedLevel &&
+				levels.map((level, index) => (
+					<LevelCard
+						levelData={level}
+						index={index}
+						id={level._id}
+						key={level._id}
+						onPlay={() => handleLevelSelect(level._id)} // Set the selected level
+					/>
+				))}
+			{selectedLevel && <PlayLevel levelData={selectedLevel} setLevelData={setSelectedLevel} />}
+		</>
 	)
 }
 

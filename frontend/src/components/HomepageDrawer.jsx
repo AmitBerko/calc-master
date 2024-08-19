@@ -10,10 +10,12 @@ import {
 	KeyboardArrowLeft,
 	LibraryBooks,
 } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 const drawerWidth = 190
 
 function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedComponent }) {
+  const navigate = useNavigate()
 	const handleDrawerClose = () => {
 		setIsClosing(true)
 		setMobileOpen(false)
@@ -34,7 +36,7 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedCo
 				</IconButton>
 			</Toolbar>
 			<Divider />
-			<List disablePadding>
+			<List disablePadding onClick={() => navigate('/homepage')}>
 				<DrawerItem text="Menu" icon={Home} />
 				<DrawerItem text="Tutorial" icon={Info} onClick={() => setSelectedComponent('tutorial')} />
 				<DrawerItem

@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
-import GameScreen from '../components/LevelCreator/GameScreen'
+import PlayLevel from '../components/LevelCreator/PlayLevel'
 import LevelCreatorProvider from '../components/LevelCreator/LevelCreatorProvider'
 import MyLevels from '../components/MyLevels'
+import { useNavigate, useParams } from 'react-router-dom'
 import LevelCreator from '../components/LevelCreator/LevelCreator'
 
 const drawerWidth = 190
 
 function Homepage() {
+	const { levelId } = useParams()
 	const [mobileOpen, setMobileOpen] = useState(false)
 	const [isClosing, setIsClosing] = useState(false)
-	const [selectedComponent, setSelectedComponent] = useState('levelCreator')
+	const [selectedComponent, setSelectedComponent] = useState('menu')
 
 	const handleDrawerToggle = () => {
 		if (!isClosing) {
@@ -47,12 +49,28 @@ function Homepage() {
 					},
 				}}
 			>
-				<LevelCreatorProvider>
-					{selectedComponent === 'levelCreator' && <GameScreen />}
-					{selectedComponent === 'myLevels' && <MyLevels />}
-				</LevelCreatorProvider>
-
-				{selectedComponent === 'tutorial' && <div>tutorial</div>}
+				{levelId ? (
+					<PlayLevel levelId={levelId} />
+				) : (
+					<>
+						{selectedComponent === 'levelCreator' && (
+							<Box
+								sx={{
+									display: 'flex',
+									height: '100%',
+									flexDirection: 'column',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<LevelCreator />
+							</Box>
+						)}
+						{selectedComponent === 'myLevels' && <MyLevels />}
+						{selectedComponent === 'menu' && <div>menu</div>}
+						{selectedComponent === 'tutorial' && <div>tutorial</div>}
+					</>
+				)}
 			</Box>
 		</Box>
 	)

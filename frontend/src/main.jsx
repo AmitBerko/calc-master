@@ -9,6 +9,8 @@ import HomepageTest from './pages/HomepageTest.jsx'
 import AuthProvider from './components/AuthProvider.jsx'
 import GuestsOnlyRoute from './components/GuestsOnlyRoute.jsx'
 import Homepage from './pages/Homepage.jsx'
+import PlayLevel from './components/LevelCreator/PlayLevel.jsx'
+import LevelCreatorProvider from './components/LevelCreator/LevelCreatorProvider.jsx'
 
 const router = createBrowserRouter([
 	{
@@ -23,10 +25,10 @@ const router = createBrowserRouter([
 		path: '/homepage',
 		element: <Homepage />,
 	},
-  // {
-  //   path: '/homepage/:levelId',
-  //   element: <Homepage />
-  // },
+	{
+		path: '/play/:levelId',
+		element: <Homepage />,
+	},
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -34,7 +36,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<AuthProvider>
-				<RouterProvider router={router} />
+				<LevelCreatorProvider>
+					<RouterProvider router={router} />
+				</LevelCreatorProvider>
 			</AuthProvider>
 		</ThemeProvider>
 	</React.StrictMode>
