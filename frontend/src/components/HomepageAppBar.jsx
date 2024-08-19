@@ -45,7 +45,7 @@ function HomepageAppBar({ handleDrawerToggle }) {
 					backgroundColor: 'rgb(40, 140, 190)',
 				}}
 			>
-				<Toolbar>
+				<Toolbar sx={{color: 'white'}}>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
