@@ -1,55 +1,43 @@
-import React, { useState } from 'react'
-import TypesModal from './modals/TypesModal'
+import React, { useEffect, useRef, useState } from 'react'
 import Calculator from './Calculator'
-import { Box, Button, Grid } from '@mui/material'
-import LevelSettingsModal from './modals/LevelSettingsModal'
-import { useLevelCreator } from './LevelCreatorProvider'
-import DeleteButtonModal from './modals/DeleteButtonModal'
-import UploadLevelConfirmModal from './modals/UploadLevelConfirmModal'
-import LevelCreator from './LevelCreator'
+import { Box } from '@mui/material'
+import api from '../../axios'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 function PlayLevel({ levelId }) {
-	const [levelData, setLevelData] = useState({
-		_id: '66c2509112c64758ae736c8b',
-		buttons: [
-			{
-				text: '3',
-				color: 'insert',
-				type: 'insert',
-				buttonData: { value: 3 },
-				_id: '66c2509112c64758ae736c8c',
-			},
-			{
-				text: 'Inv10',
-				color: 'result-changer',
-				type: 'inv10',
-				buttonData: { operator: '+', value: 5 },
-				_id: '66c2509112c64758ae736c8d',
-			},
-			{ _id: '66c2509112c64758ae736c8e' },
-			{ _id: '66c2509112c64758ae736c8f' },
-			{ _id: '66c2509112c64758ae736c90' },
-			{ _id: '66c2509112c64758ae736c91' },
-			{ _id: '66c2509112c64758ae736c92' },
-			{ _id: '66c2509112c64758ae736c93' },
-		],
-		originalSettings: {
-			result: 4,
-			goal: 63,
-			moves: 3,
-			_id: '66c2509112c64758ae736c94',
-		},
-		currentSettings: {
-			result: 4,
-			goal: 63,
-			moves: 3,
-			_id: '66c2509112c64758ae736c95',
-		},
-		__v: 0,
-	})
+  const navigate = useNavigate()
+	const location = useLocation()
+	const selectedLevelData = location.state?.selectedLevelData
+	const [levelData, setLevelData] = useState(selectedLevelData || null)
+	const initialized = useRef(false)
+
+	useEffect(() => {
+		const getLevelData = async () => {
+			try {
+				initialized.current = true
+				const response = await api.get(`/levels/id/${levelId}`)
+				console.log(response.data)
+				setLevelData(response.data)
+			} catch (error) {
+				console.log('Error loading level data: ', error)
+			}
+		}
+
+    // If levelData already exists, don't fetch it again
+		if (initialized.current || levelData) return
+		getLevelData()
+	}, [])
+
+	if (!levelData) return <div>loading level</div>
 
 	return (
 		<>
+			<button
+				style={{ position: 'absolute', marginTop: '2rem', marginLeft: '2rem' }}
+				onClick={() => navigate('/homepage')}
+			>
+				back to levels
+			</button>
 			<Box
 				sx={{
 					display: 'flex',

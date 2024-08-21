@@ -1,59 +1,65 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import api from '../axios'
 import { useAuth } from './AuthProvider'
 import LevelCard from './LevelCard'
-import PlayLevel from './LevelCreator/PlayLevel'
 import { useNavigate } from 'react-router-dom'
 
 function MyLevels() {
-	const [levels, setLevels] = useState(null)
-	const [selectedLevel, setSelectedLevel] = useState(null)
+	const [levels, setLevels] = useState([])
+	const [areLevelsLoading, setAreLevelsLoading] = useState(false)
+	const initialized = useRef(false)
 	const { user } = useAuth()
 
-  const navigate = useNavigate()
+	if (!user) {
+		return <div>Must be logged in</div>
+	}
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchLevels = async () => {
 			try {
+				setAreLevelsLoading(true)
+				initialized.current = true
 				const response = await api.get(`/levels/username/${user.username}`)
 				setLevels(response.data)
 			} catch (error) {
 				console.log(`error is`, error)
+			} finally {
+				setAreLevelsLoading(false)
 			}
 		}
 
+		// Make sure it only sends 1 request
+		if (initialized.current) return
 		fetchLevels()
-	}, [])
+	}, [user.username])
 
-  function handleLevelSelect(levelId) {
-    navigate(`/play/${levelId}`)
-  }
+	function handleLevelSelect(levelId, levelData) {
+		// Navigate to the shareable level link, and send the levelData
+		navigate(`/play/${levelId}`, { state: { selectedLevelData: levelData } })
+	}
 
-	if (!levels) {
-		return <div>Loading...</div>
+	if (areLevelsLoading) {
+		return <div style={{ margin: '3rem' }}>Loading...</div>
+	}
+
+  // If no levels are found
+	if (levels.length === 0 && !areLevelsLoading && initialized.current) {
+		return <div>You dont have any levels</div>
 	}
 
 	return (
 		<>
-			{selectedLevel && (
-				<button
-					style={{ position: 'absolute', marginTop: '2rem', marginLeft: '2rem' }}
-					onClick={() => setSelectedLevel(null)}
-				>
-					back to levels
-				</button>
-			)}
-			{!selectedLevel &&
-				levels.map((level, index) => (
-					<LevelCard
-						levelData={level}
-						index={index}
-						id={level._id}
-						key={level._id}
-						onPlay={() => handleLevelSelect(level._id)} // Set the selected level
-					/>
-				))}
-			{selectedLevel && <PlayLevel levelData={selectedLevel} setLevelData={setSelectedLevel} />}
+			{levels.map((level, index) => (
+				<LevelCard
+					levelData={level}
+					index={index}
+					id={level._id}
+					key={level._id}
+					onPlay={() => handleLevelSelect(level._id, level)}
+				/>
+			))}
 		</>
 	)
 }

@@ -49,6 +49,8 @@ function Homepage() {
 					},
 				}}
 			>
+
+        {/* If levelId exists, render the PlayLevel component */}
 				{levelId ? (
 					<PlayLevel levelId={levelId} />
 				) : (
