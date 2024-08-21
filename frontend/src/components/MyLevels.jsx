@@ -41,7 +41,7 @@ function MyLevels() {
 	}
 
 	if (areLevelsLoading) {
-		return <div style={{ margin: '3rem' }}>Loading...</div>
+		return <div>Loading...</div>
 	}
 
   // If no levels are found
