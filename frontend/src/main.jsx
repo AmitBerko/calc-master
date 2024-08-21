@@ -5,11 +5,9 @@ import AuthForm from './pages/AuthForm/AuthForm.jsx'
 import theme from './themes/theme.jsx'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomepageTest from './pages/HomepageTest.jsx'
 import AuthProvider from './components/AuthProvider.jsx'
 import GuestsOnlyRoute from './components/GuestsOnlyRoute.jsx'
 import Homepage from './pages/Homepage.jsx'
-import PlayLevel from './components/LevelCreator/PlayLevel.jsx'
 import LevelCreatorProvider from './components/LevelCreator/LevelCreatorProvider.jsx'
 
 const router = createBrowserRouter([
