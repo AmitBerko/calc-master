@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const ButtonSchema = new mongoose.Schema({
-	text: { type: String },
+	text: { type: mongoose.Schema.Types.Mixed },
   color: { type: String },
   type: { type: String },
 	buttonData: { type: mongoose.Schema.Types.Mixed },
