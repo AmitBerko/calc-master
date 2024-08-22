@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
 import PlayLevel from '../components/LevelCreator/PlayLevel'
-import LevelCreatorProvider from '../components/LevelCreator/LevelCreatorProvider'
 import MyLevels from '../components/MyLevels'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import LevelCreator from '../components/LevelCreator/LevelCreator'
+import Menu from '../components/Menu'
 
 const drawerWidth = 190
 
@@ -49,8 +49,7 @@ function Homepage() {
 					},
 				}}
 			>
-
-        {/* If levelId exists, render the PlayLevel component */}
+				{/* If levelId exists, render the PlayLevel component */}
 				{levelId ? (
 					<PlayLevel levelId={levelId} />
 				) : (
@@ -69,7 +68,7 @@ function Homepage() {
 							</Box>
 						)}
 						{selectedComponent === 'myLevels' && <MyLevels />}
-						{selectedComponent === 'menu' && <div>menu</div>}
+						{selectedComponent === 'menu' && <Menu setSelectedComponent={setSelectedComponent} />}
 						{selectedComponent === 'tutorial' && <div>tutorial</div>}
 					</>
 				)}
