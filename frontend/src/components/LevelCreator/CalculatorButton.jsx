@@ -7,7 +7,7 @@ function CalculatorButton({
 	text,
 	index,
 	type,
-  color,
+	color,
 	buttonData,
 	preview = false,
 	editable,
@@ -17,12 +17,8 @@ function CalculatorButton({
 }) {
 	const buttonRef = useRef(null)
 	const textRef = useRef(null)
-	const {
-		setIsTypesModalOpen,
-		setIsEditorModalOpen,
-		setNewButton,
-		setDeleteButtonModal,
-	} = useLevelCreator()
+	const { setIsTypesModalOpen, setIsEditorModalOpen, setNewButton, setDeleteButtonModal } =
+		useLevelCreator()
 
 	let handleClick = null
 	let buttonClass = null
@@ -245,7 +241,7 @@ function CalculatorButton({
 			midFontSize = Math.floor((minFontSize + maxFontSize) / 2)
 			textElement.style.fontSize = `${midFontSize}px`
 			if (transformIcon) {
-				transformIcon.style.fontSize = `${midFontSize}px`
+				transformIcon.style.fontSize = `${midFontSize * 0.75}px`
 			}
 			// Check how good the mid font size is
 			fitsWidth = textElement.offsetWidth <= buttonWidth * (0.45 + Math.min(0.5, letters * 0.05))
@@ -288,7 +284,7 @@ function CalculatorButton({
 
 	if (preview) {
 		handleClick = () => {
-			setNewButton((prev) => ({...prev, typeText: text, type, editable }))
+			setNewButton((prev) => ({ ...prev, typeText: text, type, editable }))
 			setIsEditorModalOpen(true)
 		}
 	}
@@ -333,7 +329,15 @@ function CalculatorButton({
 					ref={textRef}
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
 				>
-					{text}
+					{type === 'transform' ? (
+						<>
+            {/* Just to make the arrow a little smaller */}
+							{text.slice(0, text.indexOf('➜'))} <span className="transform-arrow">➜</span>
+							{text.slice(text.indexOf('➜') + 1)}
+						</>
+					) : (
+						text
+					)}
 				</span>
 
 				{/* Show it if it's levelcreator and a non-empty button */}

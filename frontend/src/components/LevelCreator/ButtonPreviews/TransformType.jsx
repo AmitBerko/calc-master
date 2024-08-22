@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MenuItem, TextField, Grid, createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
+import { TextField, Grid, createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
 import { useLevelCreator } from '../LevelCreatorProvider'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import { useTheme } from '@emotion/react'
@@ -11,14 +11,8 @@ function TransformType({ errors }) {
 	const { setNewButton } = useLevelCreator()
 	const baseTheme = useTheme()
 	useEffect(() => {
-		const text = (
-			<>
-				{originalValue}
-				<ArrowRightAltIcon className="transform-arrow" />
-				{newValue}
-				{'  '}
-			</>
-		)
+		const text = `${originalValue}➜${newValue}`
+
 		setNewButton((prevButton) => ({
 			...prevButton,
 			color: 'result-changer',
