@@ -37,7 +37,7 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedCo
 			</Toolbar>
 			<Divider />
 			<List disablePadding onClick={() => navigate('/homepage')}>
-				<DrawerItem text="Menu" icon={Home} />
+				<DrawerItem text="Menu" icon={Home} onClick={() => setSelectedComponent('menu')} />
 				<DrawerItem text="Tutorial" icon={Info} onClick={() => setSelectedComponent('tutorial')} />
 				<DrawerItem
 					text="Level Creator"
