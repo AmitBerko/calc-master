@@ -8,6 +8,7 @@ import UploadLevelConfirmModal from './modals/UploadLevelConfirmModal'
 import LevelUploadLoadingModal from './modals/LevelUploadLoadingModal'
 import { useLevelCreator } from './LevelCreatorProvider'
 import api from '../../axios'
+import { useAuth } from '../AuthProvider'
 
 function LevelCreator() {
 	const { levelCreatorData, setLevelCreatorData, isLevelBeingChecked, setIsLevelBeingChecked } =
@@ -17,6 +18,7 @@ function LevelCreator() {
 	const [isLevelUploadModalOpen, setIsLevelUploadModalOpen] = useState(false)
 	const [isLevelUploadLoading, setIsLevelUploadLoading] = useState(false)
 	const [levelUploadResponse, setLevelUploadResponse] = useState('')
+	const { user } = useAuth()
 
 	useEffect(() => {
 		const handlePass = async () => {
@@ -39,7 +41,13 @@ function LevelCreator() {
 						setIsLevelUploadModalOpen(true)
 
 						const startTime = Date.now()
-						const response = await api.post('/levels', levelCreatorData)
+
+						// Only sending the needed fields
+						const response = await api.post('/levels', {
+							buttons: levelCreatorData.buttons,
+							originalSettings: levelCreatorData.originalSettings,
+							creatorName: user.username,
+						})
 						const elapsedTime = Date.now() - startTime
 						const waitTime = Math.max(minimumLoadTime - elapsedTime, 0)
 
@@ -129,7 +137,7 @@ function LevelCreator() {
 				</Grid>
 			</Box>
 
-			<TypesModal  />
+			<TypesModal />
 			<LevelSettingsModal
 				isLevelSettingsOpen={isLevelSettingsOpen}
 				setIsLevelSettingsOpen={setIsLevelSettingsOpen}
