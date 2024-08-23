@@ -32,7 +32,7 @@ router.get('/me', authenticateToken, async (req, res) => {
 		const levelIds = req.user.levels
 
 		if (!levelIds) {
-			return res.status(404).json({ message: "Levels were not found" })
+			return res.status(404).json({ message: 'Levels were not found' })
 		}
 
 		const levels = await Level.find({ _id: { $in: levelIds } })
@@ -46,13 +46,15 @@ router.get('/me', authenticateToken, async (req, res) => {
 router.get('/searchUsername/:username', async (req, res) => {
 	const { username } = req.params
 	try {
-		const user = await User.findOne({ username: { $regex: username, $options: 'i' } })
-		if (!user) {
-			return res.status(404).json({ message: "Levels were not found" })
+		const users = await User.find({ username: { $regex: username, $options: 'i' } })
+		if (!users) {
+			return res.status(404).json({ message: 'Levels were not found' })
 		}
 
-		const levels = await Level.find({ _id: { $in: user.levels } })
-		res.status(200).json(levels)
+		const levels = await Promise.all(
+			users.map((user) => Level.find({ _id: { $in: user.levels } }))
+		)
+		res.status(200).json(levels.flat())
 	} catch (error) {
 		res.status(500).json({ message: `Server error: ${error.message}` })
 	}
