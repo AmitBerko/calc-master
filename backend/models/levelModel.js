@@ -2,8 +2,8 @@ import mongoose from 'mongoose'
 
 const ButtonSchema = new mongoose.Schema({
 	text: { type: mongoose.Schema.Types.Mixed },
-  color: { type: String },
-  type: { type: String },
+	color: { type: String },
+	type: { type: String },
 	buttonData: { type: mongoose.Schema.Types.Mixed },
 })
 
@@ -13,15 +13,19 @@ const SettingsSchema = new mongoose.Schema({
 	moves: { type: Number, required: true },
 })
 
-const LevelSchema = new mongoose.Schema({
-	buttons: {
-		type: [ButtonSchema],
-		required: true,
-		validate: [(value) => value.length === 8, 'Buttons array must have length equal to 8.'],
+const LevelSchema = new mongoose.Schema(
+	{
+		buttons: {
+			type: [ButtonSchema],
+			required: true,
+			validate: [(value) => value.length === 8, 'Buttons array must have length equal to 8.'],
+		},
+		originalSettings: { type: SettingsSchema, required: true },
+		currentSettings: { type: SettingsSchema, required: true },
+		creatorName: { type: String, required: true },
 	},
-	originalSettings: { type: SettingsSchema, required: true },
-	currentSettings: { type: SettingsSchema, required: true },
-})
+	{ timestamps: true }
+)
 
 const Level = mongoose.model('Level', LevelSchema)
 
