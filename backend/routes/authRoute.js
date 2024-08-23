@@ -132,7 +132,6 @@ function authenticateToken(req, res, next) {
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
 		if (err) return res.status(401).json({ error: 'Unauthorized' })
 
-		console.log(`the user inside authenticatin is `, user)
 		req.user = await User.findById(user._id).select('-hashedPassword')
 		next()
 	})
