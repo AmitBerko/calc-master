@@ -6,13 +6,15 @@ import { authenticateToken } from './authRoute.js'
 const router = express.Router()
 
 router.post('/', authenticateToken, async (req, res) => {
-	const { buttons, originalSettings } = req.body
+	const { buttons, originalSettings, creatorName } = req.body
 
 	try {
+		// const creationDate = new Date()
 		const newLevel = new Level({
 			buttons,
 			originalSettings,
 			currentSettings: originalSettings,
+			creatorName,
 		})
 		await newLevel.save()
 		const levelId = newLevel._id
@@ -25,21 +27,34 @@ router.post('/', authenticateToken, async (req, res) => {
 	}
 })
 
-router.get('/username/:username', async (req, res) => {
-	const { username } = req.params
-	console.log('username is', username)
+router.get('/me', authenticateToken, async (req, res) => {
 	try {
-		const user = await User.findOne({ username })
-		console.log('user is', user)
+		const levelIds = req.user.levels
+
+		if (!levelIds) {
+			return res.status(404).json({ message: "Levels were not found" })
+		}
+
+		const levels = await Level.find({ _id: { $in: levelIds } })
+		res.status(200).json(levels)
+	} catch (error) {
+		res.status(500).json({ message: `Server error: ${error.message}` })
+	}
+})
+
+// Soft search
+router.get('/searchUsername/:username', async (req, res) => {
+	const { username } = req.params
+	try {
+		const user = await User.findOne({ username: { $regex: username, $options: 'i' } })
 		if (!user) {
-			return res.status(404).json({ message: 'User not found' })
+			return res.status(404).json({ message: "Levels were not found" })
 		}
 
 		const levels = await Level.find({ _id: { $in: user.levels } })
 		res.status(200).json(levels)
-		console.log('levels are', levels)
 	} catch (error) {
-		//
+		res.status(500).json({ message: `Server error: ${error.message}` })
 	}
 })
 
@@ -49,8 +64,8 @@ router.get('/id/:levelId', async (req, res) => {
 		const level = await Level.findById(levelId)
 		res.status(200).json(level)
 	} catch (error) {
-    res.status(400).json(error)
-  }
+		res.status(400).json(error)
+	}
 })
 
 export default router
