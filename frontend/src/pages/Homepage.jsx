@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
 import PlayLevel from '../components/LevelCreator/PlayLevel'
-import MyLevels from '../components/MyLevels'
+import LevelExplorer from '../components/LevelExplorer'
 import { useParams } from 'react-router-dom'
 import LevelCreator from '../components/LevelCreator/LevelCreator'
 import Menu from '../components/Menu'
@@ -67,7 +67,7 @@ function Homepage() {
 								<LevelCreator />
 							</Box>
 						)}
-						{selectedComponent === 'myLevels' && <MyLevels />}
+						{selectedComponent === 'levelExplorer' && <LevelExplorer />}
 						{selectedComponent === 'menu' && <Menu setSelectedComponent={setSelectedComponent} />}
 						{selectedComponent === 'tutorial' && <div>tutorial</div>}
 					</>
