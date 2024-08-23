@@ -19,7 +19,7 @@ function LevelCard({ onPlay, isMyLevel, createdAt, creatorName }) {
 					boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
 				},
         width: '100%',
-				maxWidth: '300px',
+				maxWidth: '400px',
 			}}
 		>
 			<CardContent sx={{ p: 2 }}>
