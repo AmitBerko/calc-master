@@ -45,11 +45,10 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedCo
 					onClick={() => setSelectedComponent('levelCreator')}
 				/>
 				<DrawerItem
-					text="My Levels"
-					icon={LibraryBooks}
-					onClick={() => setSelectedComponent('myLevels')}
+					text="Level Explorer"
+					icon={Search}
+					onClick={() => setSelectedComponent('levelExplorer')}
 				/>
-				<DrawerItem text="Search Levels" icon={Search} />
 				<DrawerItem text="About Me" icon={Person} />
 			</List>
 			<Divider />
