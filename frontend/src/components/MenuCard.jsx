@@ -5,11 +5,20 @@ function MenuCard({ avatar, title, subheader, description, handleClick }) {
 	return (
 		<Card
 			elevation={0}
-			sx={{ backgroundColor: 'rgb(40, 40, 40)', borderRadius: 2, height: '100%' }}
+			sx={{
+				backgroundColor: 'rgb(40, 40, 40)',
+				borderRadius: 2,
+				height: '100%',
+			}}
 		>
 			<CardActionArea
-				elevation={20}
-				sx={{ height: '100%' }}
+				sx={{
+					height: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'start',
+					alignItems: 'start',
+				}}
 				onClick={handleClick}
 			>
 				<CardHeader
