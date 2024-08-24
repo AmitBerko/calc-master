@@ -188,7 +188,7 @@ function LevelExplorer({ setSelectedComponent }) {
 										createdAt={level.createdAt}
 										creatorName={level.creatorName}
 										originalSettings={level.originalSettings}
-										isMyLevel={user.username === level.creatorName}
+										isMyLevel={user?.username === level.creatorName}
 										onDelete={() => onDelete(level._id)}
 									/>
 								</Box>
