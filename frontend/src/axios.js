@@ -1,11 +1,13 @@
 import axios from 'axios'
 
 const api = axios.create({
-	baseURL: 'http://localhost:8080',
+	baseURL: 'https://calcmaster-backend-sq5x.onrender.com',
 	// timeout: 5000,
 	withCredentials: true,
-  _retry: true, // By default retry the request after getting a new token
+	_retry: true, // By default retry the request after getting a new token
 })
+
+api.defaults.baseURL = 'https://calcmaster-backend-sq5x.onrender.com'
 
 api.interceptors.request.use((config) => {
 	let accessToken = localStorage.getItem('accessToken')
