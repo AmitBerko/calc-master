@@ -1,11 +1,8 @@
-import { Modal, Box, Typography, Grid, Button, CircularProgress } from '@mui/material'
+import { Modal, Box, Typography, CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 function LevelUploadLoadingModal({ isOpen, setIsOpen, isLoading, levelUploadResponse }) {
-	const [title, setTitle] = useState('test')
-	function handleShowMyLevels() {
-		console.log('navigate to their levels or something')
-	}
+	const [title, setTitle] = useState('')
 
 	useEffect(() => {
 		if (isLoading) {
@@ -55,7 +52,7 @@ function LevelUploadLoadingModal({ isOpen, setIsOpen, isLoading, levelUploadResp
 					{isLoading ? (
 						<CircularProgress thickness={5} size={50} color="secondary" />
 					) : levelUploadResponse === 'Level saved successfuly' ? (
-						'You can now play and share your level by navigating to "My Levels" tab!'
+						'You can now play and share your level by navigating to "Level Explorer" tab!'
 					) : (
 						levelUploadResponse
 					)}

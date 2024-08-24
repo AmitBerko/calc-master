@@ -67,7 +67,9 @@ function Homepage() {
 								<LevelCreator />
 							</Box>
 						)}
-						{selectedComponent === 'levelExplorer' && <LevelExplorer />}
+						{selectedComponent === 'levelExplorer' && (
+							<LevelExplorer setSelectedComponent={setSelectedComponent} />
+						)}
 						{selectedComponent === 'menu' && <Menu setSelectedComponent={setSelectedComponent} />}
 						{selectedComponent === 'tutorial' && <div>tutorial</div>}
 					</>

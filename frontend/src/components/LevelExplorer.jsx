@@ -3,17 +3,26 @@ import api from '../axios'
 import { useAuth } from './AuthProvider'
 import LevelCard from './LevelCard'
 import { useNavigate } from 'react-router-dom'
-import { Box, CircularProgress, Grid, Tab, Tabs, TextField } from '@mui/material'
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Grid,
+	Tab,
+	Tabs,
+	TextField,
+	Typography,
+} from '@mui/material'
 import useDebounce from '../hooks/useDebounce'
+import sadCalculatorImage from '../assets/test-removebg-preview.png'
 
-function LevelExplorer() {
+function LevelExplorer({ setSelectedComponent }) {
 	const [levels, setLevels] = useState(null)
 	const { user } = useAuth()
 	const [areLevelsLoading, setAreLevelsLoading] = useState(!!user)
 	const [activeTab, setActiveTab] = useState(user ? 'myLevels' : 'searchLevels')
 	const [search, setSearch] = useState('')
 	const debouncedSearch = useDebounce(search, 750)
-	const [noLevels, setNoLevels] = useState(false)
 
 	const navigate = useNavigate()
 
@@ -21,11 +30,14 @@ function LevelExplorer() {
 		const fetchLevels = async () => {
 			try {
 				let response
+				setAreLevelsLoading(true)
+
 				if (activeTab === 'myLevels') {
-					setAreLevelsLoading(true)
 					response = await api.get('/levels/me')
-					setLevels(response.data)
+				} else if (activeTab === 'searchLevels') {
+					response = await api.get('/levels')
 				}
+				setLevels(response.data)
 			} catch (error) {
 				console.log(error)
 			} finally {
@@ -52,13 +64,25 @@ function LevelExplorer() {
 			}
 		}
 
-		if (debouncedSearch.length <= 3) return
+		if (debouncedSearch.length <= 2) return
 		fetchLevels()
 	}, [debouncedSearch])
 
 	function handleLevelSelect(levelId, levelData) {
 		// Navigate to the shareable level link, and send the levelData
 		navigate(`/play/${levelId}`, { state: { selectedLevelData: levelData } })
+	}
+
+	async function onDelete(levelId) {
+		try {
+			await api.delete(`/levels/${levelId}`)
+			setLevels((prevLevels) => {
+				const filteredLevels = prevLevels.filter((level) => level._id !== levelId)
+				return filteredLevels
+			})
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	let componentToRender = null
@@ -69,22 +93,90 @@ function LevelExplorer() {
 				sx={{
 					display: 'flex',
 					justifyContent: 'center',
-					height: '60vh',
+					height: '20vh',
 					alignItems: 'center',
 				}}
 			>
 				<CircularProgress color="secondary" thickness={5} size={'calc(3vw + 4rem)'} />
 			</Box>
 		)
-	} else if (noLevels) {
-		componentToRender = <div>You dont have any levels</div>
+	} else if (levels?.length === 0) {
+		componentToRender = (
+			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+				<Box
+					sx={{
+						display: 'inline-flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						flexDirection: 'column',
+						px: { xs: '1.25rem', sm: '3rem' },
+						py: '2.5rem',
+						backgroundColor: 'rgb(30, 30, 30)',
+						borderRadius: '1rem',
+						boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+					}}
+				>
+					<img
+						width={'90%'}
+						style={{
+							borderRadius: '1rem',
+							marginBottom: '2rem',
+							boxShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
+							maxWidth: '350px',
+						}}
+						src={sadCalculatorImage}
+						alt="Sad Calculator"
+					/>
+					<Typography
+						variant="h4"
+						align="center"
+						sx={{
+							fontWeight: 'bold',
+							marginBottom: '1rem',
+							textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+						}}
+					>
+						No Levels Found
+					</Typography>
+
+					<Typography
+						variant="body1"
+						align="center"
+						sx={{
+							color: '#bbb',
+							maxWidth: '80%',
+							marginBottom: activeTab === 'myLevels' ? '1.5rem' : '0',
+						}}
+					>
+						{activeTab === 'myLevels'
+							? 'Design your first challenge here:'
+							: 'Make sure the username is spelled correctly'}
+					</Typography>
+
+					{activeTab === 'myLevels' && (
+						<Button
+							variant="contained"
+							color="success"
+							sx={{
+								padding: '10px 20px',
+								fontSize: '1rem',
+								color: 'rgba(255, 255, 255, 0.85)',
+							}}
+							onClick={() => setSelectedComponent('levelCreator')}
+						>
+							Create a Level
+						</Button>
+					)}
+				</Box>
+			</Box>
+		)
 	} else if (levels) {
 		componentToRender = (
 			<>
-				<Box sx={{ p: { xs: 2, sm: 3 } }}>
-					<Grid container spacing={3} justifyContent="center">
-						{levels.map((level, index) => (
-							<Grid item key={level._id} xs={12} md={6} lg={4} xl={3}>
+				<Box sx={{ p: { xs: 0, sm: 2 } }}>
+					<Grid container spacing={4} justifyContent="center">
+						{levels.map((level) => (
+							<Grid item key={level._id} xs={12} md={6} lg={4}>
 								<Box
 									sx={{
 										display: 'flex',
@@ -92,11 +184,12 @@ function LevelExplorer() {
 									}}
 								>
 									<LevelCard
-										index={index}
 										onPlay={() => handleLevelSelect(level._id, level)}
 										createdAt={level.createdAt}
 										creatorName={level.creatorName}
+										originalSettings={level.originalSettings}
 										isMyLevel={user.username === level.creatorName}
+										onDelete={() => onDelete(level._id)}
 									/>
 								</Box>
 							</Grid>
@@ -110,24 +203,36 @@ function LevelExplorer() {
 	const handleTabChange = (event, newValue) => {
 		setLevels(null)
 		setActiveTab(newValue)
+		setSearch('')
 	}
 
 	return (
 		<>
 			<Box sx={{ py: 3, px: { xs: 2, sm: 3 } }}>
-				<Tabs value={activeTab} onChange={handleTabChange} sx={{ marginBottom: '1.5rem' }}>
+				<Tabs
+					value={activeTab}
+					onChange={handleTabChange}
+					sx={{
+						marginBottom: '1.5rem',
+						'& .MuiTabs-scroller': { display: 'flex', justifyContent: 'center' },
+					}}
+				>
 					<Tab label="My Levels" disabled={!user} value="myLevels" />
 					<Tab label="Search Levels" value="searchLevels" />
 				</Tabs>
 				{activeTab === 'searchLevels' && (
-					<TextField
-						sx={{ marginBottom: { xs: 2, sm: 3 } }}
-						color="secondary"
-						variant="standard"
-						label="Username To Search"
-						value={search}
-						onChange={(e) => setSearch(e.target.value)}
-					/>
+					<>
+						<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+							<TextField
+								sx={{ marginBottom: { xs: 2, sm: 3 }, width: '15rem' }}
+								color="secondary"
+								variant="standard"
+								label="Filter By Username"
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+							/>
+						</Box>
+					</>
 				)}
 				{componentToRender}
 			</Box>
