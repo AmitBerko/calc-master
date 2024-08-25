@@ -11,6 +11,7 @@ import {
 	Tab,
 	Tabs,
 	TextField,
+	Tooltip,
 	Typography,
 } from '@mui/material'
 import useDebounce from '../hooks/useDebounce'
@@ -217,7 +218,36 @@ function LevelExplorer({ setSelectedComponent }) {
 						'& .MuiTabs-scroller': { display: 'flex', justifyContent: 'center' },
 					}}
 				>
-					<Tab label="My Levels" disabled={!user} value="myLevels" />
+					<Tab
+						label={
+							<Tooltip
+								leaveTouchDelay={2250}
+								title={user ? '' : 'Sorry! You must be logged in'}
+								arrow
+								enterTouchDelay={20}
+								PopperProps={{
+									modifiers: [
+										{
+											name: 'offset',
+											options: {
+												offset: [0, 6], // Move the tooltip down a bit
+											},
+										},
+									],
+									sx: {
+										'& .MuiTooltip-tooltip': {
+											marginTop: '0px !important', // Remove any default margin
+										},
+									},
+								}}
+							>
+								<span style={{ padding: '12px 16px', pointerEvents: 'auto' }}>My Levels</span>
+							</Tooltip>
+						}
+						disabled={!user}
+						sx={{ p: 0 }}
+						value="myLevels"
+					/>
 					<Tab label="Search Levels" value="searchLevels" />
 				</Tabs>
 				{activeTab === 'searchLevels' && (
