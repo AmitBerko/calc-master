@@ -223,7 +223,7 @@ function AuthForm({ mode = 'login' }) {
 
 					<Grid item xs={12} alignItems={'center'}>
 						<Button variant="contained" color="error" fullWidth startIcon={<GoogleIcon />}>
-							Continue with google
+							(Disabled for now)
 						</Button>
 					</Grid>
 					<Grid item xs={12}>
