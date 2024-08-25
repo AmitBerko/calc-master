@@ -15,7 +15,7 @@ import {
 	Typography,
 } from '@mui/material'
 import useDebounce from '../hooks/useDebounce'
-import sadCalculatorImage from '../assets/test-removebg-preview.png'
+import sadCalculatorImage from '../assets/sad-robot.png'
 
 function LevelExplorer({ setSelectedComponent }) {
 	const [levels, setLevels] = useState(null)
@@ -112,15 +112,15 @@ function LevelExplorer({ setSelectedComponent }) {
 		)
 	} else if (levels?.length === 0) {
 		componentToRender = (
-			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Box sx={{ display: 'flex', justifyContent: 'center', px: { xs: 2, sm: 1 } }}>
 				<Box
 					sx={{
 						display: 'inline-flex',
 						justifyContent: 'center',
 						alignItems: 'center',
 						flexDirection: 'column',
-						px: { xs: '1.25rem', sm: '3rem' },
-						py: '2.5rem',
+						px: { xs: '1rem', sm: '2rem' },
+						py: '2.25rem',
 						backgroundColor: 'rgb(30, 30, 30)',
 						borderRadius: '1rem',
 						boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
@@ -130,7 +130,7 @@ function LevelExplorer({ setSelectedComponent }) {
 						width={'90%'}
 						style={{
 							borderRadius: '1rem',
-							marginBottom: '2rem',
+							marginBottom: '1rem',
 							boxShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
 							maxWidth: '350px',
 						}}
@@ -142,7 +142,7 @@ function LevelExplorer({ setSelectedComponent }) {
 						align="center"
 						sx={{
 							fontWeight: 'bold',
-							marginBottom: '1rem',
+							marginBottom: { xs: '0.5rem' },
 							textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
 						}}
 					>
@@ -155,7 +155,7 @@ function LevelExplorer({ setSelectedComponent }) {
 						sx={{
 							color: '#bbb',
 							maxWidth: '80%',
-							marginBottom: activeTab === 'myLevels' ? '1.5rem' : '0',
+							marginBottom: activeTab === 'myLevels' ? '1rem' : '0',
 						}}
 					>
 						{activeTab === 'myLevels'
