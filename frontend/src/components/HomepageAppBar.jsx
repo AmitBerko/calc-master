@@ -56,7 +56,7 @@ function HomepageAppBar({ handleDrawerToggle }) {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Hello "{user && user.username}"
+						Hello {user ? user.username : 'Guest'}
 					</Typography>
 					<div>
 						<IconButton
@@ -88,8 +88,8 @@ function HomepageAppBar({ handleDrawerToggle }) {
 							open={Boolean(anchorEl)}
 							onClose={handleClose}
 						>
-							<MenuItem onClick={handleClose}>Profile</MenuItem>
-							<MenuItem onClick={handleClose}>My account</MenuItem>
+							<MenuItem onClick={handleClose}>Profile (Disabled)</MenuItem>
+							{/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
 							<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
 						</Menu>
 					</div>
