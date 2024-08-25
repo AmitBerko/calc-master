@@ -1,7 +1,7 @@
 @import '../components/LevelCreator/CalculatorStyles.scss';
 
 * {
-  font-family: 'Roboto';
+	font-family: 'Roboto';
 }
 
 :focus {
@@ -29,4 +29,11 @@ input[type='number'] {
 button {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0) inset !important;
+	background-clip: text;
 }
