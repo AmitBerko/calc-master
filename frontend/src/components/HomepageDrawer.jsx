@@ -25,6 +25,11 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedCo
 		setIsClosing(false)
 	}
 
+  const onDrawerClick = () => {
+    navigate('/homepage')
+    handleDrawerClose()
+  }
+
 	const drawer = (
 		<div>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
@@ -36,7 +41,7 @@ function HomepageDrawer({ mobileOpen, setMobileOpen, setIsClosing, setSelectedCo
 				</IconButton>
 			</Toolbar>
 			<Divider />
-			<List disablePadding onClick={() => navigate('/homepage')}>
+			<List disablePadding onClick={onDrawerClick}>
 				<DrawerItem text="Menu" icon={Home} onClick={() => setSelectedComponent('menu')} />
 				<DrawerItem text="Tutorial" icon={Info} onClick={() => setSelectedComponent('tutorial')} />
 				<DrawerItem
