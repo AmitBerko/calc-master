@@ -28,6 +28,12 @@ function LevelExplorer({ setSelectedComponent }) {
 
 	const navigate = useNavigate()
 
+  useEffect(() => {
+    // Preload the image
+    const img = new Image()
+    img.src = sadCalculatorImage
+  }, [])
+
 	useEffect(() => {
 		const fetchLevels = async () => {
 			if (abortController) {
