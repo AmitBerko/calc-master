@@ -47,7 +47,7 @@ router.get('/me', authenticateToken, async (req, res) => {
 // Soft search
 router.get('/searchUsername/:username', async (req, res) => {
 	const { username } = req.params
-  
+
 	try {
 		const users = await User.find({ username: { $regex: username, $options: 'i' } })
 		if (!users) {
@@ -74,12 +74,12 @@ router.get('/id/:levelId', async (req, res) => {
 
 // Get all levels
 router.get('/', async (req, res) => {
-  try {
-    const levels = await Level.find()
-    res.json(levels)
-  } catch (error) {
-    res.status(400).json({message: "Couldn't load levels"})
-  }
+	try {
+		const levels = await Level.find().sort({ createdAt: -1 })
+		res.json(levels)
+	} catch (error) {
+		res.status(400).json({ message: "Couldn't load levels" })
+	}
 })
 
 router.delete('/:levelId', authenticateToken, async (req, res) => {
@@ -93,12 +93,9 @@ router.delete('/:levelId', authenticateToken, async (req, res) => {
 		// Delete the level from the Levels collection
 		await Level.findByIdAndDelete(levelId)
 
-    // Delete the level from the user's levels field
-		await User.findByIdAndUpdate(
-			req.user._id,
-			{ $pull: { levels: levelId } },
-		)
-		res.status(200).json({message: `Deleted level ${levelId} successfuly`})
+		// Delete the level from the user's levels field
+		await User.findByIdAndUpdate(req.user._id, { $pull: { levels: levelId } })
+		res.status(200).json({ message: `Deleted level ${levelId} successfuly` })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json(error)
