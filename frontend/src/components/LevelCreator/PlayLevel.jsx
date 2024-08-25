@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Calculator from './Calculator'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
+import { ArrowBack } from '@mui/icons-material'
 import api from '../../axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 function PlayLevel({ levelId }) {
-  const navigate = useNavigate()
+	const navigate = useNavigate()
 	const location = useLocation()
 	const selectedLevelData = location.state?.selectedLevelData
 	const [levelData, setLevelData] = useState(selectedLevelData || null)
@@ -23,7 +24,7 @@ function PlayLevel({ levelId }) {
 			}
 		}
 
-    // If levelData already exists, don't fetch it again
+		// If levelData already exists, don't fetch it again
 		if (initialized.current || levelData) return
 		getLevelData()
 	}, [])
@@ -32,12 +33,26 @@ function PlayLevel({ levelId }) {
 
 	return (
 		<>
-			<button
-				style={{ position: 'absolute', marginTop: '2rem', marginLeft: '2rem' }}
+			<Button
+				variant="contained"
+				startIcon={<ArrowBack />}
 				onClick={() => navigate('/homepage')}
+				sx={{
+          position: 'absolute',
+          marginTop: '1rem',
+          marginLeft: '1rem',
+					backgroundColor: 'rgba(255, 255, 255, 0.1)',
+					fontWeight: 'bold',
+					borderRadius: '1rem',
+					boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+					'&:hover': {
+						backgroundColor: 'rgba(255, 255, 255, 0.175)',
+						boxShadow: '0 6px 8px rgba(0, 0, 0, 0.2)',
+					},
+				}}
 			>
-				back to levels
-			</button>
+				Back
+			</Button>
 			<Box
 				sx={{
 					display: 'flex',
