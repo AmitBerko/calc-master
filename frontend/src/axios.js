@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 const api = axios.create({
-	baseURL: 'https://calcmaster-backend-sq5x.onrender.com',
+	baseURL: 'http://localhost:8080',
 	// timeout: 5000,
 	withCredentials: true,
 	_retry: true, // By default retry the request after getting a new token
 })
 
-api.defaults.baseURL = 'https://calcmaster-backend-sq5x.onrender.com'
+// api.defaults.baseURL = 'https://calcmaster-backend-sq5x.onrender.com'
 
 api.interceptors.request.use((config) => {
 	let accessToken = localStorage.getItem('accessToken')
@@ -16,6 +16,8 @@ api.interceptors.request.use((config) => {
 	}
 	return config
 })
+
+const logoutEvent = new Event('logout')
 
 api.interceptors.response.use(
 	(response) => {
@@ -28,16 +30,15 @@ api.interceptors.response.use(
 		if (error.response.status === 401 && originalRequest._retry) {
 			originalRequest._retry = false
 			try {
-				console.log('Getting a new access token')
 				const response = await api.get('/auth/refresh-access-token')
 				const newToken = response.data
 				localStorage.setItem('accessToken', newToken)
-        console.log(newToken)
 				originalRequest.headers.Authorization = `Bearer ${newToken}`
 
 				return api(originalRequest) // Retry the request
 			} catch (error) {
 				console.log(`Error when refreshing token: ${error}`)
+        window.dispatchEvent(logoutEvent)
 				return Promise.reject(error)
 			}
 		}

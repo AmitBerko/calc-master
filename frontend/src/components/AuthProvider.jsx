@@ -12,16 +12,22 @@ function AuthProvider({ children }) {
 		const fetchUser = async () => {
 			try {
 				const accessToken = localStorage.getItem('accessToken')
+				if (!accessToken) {
+					// No token found, user is not logged in
+					setUser(null)
+					setIsLoading(false)
+					return
+				}
+
 				const response = await api.post('/auth/getUser', { accessToken })
 
-				console.log(`the response.data is`, response.data)
 				if (!response.data) {
 					setUser(null)
 				} else {
 					setUser(response.data)
 				}
 			} catch (error) {
-        // No access or refresh tokens found
+				// No access or refresh tokens found
 			} finally {
 				setIsLoading(false)
 			}
@@ -30,6 +36,13 @@ function AuthProvider({ children }) {
 			initialized.current = true
 			fetchUser()
 		}
+
+    window.addEventListener('logout', logout)
+
+    return () => {
+      window.removeEventListener('logout', logout)
+    }
+
 	}, [])
 
 	async function declareUser(user, accessToken) {
@@ -42,13 +55,8 @@ function AuthProvider({ children }) {
 		localStorage.removeItem('accessToken')
 	}
 
-	async function updateUser(updatedValues) {
-		// setUser((prevUser) => ({ ...prevUser, ...updatedValues }))
-		// await api.post('/auth/updateUser', updatedValues)
-	}
-
 	return (
-		<AuthContext.Provider value={{ user, declareUser, logout, updateUser }}>
+		<AuthContext.Provider value={{ user, declareUser, logout }}>
 			{isLoading ? <div>loading...</div> : children}
 		</AuthContext.Provider>
 	)

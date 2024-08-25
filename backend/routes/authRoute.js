@@ -66,10 +66,6 @@ router.post('/login', async (req, res) => {
 	}
 })
 
-router.get('/refreshTokens', async (req, res) => {
-	res.json(refreshTokens)
-})
-
 router.post('/logout', async (req, res) => {
 	try {
 		const refreshToken = req.cookies.refreshToken
@@ -92,7 +88,7 @@ router.get('/refresh-access-token', async (req, res) => {
 	try {
 		const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
 		const newAccessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-			expiresIn: '30m',
+			expiresIn: '10s',
 		})
 
 		res.status(200).json(newAccessToken)
