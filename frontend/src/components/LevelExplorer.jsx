@@ -23,26 +23,35 @@ function LevelExplorer({ setSelectedComponent }) {
 	const [areLevelsLoading, setAreLevelsLoading] = useState(!!user)
 	const [activeTab, setActiveTab] = useState(user ? 'myLevels' : 'searchLevels')
 	const [search, setSearch] = useState('')
+	const [abortController, setAbortController] = useState(null)
 	const debouncedSearch = useDebounce(search, 750)
 
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchLevels = async () => {
-			try {
-				let response
-				setAreLevelsLoading(true)
+			if (abortController) {
+				abortController.abort()
+			}
 
+			const controller = new AbortController()
+			setAbortController(controller)
+
+			try {
+				setAreLevelsLoading(true)
+				let response
 				if (activeTab === 'myLevels') {
-					response = await api.get('/levels/me')
+					response = await api.get('/levels/me', { signal: controller.signal })
 				} else if (activeTab === 'searchLevels') {
-					response = await api.get('/levels')
+					response = await api.get('/levels', { signal: controller.signal })
 				}
 				setLevels(response.data)
+				setAreLevelsLoading(false)
 			} catch (error) {
 				console.log(error)
-			} finally {
-				setAreLevelsLoading(false)
+				if (error.name !== 'CanceledError') {
+					setAreLevelsLoading(false)
+				}
 			}
 		}
 
