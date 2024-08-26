@@ -23,9 +23,9 @@ router.post('/register', async (req, res) => {
 			duplicates.push('username')
 		}
 
-    if (duplicates.length > 0) {
-      throw {error: 'Duplication error', duplicates}
-    }
+		if (duplicates.length > 0) {
+			throw { error: 'Duplication error', duplicates }
+		}
 		const hashedPassword = await bcrypt.hash(password, saltRounds)
 		const newUser = new User({ email, username, hashedPassword })
 		await newUser.save()
@@ -106,18 +106,6 @@ router.post('/getUser', authenticateToken, async (req, res) => {
 	}
 })
 
-// router.post('/updateUser', authenticateToken, async (req, res) => {
-// 	console.log(req.user)
-// 	const updatedValues = req.body
-// 	console.log(updatedValues)
-// 	try {
-// 		const newUser = await User.findByIdAndUpdate(req.user._id, updatedValues, { new: true })
-// 		res.status(200).json(newUser)
-// 	} catch (error) {
-// 		res.status(401).json({ error: 'Unauthorized' })
-// 	}
-// })
-
 // Use this middleware on actions that require an account
 function authenticateToken(req, res, next) {
 	const authHeader = req.headers['authorization']
@@ -143,8 +131,8 @@ function generateTokensAndSetCookie(userId, res) {
 
 	res.cookie('refreshToken', refreshToken, {
 		httpOnly: true,
-		// secure: true,
-		sameSite: 'strict',
+		secure: process.env.APP_ENV === 'production',
+		sameSite: 'none',
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
 	})
 
