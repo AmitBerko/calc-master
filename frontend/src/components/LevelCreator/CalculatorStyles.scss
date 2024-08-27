@@ -23,8 +23,9 @@ $border: rgb(36, 36, 37);
 	aspect-ratio: 1 / 1.35;
 	padding: 1rem;
 	background-color: $calculator-bg;
-	border-radius: 1rem;
-	border: solid 2px rgba(230, 230, 230, 0.85);
+	border-radius: 1.15rem;
+	border: solid 3px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.1);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -112,13 +113,13 @@ $border: rgb(36, 36, 37);
 		transform: translateY(calc(var(--calculator-button-width) * 0.065 + 0.085rem));
 	}
 
-  &.ignore-empty-button {
-    cursor: default;
+	&.ignore-empty-button {
+		cursor: default;
 
-    &.active {
-      transform: none;
-    }
-  }
+		&.active {
+			transform: none;
+		}
+	}
 
 	.button-remover {
 		position: absolute;
@@ -127,7 +128,7 @@ $border: rgb(36, 36, 37);
 		padding: 0;
 		width: clamp(1.35rem, 6.5vw, 2rem);
 		aspect-ratio: 1;
-    transform: translate(50%, -50%);
+		transform: translate(50%, -50%);
 	}
 }
 
