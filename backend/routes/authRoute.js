@@ -88,7 +88,7 @@ router.get('/refresh-access-token', async (req, res) => {
 	try {
 		const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
 		const newAccessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-			expiresIn: '10s',
+			expiresIn: '30m',
 		})
 
 		res.status(200).json(newAccessToken)
