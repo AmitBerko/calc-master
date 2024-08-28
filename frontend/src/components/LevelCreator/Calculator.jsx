@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import CalculatorButton from './CalculatorButton'
 
 function Calculator({ levelData, setLevelData, isLevelCreator = false }) {
@@ -48,7 +48,7 @@ function Calculator({ levelData, setLevelData, isLevelCreator = false }) {
 			<Grid
 				container
 				columnSpacing={2}
-				rowSpacing={{ xs: 3.5, sm: 4.5 }}
+        sx={{flexGrow: 1, alignItems: 'center', transform: 'translateY(0.25rem)'}}
 				className="buttons-container"
 			>
 				{levelData.buttons.map((button, index) => (

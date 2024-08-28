@@ -19,7 +19,7 @@ $screen-bg: rgb(214, 214, 214);
 $border: rgb(36, 36, 37);
 
 .calculator-container {
-	width: min(95%, 450px);
+	width: min(92.5%, 450px);
 	aspect-ratio: 1 / 1.35;
 	padding: 1rem;
 	background-color: $calculator-bg;
@@ -33,7 +33,7 @@ $border: rgb(36, 36, 37);
 	.screen-container {
 		background-color: $screen-container-bg;
 		width: 100%;
-		height: calc(1.75rem + 30%);
+		height: calc(1.75rem + 32.5%);
 		border-radius: 1.5rem;
 		border: 0.5rem solid $border;
 		padding: 0.5rem;
