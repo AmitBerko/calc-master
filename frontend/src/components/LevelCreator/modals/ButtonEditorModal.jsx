@@ -97,7 +97,7 @@ function ButtonEditorModal() {
 	function handleCancel() {
 		setIsEditorModalOpen(false)
 		setErrors({})
-    setNewButton((prevButton) => ({...prevButton, buttonData: {}}))
+		setNewButton((prevButton) => ({ ...prevButton, buttonData: {} }))
 	}
 
 	function handleAddButton() {
@@ -116,10 +116,7 @@ function ButtonEditorModal() {
 						}
 					} else if (newButton.buttonData[field] <= 0) {
 						if (
-							!(
-								newButton.type === 'operator' &&
-								['/', 'x'].includes(newButton.buttonData.operator)
-							)
+							!(newButton.type === 'operator' && ['/', 'x'].includes(newButton.buttonData.operator))
 						) {
 							newErrors[field] = `${fieldRenames[field]} has to be a positive number`
 							hasErrors = true
@@ -146,65 +143,62 @@ function ButtonEditorModal() {
 	}
 
 	return (
-		<>
-    {JSON.stringify(newButton)}
-			<Modal open={isEditorModalOpen} onClose={handleCancel}>
-				<Box
+		<Modal open={isEditorModalOpen} onClose={handleCancel}>
+			<Box
+				sx={{
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					bgcolor: 'rgb(50, 50, 52)',
+					border: '2px solid #000',
+					boxShadow: 24,
+					px: { xs: 1.5 },
+					pt: { xs: 3 },
+					pb: { xs: 4.5 },
+					width: 'min(650px, 90vw)',
+					borderRadius: '1rem',
+				}}
+			>
+				<Typography
+					variant="subtitle2"
+					gutterBottom
 					sx={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						bgcolor: 'rgb(50, 50, 52)',
-						border: '2px solid #000',
-						boxShadow: 24,
-						px: { xs: 1.5 },
-						pt: { xs: 3 },
-						pb: { xs: 4.5 },
-						width: 'min(650px, 90vw)',
-						borderRadius: '1rem',
+						display: 'flex',
+						justifyContent: 'center',
+						textAlign: 'center',
+						fontSize: 'min(2rem, calc(1.15rem + 2vw))',
 					}}
 				>
-					<Typography
-						variant="subtitle2"
-						gutterBottom
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							textAlign: 'center',
-							fontSize: 'min(2rem, calc(1.15rem + 2vw))',
-						}}
+					{newButton.editable
+						? `Create your own ${newButton.typeText} button:`
+						: `The ${newButton.typeText} button:`}
+				</Typography>
+				<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
+				<ButtonDescription description={description} example={example} />
+				<Grid
+					item
+					xs={12}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						marginTop: '1.5rem',
+					}}
+				>
+					<Button
+						onClick={handleAddButton}
+						variant="contained"
+						color="primary"
+						sx={{ marginRight: { xs: '0.75rem', sm: '1.5rem', md: '2rem' } }}
 					>
-						{newButton.editable
-							? `Create your own ${newButton.typeText} button:`
-							: `The ${newButton.typeText} button:`}
-					</Typography>
-					<ThemeProvider theme={theme}>{modalContent}</ThemeProvider>
-					<ButtonDescription description={description} example={example} />
-					<Grid
-						item
-						xs={12}
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							marginTop: '1.5rem',
-						}}
-					>
-						<Button
-							onClick={handleAddButton}
-							variant="contained"
-							color="primary"
-							sx={{ marginRight: { xs: '0.75rem', sm: '1.5rem', md: '2rem' } }}
-						>
-							Add Button
-						</Button>
-						<Button onClick={handleCancel} sx={{ width: '121.5px' }} variant="outlined">
-							Cancel
-						</Button>
-					</Grid>
-				</Box>
-			</Modal>
-		</>
+						Add Button
+					</Button>
+					<Button onClick={handleCancel} sx={{ width: '121.5px' }} variant="outlined">
+						Cancel
+					</Button>
+				</Grid>
+			</Box>
+		</Modal>
 	)
 }
 
