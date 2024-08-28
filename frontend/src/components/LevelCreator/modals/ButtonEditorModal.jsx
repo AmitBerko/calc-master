@@ -97,6 +97,7 @@ function ButtonEditorModal() {
 	function handleCancel() {
 		setErrors({})
 		setIsEditorModalOpen(false)
+    setNewButton({})
 	}
 
 	function handleAddButton() {
@@ -132,6 +133,8 @@ function ButtonEditorModal() {
 			})
 		}
 
+    console.log('haserros:', hasErrors)
+    console.log(newButton)
 		if (hasErrors) return
 		setLevelCreatorData((prevLevelData) => ({
 			...prevLevelData,
