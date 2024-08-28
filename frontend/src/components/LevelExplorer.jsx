@@ -16,7 +16,7 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material'
-import {Search} from '@mui/icons-material'
+import { Search } from '@mui/icons-material'
 
 function LevelExplorer({ setSelectedComponent }) {
 	const [levels, setLevels] = useState(null)
@@ -32,21 +32,29 @@ function LevelExplorer({ setSelectedComponent }) {
 	}, [])
 
 	useEffect(() => {
-		fetchLevels()
-	}, [activeTab, user])
-
-	const fetchLevels = async () => {
-		try {
-			setIsLoading(true)
-			const endpoint = activeTab === 'myLevels' ? '/levels/me' : '/levels'
-			const response = await api.get(endpoint)
-			setLevels(response.data)
-		} catch (error) {
-			console.error('Error fetching levels:', error)
-		} finally {
-			setIsLoading(false)
+		const controller = new AbortController()
+		const fetchLevels = async () => {
+			try {
+				setIsLoading(true)
+				const endpoint = activeTab === 'myLevels' ? '/levels/me' : '/levels'
+				const response = await api.get(endpoint, { signal: controller.signal })
+				setLevels(response.data)
+				setIsLoading(false)
+			} catch (error) {
+				// If it was canceled it means it is still loading the other request
+				if (error.name !== 'CanceledError') {
+					setIsLoading(false)
+					console.error('Error fetching levels:', error)
+				}
+			}
 		}
-	}
+
+		fetchLevels()
+
+		return () => {
+			controller.abort()
+		}
+	}, [activeTab, user])
 
 	const filteredLevels = levels
 		? levels.filter((level) =>
@@ -205,7 +213,7 @@ const TabSelector = ({ activeTab, setActiveTab, user, handleTabChange }) => (
 		value={activeTab}
 		onChange={(_, newValue) => {
 			setActiveTab(newValue)
-      handleTabChange()
+			handleTabChange()
 		}}
 		sx={{
 			marginBottom: '1.5rem',
@@ -250,11 +258,10 @@ const UsernameFilter = ({ value, onChange }) => (
 	<Box
 		sx={{
 			display: 'flex',
-      justifyContent: 'center',
+			justifyContent: 'center',
 			mb: 3,
 		}}
 	>
-
 		<Box
 			sx={{
 				display: 'flex',
