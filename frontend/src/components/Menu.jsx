@@ -6,15 +6,42 @@ import MenuCard from './MenuCard'
 function Menu({ setSelectedComponent }) {
 	return (
 		<Box sx={{ padding: 4 }}>
-			<Typography variant="h3" fontWeight={500} textAlign={'center'} gutterBottom>
+			<Typography
+				variant="h2"
+				sx={{
+					fontWeight: 700,
+					textAlign: 'center',
+					color: 'rgb(59, 150, 196)',
+					marginBottom: '1rem',
+					fontSize: { xs: '2.5rem', sm: '3.5rem', md: '3.75rem' },
+					textShadow: '3px 3px 5px rgba(0,0,0,0.2)',
+				}}
+			>
 				Welcome to CalcMaster
 			</Typography>
-			<Typography variant="body1" color="text.secondary" fontSize={'1.1rem'} gutterBottom>
+
+			<Typography
+				variant="body1"
+				sx={{
+					color: 'rgba(255, 255, 255, 0.9)',
+					fontSize: '1.1rem',
+					maxWidth: '1000px',
+					margin: '0 auto 2rem',
+					lineHeight: 1.75,
+					'& a': {
+						color: 'rgb(85,185,225)',
+						textDecoration: 'none',
+						fontWeight: 500,
+						transition: 'color 0.3s ease',
+						'&:hover': {
+							color: 'rgb(65,165,205)',
+							textDecoration: 'underline',
+						},
+					},
+				}}
+			>
 				This project was inspired by the mobile game{' '}
-				<Link
-					underline="hover"
-					href="https://apps.apple.com/us/app/calculator-the-game/id1243055750"
-				>
+				<Link href="https://apps.apple.com/us/app/calculator-the-game/id1243055750">
 					Calculator The Game
 				</Link>
 				. It allows you to design and customize your own levels, offering a variety of buttons and
