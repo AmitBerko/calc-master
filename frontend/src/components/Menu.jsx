@@ -62,20 +62,10 @@ function Menu({ setSelectedComponent }) {
 
 				<Grid item xs={12} md={6}>
 					<MenuCard
-						avatar={<LibraryBooks />}
-						title="My Levels"
-						subheader="View and share your creations"
-						description="Check out the levels you've built, play them, and share your favorites with others."
-						handleClick={() => setSelectedComponent('myLevels')}
-					/>
-				</Grid>
-
-				<Grid item xs={12} md={6}>
-					<MenuCard
 						avatar={<Search />}
-						title="Level Explorer (Under Development)" // Suggested new name
+						title="Level Explorer"
 						subheader="Discover and play levels created by other players"
-						description="Search through levels created by other players, play them, and even rate them. Find the most popular levels or discover hidden gems."
+						description="Browse through levels created by other players and challenge yourself with unique gameplay experiences."
 						handleClick={() => setSelectedComponent('levelExplorer')}
 					/>
 				</Grid>
