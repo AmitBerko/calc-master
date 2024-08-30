@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Grid, Link, Typography } from '@mui/material'
-import { Create, LibraryBooks, Search } from '@mui/icons-material'
+import { Create, Search } from '@mui/icons-material'
 import MenuCard from './MenuCard'
 
 function Menu({ setSelectedComponent }) {
@@ -11,7 +11,7 @@ function Menu({ setSelectedComponent }) {
 				sx={{
 					fontWeight: 700,
 					textAlign: 'center',
-					color: 'rgb(59, 150, 196)',
+					color: 'rgb(76, 167, 213)',
 					marginBottom: '1rem',
 					fontSize: { xs: '2.5rem', sm: '3.5rem', md: '3.75rem' },
 					textShadow: '3px 3px 5px rgba(0,0,0,0.2)',
