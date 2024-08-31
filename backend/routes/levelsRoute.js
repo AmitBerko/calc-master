@@ -2,15 +2,23 @@ import express from 'express'
 import Level from '../models/levelModel.js'
 import User from '../models/userModel.js'
 import { authenticateToken } from './authRoute.js'
+import deobfuscator from '../deobfuscator.js'
 
 const router = express.Router()
 
 // Create a new level
 router.post('/', authenticateToken, async (req, res) => {
-	const { buttons, originalSettings, creatorName } = req.body
+	let deobfuscatedData
 
 	try {
-		// const creationDate = new Date()
+		deobfuscatedData = deobfuscator(req.body.obfuscatedData)
+	} catch (error) {
+		console.error('Deobfuscation error:', error)
+		return res.status(400).json({ error: 'Could not deobfuscate the provided data' })
+	}
+
+	const { buttons, originalSettings, creatorName } = deobfuscatedData
+	try {
 		const newLevel = new Level({
 			buttons,
 			originalSettings,
@@ -37,7 +45,7 @@ router.get('/me', authenticateToken, async (req, res) => {
 			return res.status(404).json({ message: 'Levels were not found' })
 		}
 
-		const levels = await Level.find({ _id: { $in: levelIds } })
+		const levels = await Level.find({ _id: { $in: levelIds } }).sort({ createdAt: -1 })
 		res.status(200).json(levels)
 	} catch (error) {
 		res.status(500).json({ message: `Server error: ${error.message}` })

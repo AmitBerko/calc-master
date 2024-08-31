@@ -9,6 +9,7 @@ import LevelUploadLoadingModal from './modals/LevelUploadLoadingModal'
 import { useLevelCreator } from './LevelCreatorProvider'
 import api from '../../axios'
 import { useAuth } from '../AuthProvider'
+import obfuscator from '../../../obfuscator'
 
 function LevelCreator() {
 	const { levelCreatorData, setLevelCreatorData, isLevelBeingChecked, setIsLevelBeingChecked } =
@@ -41,13 +42,14 @@ function LevelCreator() {
 						setIsLevelUploadModalOpen(true)
 
 						const startTime = Date.now()
-
-						// Only sending the needed fields
-						const response = await api.post('/levels', {
+						const obfuscatedData = obfuscator({
 							buttons: levelCreatorData.buttons,
 							originalSettings: levelCreatorData.originalSettings,
 							creatorName: user.username,
 						})
+						console.log(obfuscatedData)
+						// Only sending the needed fields
+						const response = await api.post('/levels', { obfuscatedData })
 						const elapsedTime = Date.now() - startTime
 						const waitTime = Math.max(minimumLoadTime - elapsedTime, 0)
 
