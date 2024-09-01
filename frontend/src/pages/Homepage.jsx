@@ -30,6 +30,7 @@ function Homepage() {
 				mobileOpen={mobileOpen}
 				setMobileOpen={setMobileOpen}
 				setIsClosing={setIsClosing}
+        selectedComponent={selectedComponent}
 				setSelectedComponent={setSelectedComponent}
 			/>
 
