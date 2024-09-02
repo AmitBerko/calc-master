@@ -26,7 +26,7 @@ function Menu({ setSelectedComponent }) {
 					color: 'rgba(255, 255, 255, 0.9)',
 					fontSize: '1.1rem',
 					maxWidth: '1000px',
-					margin: '0 auto 2rem',
+					margin: '0 auto',
 					lineHeight: 1.75,
 					'& a': {
 						color: 'rgb(85,185,225)',
