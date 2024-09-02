@@ -14,11 +14,11 @@ import { PlayCircle, Delete, Flag, TouchApp, Assessment } from '@mui/icons-mater
 
 function LevelCard({ onPlay, isMyLevel, createdAt, creatorName, originalSettings, onDelete }) {
 	const [isDeleteLoading, setIsDeleteLoading] = useState(false)
-  const handleDeleteButton = async () => {
-    setIsDeleteLoading(true)
-    await onDelete()
-    setIsDeleteLoading(false)
-  }
+	const handleDeleteButton = async () => {
+		setIsDeleteLoading(true)
+		await onDelete()
+		setIsDeleteLoading(false)
+	}
 	return (
 		<Card
 			elevation={4}
@@ -36,7 +36,11 @@ function LevelCard({ onPlay, isMyLevel, createdAt, creatorName, originalSettings
 			}}
 		>
 			<CardContent sx={{ p: 2 }}>
-				<Typography variant="h6" gutterBottom sx={{ color: 'white', textAlign: 'center' }}>
+				<Typography
+					variant="h6"
+					gutterBottom
+					sx={{ color: 'white', textAlign: 'center', fontSize: '1.45rem' }}
+				>
 					{isMyLevel ? 'Your Level' : `${creatorName}'s Level`}
 				</Typography>
 				<Typography
