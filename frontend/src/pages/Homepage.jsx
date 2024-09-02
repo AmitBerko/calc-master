@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import HomepageDrawer from '../components/HomepageDrawer'
 import HomepageAppBar from '../components/HomepageAppBar'
@@ -22,6 +22,10 @@ function Homepage() {
 		}
 	}
 
+	useEffect(() => {
+		document.documentElement.style.setProperty('--calculator-button-width', `100px`)
+	}, [])
+
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<HomepageAppBar handleDrawerToggle={handleDrawerToggle} />
@@ -30,7 +34,7 @@ function Homepage() {
 				mobileOpen={mobileOpen}
 				setMobileOpen={setMobileOpen}
 				setIsClosing={setIsClosing}
-        selectedComponent={selectedComponent}
+				selectedComponent={selectedComponent}
 				setSelectedComponent={setSelectedComponent}
 			/>
 
