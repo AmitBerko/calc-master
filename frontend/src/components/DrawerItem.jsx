@@ -6,6 +6,7 @@ function DrawerItem({ text, icon: Icon, onClick, isSelected }) {
 		<>
 			<ListItem key={text} disablePadding onClick={onClick}>
 				<ListItemButton
+          disabled={text === 'About Me'}
 					selected={isSelected}
 					sx={{
 						paddingTop: '0.75rem',
