@@ -45,7 +45,7 @@ function LevelCreator() {
 						const obfuscatedData = obfuscator({
 							buttons: levelCreatorData.buttons,
 							originalSettings: levelCreatorData.originalSettings,
-							creatorName: user.username,
+							creatorName: user?.username,
 						})
 						console.log(obfuscatedData)
 						// Only sending the needed fields
