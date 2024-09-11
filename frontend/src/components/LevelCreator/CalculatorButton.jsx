@@ -307,31 +307,30 @@ function CalculatorButton({
 	}
 
 	return (
-		<>
-			<button
-				ref={buttonRef}
-				onPointerDown={(e) => {
-					if (!e.target.closest('.button-remover')) {
-						handlePointerDown()
-					}
-				}}
-				onPointerUp={(e) => {
-					if (!e.target.closest('.button-remover')) {
-						handlePointerUp()
-					}
-				}}
-				onPointerOut={() => {
-					buttonRef.current.classList.remove('active')
-				}}
-				className={`calculator-button ${buttonClass}`}
-			>
+		<div
+			onPointerDown={(e) => {
+				if (!e.target.closest('.button-remover')) {
+					handlePointerDown()
+				}
+			}}
+			onPointerUp={(e) => {
+				if (!e.target.closest('.button-remover')) {
+					handlePointerUp()
+				}
+			}}
+			onPointerOut={() => {
+				buttonRef.current.classList.remove('active')
+			}}
+			style={{ width: '100%', height: '100%' }}
+		>
+			<button ref={buttonRef} className={`calculator-button ${buttonClass}`}>
 				<span
 					ref={textRef}
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
 				>
 					{type === 'transform' ? (
 						<>
-            {/* Just to make the arrow a little smaller */}
+							{/* Just to make the arrow a little smaller */}
 							{text.slice(0, text.indexOf('➜'))} <span className="transform-arrow">➜</span>
 							{text.slice(text.indexOf('➜') + 1)}
 						</>
@@ -347,7 +346,7 @@ function CalculatorButton({
 					</IconButton>
 				)}
 			</button>
-		</>
+		</div>
 	)
 }
 
