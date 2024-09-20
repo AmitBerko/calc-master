@@ -3,3 +3,4 @@ ideas.txt
 dist
 .env*
 cleanObfuscator.js
+.firebase
