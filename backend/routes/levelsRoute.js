@@ -19,12 +19,14 @@ router.post('/', authenticateToken, async (req, res) => {
 
 	const { buttons, originalSettings, creatorName } = deobfuscatedData
 	try {
-		const newLevel = new Level({
-			buttons,
-			originalSettings,
-			currentSettings: originalSettings,
-			creatorName,
-		})
+		const levelData = { buttons, originalSettings, currentSettings: originalSettings, creatorName }
+		const doesLevelExist = await Level.findOne(levelData)
+    
+		if (doesLevelExist) {
+			return res.status(409).json({ message: 'This level already exists.' })
+		}
+
+		const newLevel = new Level(levelData)
 		await newLevel.save()
 		const levelId = newLevel._id
 		const userId = req.user._id
