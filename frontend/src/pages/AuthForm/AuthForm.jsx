@@ -56,7 +56,6 @@ function AuthForm({ mode = 'login' }) {
 		e.preventDefault()
 		const validationErrors = validator()
 		if (validationErrors.email || validationErrors.password) {
-			console.log('Returned')
 			return
 		}
 
@@ -84,7 +83,6 @@ function AuthForm({ mode = 'login' }) {
 		e.preventDefault()
 		const validationErrors = validator()
 		if (validationErrors.email || validationErrors.username || validationErrors.password) {
-			console.log('Returned')
 			return
 		}
 
@@ -98,7 +96,6 @@ function AuthForm({ mode = 'login' }) {
 			const { accessToken, user } = response.data
 			declareUser(user, accessToken)
 			navigate('/homepage')
-			console.log(`logged in as ${JSON.stringify(user)}`)
 		} catch (error) {
 			console.log(`the error is`, error)
 			if (error.response.data.duplicates) {

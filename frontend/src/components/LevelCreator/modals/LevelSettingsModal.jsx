@@ -37,7 +37,7 @@ function LevelSettingsModal({ isLevelSettingsOpen, setIsLevelSettingsOpen }) {
 			goal: parseInt(newGoal),
 			moves: parseInt(newMoves),
 		}
-		console.log(newSettings)
+
 		if (newSettings.result === newSettings.goal) {
 			setError((prevErrors) => ({ ...prevErrors, goal: "Initial result and goal can't be equal" }))
 			return

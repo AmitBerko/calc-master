@@ -33,7 +33,6 @@ function HomepageAppBar({ handleDrawerToggle }) {
 	async function handleSignOut() {
 		try {
 			const response = await api.post('/auth/logout')
-			console.log(response.data)
 			logout()
 		} catch (error) {
 			console.log(`error is`, error)

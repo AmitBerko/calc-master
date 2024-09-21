@@ -17,7 +17,6 @@ function PlayLevel({ levelId }) {
 			try {
 				initialized.current = true
 				const response = await api.get(`/levels/id/${levelId}`)
-				console.log(response.data)
 				setLevelData(response.data)
 			} catch (error) {
 				console.log('Error loading level data: ', error)

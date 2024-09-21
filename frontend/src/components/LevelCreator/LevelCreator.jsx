@@ -47,7 +47,6 @@ function LevelCreator() {
 							originalSettings: levelCreatorData.originalSettings,
 							creatorName: user?.username,
 						})
-						console.log(obfuscatedData)
 						// Only sending the needed fields
 						const response = await api.post('/levels', { obfuscatedData })
 						const elapsedTime = Date.now() - startTime
