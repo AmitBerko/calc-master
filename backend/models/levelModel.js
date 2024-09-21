@@ -23,6 +23,7 @@ const LevelSchema = new mongoose.Schema(
 		originalSettings: { type: SettingsSchema, required: true },
 		currentSettings: { type: SettingsSchema, required: true },
 		creatorName: { type: String, required: true },
+		obfuscatedData: { type: String },
 	},
 	{ timestamps: true }
 )

@@ -9,9 +9,10 @@ const router = express.Router()
 // Create a new level
 router.post('/', authenticateToken, async (req, res) => {
 	let deobfuscatedData
+  const obfuscatedData = req.body.obfuscatedData
 
 	try {
-		deobfuscatedData = deobfuscator(req.body.obfuscatedData)
+		deobfuscatedData = deobfuscator(obfuscatedData)
 	} catch (error) {
 		console.error('Deobfuscation error:', error)
 		return res.status(400).json({ error: 'Could not deobfuscate the provided data' })
@@ -19,11 +20,18 @@ router.post('/', authenticateToken, async (req, res) => {
 
 	const { buttons, originalSettings, creatorName } = deobfuscatedData
 	try {
-		const levelData = { buttons, originalSettings, currentSettings: originalSettings, creatorName }
-		const doesLevelExist = await Level.findOne(levelData)
-    
+    console.log(obfuscatedData)
+		const levelData = {
+			buttons,
+			originalSettings,
+			currentSettings: originalSettings,
+			creatorName,
+			// Added it to make it easier to ignore level duplicates
+			obfuscatedData,
+		}
+		const doesLevelExist = await Level.findOne({obfuscatedData})
 		if (doesLevelExist) {
-			return res.status(409).json({ message: 'This level already exists.' })
+			return res.status(409).json({ error: 'Sorry, You have already made this exact level.' })
 		}
 
 		const newLevel = new Level(levelData)
