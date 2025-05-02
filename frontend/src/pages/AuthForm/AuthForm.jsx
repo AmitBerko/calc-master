@@ -119,6 +119,7 @@ function AuthForm({ mode = 'login' }) {
 		<Container
 			sx={{
 				width: '100vw',
+        px: 3,
 				height: {
 					xs: '82.5vh',
 					sm: '100vh',
@@ -211,7 +212,6 @@ function AuthForm({ mode = 'login' }) {
 								'&:before, &:after': {
 									borderColor: 'rgba(200, 200, 200, 0.7)',
 								},
-								// marginBottom: 0
 							}}
 						>
 							<Chip label="OR" sx={{ backgroundColor: 'rgba(200, 200, 200, 0.7)' }} />
