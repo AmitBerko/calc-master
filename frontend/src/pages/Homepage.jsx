@@ -7,6 +7,7 @@ import LevelExplorer from '../components/LevelExplorer'
 import { useParams } from 'react-router-dom'
 import LevelCreator from '../components/LevelCreator/LevelCreator'
 import Menu from '../components/Menu'
+import Tutorial from '../components/Tutorial'
 
 const drawerWidth = 190
 
@@ -76,7 +77,9 @@ function Homepage() {
 							<LevelExplorer setSelectedComponent={setSelectedComponent} />
 						)}
 						{selectedComponent === 'menu' && <Menu setSelectedComponent={setSelectedComponent} />}
-						{selectedComponent === 'tutorial' && <div>tutorial</div>}
+						{selectedComponent === 'tutorial' && (
+							<Tutorial setSelectedComponent={setSelectedComponent} />
+						)}
 					</>
 				)}
 			</Box>
