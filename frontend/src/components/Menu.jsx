@@ -41,7 +41,7 @@ function Menu({ setSelectedComponent }) {
 				}}
 			>
 				This project was inspired by the mobile game{' '}
-				<Link href="https://apps.apple.com/us/app/calculator-the-game/id1243055750">
+				<Link target="_blank" href="https://apps.apple.com/us/app/calculator-the-game/id1243055750">
 					Calculator The Game
 				</Link>
 				. It allows you to design and customize your own levels, offering a variety of buttons and
